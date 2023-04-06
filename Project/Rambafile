@@ -1,0 +1,39 @@
+### Headers settings
+company: Apple Inc.
+
+### Xcode project settings
+project_name: Project
+product_module_name: Project
+#prefix: RDS
+xcodeproj_path: Project.xcodeproj
+
+### Code generation settings section
+# The main project target name
+project_target: Project
+
+# The file path for new modules
+project_file_path: Project/Modules
+
+# The Xcode group path to new modules
+project_group_path: Project/Modules
+
+### Tests generation settings section
+# The tests target name
+test_target: ProjectTests
+
+# The file path for new tests
+test_file_path: ProjectTests/Modules
+
+# The Xcode group path to new tests
+test_group_path: ProjectTests/Modules
+
+### Dependencies settings section
+podfile_path: Podfile
+#cartfile_path: Cartfile
+
+### Templates
+catalogs:
+#- 'https://github.com/rambler-digital-solutions/generamba-catalog'
+#- 'https://github.com/igrekde/my-own-catalog'
+templates:
+ - {name: swift-mvp-injection, git: 'https://github.com/mihailsalari/swift-mvp-injection.git'}
