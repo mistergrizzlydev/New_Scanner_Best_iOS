@@ -17,9 +17,9 @@ struct Folder: Document {
     self.url = url
     
     if let count = count, count > 0 {
-      image = UIImage(named: "full-folder")
+      image = .fullFolder
     } else {
-      image = UIImage(named: "empty-folder")
+      image = .emptyFolder
     }
   }
 }

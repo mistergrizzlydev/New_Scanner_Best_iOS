@@ -18,6 +18,29 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
     setupViews()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    UIView.animate(withDuration: 0.3) {
+      self.tabBarController?.tabBar.frame.origin.y = self.view.frame.maxY
+      self.navigationController?.setToolbarHidden(false, animated: true)
+      self.navigationController?.hidesBarsOnTap = true
+    }
+    
+    if let toolbar = navigationController?.toolbar {
+      navigationController?.toolbar.frame = CGRect(x: toolbar.frame.origin.x, y: toolbar.frame.origin.y, width: toolbar.frame.width, height: 44)
+    }
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    UIView.animate(withDuration: 0.3) {
+      self.tabBarController?.tabBar.frame.origin.y = self.view.frame.maxY - self.tabBarController!.tabBar.frame.height
+      self.navigationController?.setToolbarHidden(true, animated: false)
+      self.navigationController?.hidesBarsOnTap = false
+    }
+  }
+  
   private func setupViews() {
     // Setup views
     
@@ -34,23 +57,16 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
       }
     }
     
-    navigationController?.isToolbarHidden = false
     let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     
-    //    let printButton = UIBarButtonItem(image: UIImage(systemName: "printer"), style: .plain, target: self, action: #selector(printButtonTapped))
-    //    printButton.title = "Print"
-    //
-    //    let bookmarkButton = UIBarButtonItem(image: UIImage(systemName: "bookmark"), style: .plain, target: self, action: #selector(bookmarkButtonTapped))
-    //    bookmarkButton.title = "Bookmark"
+    let addButton = UIBarButtonItem.barButtonItem(withImage: .systemPlus(), title: "Add", target: self, action: nil)
+    let shareButton = UIBarButtonItem.barButtonItem(withImage: .systemShare(), title: "Share", target: self, action: nil)
+    let annotateButton = UIBarButtonItem.barButtonItem(withImage: .systemAnnotate(), title: "Annotate", target: self, action: nil)
+    let editButton = UIBarButtonItem.barButtonItem(withImage: .systemEdit(), title: "Edit", target: self, action: nil)
+    let textButton = UIBarButtonItem.barButtonItem(withImage: .systemTextSearch(), title: "Text", target: self, action: nil)
     
-    //    toolbarItems = [printButton, spacer, bookmarkButton]
-    //    navigationController?.toolbar.tintColor = UIColor.black
-    
-    
-    let bookmarkButton = UIBarButtonItem.barButtonItem(withImage: UIImage(systemName: "bookmark"), title: "Bookmark", target: self, action: nil)
-    let printButton = UIBarButtonItem.barButtonItem(withImage: UIImage(systemName: "printer"), title: "Print", target: self, action: nil)
-    toolbarItems = [printButton, spacer, bookmarkButton]
-    navigationController?.toolbar.tintColor = UIColor.black
+    toolbarItems = [addButton, spacer, shareButton, spacer, annotateButton, spacer, editButton, spacer, textButton]
+    navigationController?.toolbar.tintColor = UIColor.themeColor
   }
   
   func prepare(with viewModel: DocumentPreviewViewModel) {
@@ -59,6 +75,131 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
     if let pdfDocument = PDFDocument(url: viewModel.file.url) {
       pdfView.document = pdfDocument
     }
+    
+    
+//    let images = [UIImage(named: "invoice1")!, UIImage(named: "invoice2")!]
+//    let sandwichPDFData = images.toPDF()!
+//    do {
+//      try sandwichPDFData.write(to: viewModel.file.url.deletingLastPathComponent().appendingPathComponent("example.pdf"))
+//    } catch {
+//      print(error.localizedDescription)
+//    }
+    
+//    let newURL = viewModel.file.url.deletingLastPathComponent().appendingPathComponent("example.pdf")
+//    let data = PDFManager.createSearchablePDF(from: UIImage(named: "invoice1")!)?.dataRepresentation()
+//    //UIImage(named: "invoice1")?.testVision()?.dataRepresentation()
+//
+//    do {
+//      try data?.write(to: newURL)
+//    } catch {
+//      print(error.localizedDescription)
+//    }
+    
+    let image = UIImage(named: "invoice1")
+//    image?.recognizeTextInImage()
+    let newURL = viewModel.file.url.deletingLastPathComponent().appendingPathComponent("example.pdf")
+//    let data = image?.tint(tintColor: .black.withAlphaComponent(0.2)).pdf?.dataRepresentation() // adds tint cool
+//
+//    do {
+//      try data?.write(to: newURL, options: .atomic)
+//    } catch {
+//      print(error.localizedDescription)
+//    }
+    
+//    image?.recognizeTextInImageAndDrawOnPDF2 { document in
+//      do {
+//        try document?.dataRepresentation()?.write(to: newURL, options: .atomic)
+//      } catch {
+//        print(error.localizedDescription)
+//      }
+//    }
+
+//    guard let pdfDocument = image?.pdf else { return }
+  
+//    guard let page = pdfDocument.page(at: 0) else { return }
+//    let renderer = UIGraphicsPDFRenderer(bounds: page.bounds(for: .cropBox))
+//    let data = renderer.pdfData { context in
+//        let font = UIFont.systemFont(ofSize: 20)
+//        let textColor = UIColor.red
+//        let attributes = [
+//            NSAttributedString.Key.font: font,
+//            NSAttributedString.Key.foregroundColor: textColor
+//        ]
+//        let text = "Hello, World!"
+//        let point = CGPoint(x: 100, y: 100)
+//        let nsText = NSString(string: text)
+//        nsText.draw(at: point, withAttributes: attributes)
+//    }
+//
+//    try? data.write(to: newURL, options: .atomic)
+    
+//    guard let page = pdfDocument.page(at: 0) else { return }
+//    let bounds = page.bounds(for: .cropBox)
+//    UIGraphicsPDFRenderer(bounds: bounds)
+//    let text = "Hello, World!"
+//    let point = CGPoint(x: 100, y: 100)
+//    let font = UIFont.systemFont(ofSize: 12)
+//    let textColor = UIColor.black
+//    let attributes = [
+//        NSAttributedString.Key.font: font,
+//        NSAttributedString.Key.foregroundColor: textColor
+//    ]
+//    let nsText = NSString(string: text)
+//    nsText.draw(at: point, withAttributes: attributes)
+//
+//    pdfDocument.write(to: newURL)
+
+/*
+ // works
+ */
+    /*
+    guard let page = pdfDocument.page(at: 0) else { return }
+    let bounds = page.bounds(for: .cropBox)
+    UIGraphicsBeginPDFContextToFile(newURL.path, bounds, nil)
+    UIGraphicsBeginPDFPage()
+    let context = UIGraphicsGetCurrentContext()
+    page.draw(with: .cropBox, to: context!)
+    let text = "Hello, World!"
+    let point = CGPoint(x: 100, y: 100)
+    let font = UIFont.systemFont(ofSize: 12)
+    let textColor = UIColor.black
+    let attributes = [
+        NSAttributedString.Key.font: font,
+        NSAttributedString.Key.foregroundColor: textColor
+    ]
+    let nsText = NSString(string: text)
+    nsText.draw(at: point, withAttributes: attributes)
+    UIGraphicsEndPDFContext()
+*/
+//    guard let page = pdfDocument.page(at: 0) else { return }
+//    let bounds = page.bounds(for: .cropBox)
+//    UIGraphicsBeginPDFContextToFile(newURL.path, bounds, nil)
+//    UIGraphicsBeginPDFPage()
+//    let context = UIGraphicsGetCurrentContext()
+//    let rotationAngle = -page.rotation // calculate inverse rotation angle
+//    context?.translateBy(x: 0.0, y: bounds.size.height) // move origin to bottom left
+//    context?.scaleBy(x: 1.0, y: -1.0) // flip context vertically
+//    context?.concatenate(page.transform(for: .artBox)) // apply inverse rotation transform
+//    page.draw(with: .cropBox, to: context!)
+//    let text = "Hello, World!"
+//    let point = CGPoint(x: 100, y: 100)
+//    let font = UIFont.systemFont(ofSize: 12)
+//    let textColor = UIColor.black
+//    let attributes = [    NSAttributedString.Key.font: font,    NSAttributedString.Key.foregroundColor: textColor]
+//    let nsText = NSString(string: text)
+//    nsText.draw(at: point, withAttributes: attributes)
+//    UIGraphicsEndPDFContext()
+
+
+    
+    
+//    let doc = image?.write(pdfDocument: pdf!, bounds: bounds)
+//          do {
+//            try doc?.dataRepresentation()?.write(to: newURL, options: .atomic)
+//            drawText(in: newURL)
+//          } catch {
+//            print(error.localizedDescription)
+//          }
   }
 }
 
@@ -71,83 +212,5 @@ extension DocumentPreviewViewController {
   @objc private func bookmarkButtonTapped() {
     // handle bookmark button tap
     
-  }
-}
-
-class CustomBarButtonItem: UIBarButtonItem {
-  convenience init(image: UIImage?, title: String?, target: Any?, action: Selector?) {
-    let button = CenteredButton(type: .system)
-    button.setImage(image, for: .normal)
-    button.setTitle(title, for: .normal)
-    button.setTitleColor(.black, for: .normal)
-    button.setTitleColor(.lightGray, for: .highlighted)
-    self.init(customView: button)
-    self.target = target as AnyObject?
-    self.action = action
-  }
-}
-
-extension UIBarButtonItem {
-  static func barButtonItem(withImage image: UIImage?, title: String?, target: Any?, action: Selector?) -> UIBarButtonItem {
-    return CustomBarButtonItem(image: image, title: title, target: target, action: action)
-  }
-}
-
-
-class CenteredButton: UIButton {
-  let five: CGFloat = 10.0
-  
-  let padding: CGFloat = 6.0
-   
-   override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-       let area = bounds.insetBy(dx: -padding, dy: -padding)
-       return area.contains(point)
-   }
-  
-  override func titleRect(forContentRect contentRect: CGRect) -> CGRect {
-    let rect = super.titleRect(forContentRect: contentRect)
-    
-    return CGRect(x: 0, y: contentRect.height - rect.height + five,
-                  width: contentRect.width, height: rect.height)
-  }
-  
-  override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
-    let rect = super.imageRect(forContentRect: contentRect)
-    let titleRect = self.titleRect(forContentRect: contentRect)
-    
-    return CGRect(x: contentRect.width/2.0 - rect.width/2.0,
-                  y: (contentRect.height - titleRect.height)/2.0 - rect.height/2.0,
-                  width: rect.width, height: rect.height)
-  }
-  
-  override var intrinsicContentSize: CGSize {
-    let size = super.intrinsicContentSize
-    
-    if let image = imageView?.image {
-      var labelHeight: CGFloat = 0.0
-      
-      if let size = titleLabel?.sizeThatFits(CGSize(width: self.contentRect(forBounds: self.bounds).width,
-                                                    height: CGFloat.greatestFiniteMagnitude)) {
-        labelHeight = size.height
-      }
-      
-      return CGSize(width: size.width, height: image.size.height + labelHeight + five)
-    }
-    
-    return size
-  }
-  
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    centerTitleLabel()
-  }
-  
-  required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-    centerTitleLabel()
-  }
-  
-  private func centerTitleLabel() {
-    self.titleLabel?.textAlignment = .center
   }
 }

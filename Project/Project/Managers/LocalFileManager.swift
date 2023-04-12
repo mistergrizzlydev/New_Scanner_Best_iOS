@@ -5,11 +5,13 @@
 //  Created by Mister Grizzly on 06.04.2023.
 //
 
-import Foundation
+import UIKit
 
 protocol LocalFileManager: AnyObject {
   func getDocumentsURL() -> URL
-  func contentsOfDirectory(url: URL) -> [Document]?
+  func isRootDirectory(url: URL) -> Bool
+  
+  func contentsOfDirectory(url: URL, sortBy sortType: SortType) -> [Document]?
   
   func createFile(withName name: String, contents: Data) -> Bool
   func delete(_ document: Document) -> Bool
@@ -44,13 +46,13 @@ final class LocalFileManagerDefault: LocalFileManager {
       }
     }
     
-    setupThumbnailsFolder()
+    setupThumbnailsFolder(url: thumbnailsFolderURL)
   }
   
-  private func setupThumbnailsFolder() {
-    if !FileManager.default.fileExists(atPath: thumbnailsFolderURL.path) {
+  internal func setupThumbnailsFolder(url: URL) {
+    if !FileManager.default.fileExists(atPath: url.path) {
       do {
-        try FileManager.default.createDirectory(at: thumbnailsFolderURL, withIntermediateDirectories: true, attributes: nil)
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
       } catch {
         debugPrint("Failed to create thumbnails folder: \(error)")
       }
@@ -61,7 +63,20 @@ final class LocalFileManagerDefault: LocalFileManager {
     return documentsURL
   }
   
-  func contentsOfDirectory(url: URL) -> [Document]? {
+  func isRootDirectory(url: URL) -> Bool {
+    debugPrint("documentsURL", documentsURL.path)
+    debugPrint("url", url.path)
+    
+    if getDocumentsURL().path == url.path {
+      debugPrint("This is the root directory.")
+    } else {
+      debugPrint("This is not the root directory.")
+    }
+    
+    return getDocumentsURL().path == url.path
+  }
+  
+  func contentsOfDirectory(url: URL, sortBy sortType: SortType) -> [Document]? {
     guard url.isDirectory else { return nil }
     
     let fileManager = FileManager.default
@@ -70,20 +85,23 @@ final class LocalFileManagerDefault: LocalFileManager {
                                                         options: [.skipsHiddenFiles])
     var documents = [Document]()
     for url in contents {
-      if !url.isCachePencilKitFile {
-        if url.isDirectory {
-          let folder = Folder(url: url)
-          documents.append(folder)
-        } else if url.pathExtension != "tmp" { // skip files with the ".tmp" suffix
-          let thumbnail = generateThumbnail(for: url)
-          let file = File(url: url, image: thumbnail, thumbnailURL: thumbnailsFolderURL)
-          documents.append(file)
-        }
+      if !url.isCachePencilKitFile, url.isDirectory {
+        let folder = Folder(url: url)
+        documents.append(folder)
+      } else if url.fileType == .pdf {
+        let thumbnail = getCreateAndGetThumbnail(for: url, thumbnailsFolderName: Constants.thumbnailsFolder)
+        let file = File(url: url, image: thumbnail.image, thumbnailURL: thumbnail.url)
+        documents.append(file)
       }
     }
-    return documents
+    
+    switch sortType {
+    case .date: return documents.sortByDate()
+    case .name: return documents.sortByName()
+    case .size: return documents.sortBySize()
+    case .foldersOnTop: return documents.sortedFoldersOnTop()
+    }
   }
-  
   
   func createFile(withName name: String, contents: Data) -> Bool {
     let fileURL = documentsURL.appendingPathComponent(name)
@@ -145,18 +163,5 @@ extension LocalFileManagerDefault {
     } catch {
       throw FolderCreationError.categoryDirectoryCreationFailed
     }
-  }
-}
-
-import PDFKit
-
-extension LocalFileManager {
-  func generateThumbnail(for pdfURL: URL) -> UIImage? {
-      guard let pdfDocument = PDFDocument(url: pdfURL) else {
-          return nil
-      }
-      let pdfPage = pdfDocument.page(at: 0)
-      let thumbnailSize = CGSize(width: 200, height: 200) // set your desired size here
-      return pdfPage?.thumbnail(of: thumbnailSize, for: PDFDisplayBox.mediaBox)
   }
 }

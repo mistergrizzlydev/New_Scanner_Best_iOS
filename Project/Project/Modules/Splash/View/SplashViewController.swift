@@ -1,26 +1,14 @@
 import UIKit
 
-protocol SplashViewControllerProtocol: AnyObject {
-  func prepare(with viewModel: SplashViewModel)
-}
+protocol SplashViewControllerProtocol: AnyObject { }
 
-class SplashViewController: UIViewController, SplashViewControllerProtocol {
+final class SplashViewController: UIViewController, SplashViewControllerProtocol {
   var presenter: SplashPresenterProtocol!
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
     
     presenter.present()
-    setupViews()
-  }
-
-  private func setupViews() {
-    // Setup views
-    print(111)
-  }
-
-  func prepare(with viewModel: SplashViewModel) {
-    title = viewModel.title
   }
 }

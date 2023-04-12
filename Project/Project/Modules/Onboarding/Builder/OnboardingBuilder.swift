@@ -18,7 +18,10 @@ class OnboardingBuilder: OnboardingBuilderProtocol {
     
     container.register(OnboardingPresenter.self) { c in
       let localFileManager = c.resolve(LocalFileManager.self)!
+      let coordinator = c.resolve(Coordinator.self)!
+      
       return OnboardingPresenter(view: c.resolve(OnboardingViewController.self)!,
+                                 coordinator: coordinator,
                                  localFileManager: localFileManager)
     }
     

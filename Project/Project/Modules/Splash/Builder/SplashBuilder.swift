@@ -5,30 +5,33 @@ protocol SplashBuilderProtocol {
   func buildViewController() -> SplashViewController!
 }
 
-class SplashBuilder: SplashBuilderProtocol {
+final class SplashBuilder: SplashBuilderProtocol {
   let container = Container(parent: AppContainer.shared.container)
-
+  
   func buildViewController() -> SplashViewController! {
     container.register(SplashViewController.self) { _ in
       SplashBuilder.instantiateViewController()
-
+      
     }.initCompleted { r, h in
       h.presenter = r.resolve(SplashPresenter.self)
     }
-
+    
     container.register(SplashPresenter.self) { c in
       let localFileManager = c.resolve(LocalFileManager.self)!
+      let coordinator = c.resolve(Coordinator.self)!
+      
       return SplashPresenter(view: c.resolve(SplashViewController.self)!,
+                             coordinator: coordinator,
                              localFileManager: localFileManager)
     }
-
+    
     return container.resolve(SplashViewController.self)!
   }
-
+  
   deinit {
     container.removeAll()
   }
-
+  
   private static func instantiateViewController() -> SplashViewController {
     let identifier = String(describing: SplashViewController.self)
     let storyboard = UIStoryboard(name: identifier, bundle: .main)

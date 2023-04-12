@@ -8,10 +8,14 @@ protocol OnboardingPresenterProtocol {
 
 final class OnboardingPresenter: OnboardingPresenterProtocol {
   private weak var view: (OnboardingViewControllerProtocol & UIViewController)!
+  let coordinator: Coordinator
   let localFileManager: LocalFileManager
-  
-  init(view: OnboardingViewControllerProtocol & UIViewController, localFileManager: LocalFileManager) {
+
+  init(view: OnboardingViewControllerProtocol & UIViewController,
+       coordinator: Coordinator,
+       localFileManager: LocalFileManager) {
     self.view = view
+    self.coordinator = coordinator
     self.localFileManager = localFileManager
   }
   
@@ -39,7 +43,9 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
   }
   
   private func navigateToDocuments() {
-    let controller = DocumentsBuilder().buildViewController(fileURL: localFileManager.getDocumentsURL())!
+    let folder = Folder(url: localFileManager.getDocumentsURL())
+    
+    let controller = DocumentsBuilder().buildViewController(folder: folder)!
     let navigation = BaseNavigationController(rootViewController: controller)
     navigation.modalPresentationStyle = .fullScreen
     view.present(navigation, animated: false)

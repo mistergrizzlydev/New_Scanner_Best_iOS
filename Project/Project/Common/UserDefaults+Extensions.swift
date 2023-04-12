@@ -17,4 +17,15 @@ extension UserDefaults {
       standard.synchronize()
     }
   }
+  
+  static var sortedFilesType: SortType {
+    get {
+      guard let result = standard.string(forKey: "sortedFilesType") else { return .date }
+      return SortType(rawValue: result) ?? .date
+    }
+    set {
+      standard.set(newValue.rawValue, forKey: "sortedFilesType")
+      standard.synchronize()
+    }
+  }
 }

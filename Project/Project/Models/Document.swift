@@ -42,7 +42,7 @@ extension Document {
   
   var name: String {
     switch type {
-    case .file: return url.deletingPathExtension().lastPathComponent
+    case .file: return url.lastPathComponent//return url.deletingPathExtension().lastPathComponent
     case .folder: return url.lastPathComponent
     }
   }
@@ -55,7 +55,7 @@ extension Document {
     return url.pathExtension.isEmpty ? nil : url.pathExtension
   }
   
-  var fileAttributes: [FileAttributeKey : Any]? {
+  var fileAttributes: [FileAttributeKey: Any]? {
     return try? FileManager.default.attributesOfItem(atPath: url.path)
   }
   
@@ -86,13 +86,6 @@ extension Document {
     }
     return nil
   }
-  
-//  var thumbnailURL: URL? {
-//    get {
-//      return nil
-//    }
-//    set {}
-//  }
   
   var sizeOfFile: String? {
     switch type {
@@ -136,5 +129,34 @@ private extension Document {
     formatter.countStyle = .file
     formatter.allowedUnits = [.useKB, .useMB, .useGB]
     return formatter.string(fromByteCount: Int64(size))
+  }
+}
+
+extension Array where Element == Document {
+  func sortByDate() -> [Document] {
+    self.sorted { (doc1, doc2) -> Bool in
+      let date1 = doc1.fileAttributes?[.modificationDate] as? Date
+      let date2 = doc2.fileAttributes?[.modificationDate] as? Date
+      return date1 ?? Date.distantPast > date2 ?? Date.distantPast
+    }
+  }
+  
+  func sortByName() -> [Document] {
+    self.sorted { (doc1, doc2) -> Bool in
+      doc1.name.lowercased() < doc2.name.lowercased()
+    }
+  }
+  
+  func sortBySize() -> [Document] {
+    self.sorted { (doc1, doc2) -> Bool in
+      let size1 = try? doc1.url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
+      let size2 = try? doc2.url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
+      return size1 ?? 0 > size2 ?? 0
+    }
+  }
+  func sortedFoldersOnTop() -> [Element] {
+    let folders = filter { $0.url.isDirectory }
+    let files = filter { !$0.url.isDirectory }
+    return folders + files
   }
 }

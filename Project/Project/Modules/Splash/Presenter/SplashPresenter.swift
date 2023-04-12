@@ -4,40 +4,28 @@ protocol SplashPresenterProtocol {
   func present()
 }
 
-class SplashPresenter: SplashPresenterProtocol {
+final class SplashPresenter: SplashPresenterProtocol {
   private weak var view: (SplashViewControllerProtocol & UIViewController)!
   let localFileManager: LocalFileManager
+  let coordinator: Coordinator
   
   init(view: SplashViewControllerProtocol & UIViewController,
+       coordinator: Coordinator,
        localFileManager: LocalFileManager) {
     self.view = view
+    self.coordinator = coordinator
     self.localFileManager = localFileManager
   }
-
+  
   func present() {
-    // Fetch data or smth else...
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-      // Code to be executed after 1 second delay
-      debugPrint("navigateToOnboarding")
-      
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+      guard let self = self else { return }
       if UserDefaults.isOnboarded {
-        self.navigateToDocuments()
+        let folder = Folder(url: self.localFileManager.getDocumentsURL())
+        self.coordinator.navigateToDocuments(folder: folder)
       } else {
-        self.navigateToOnboarding()
+        self.coordinator.navigateToOnboarding()
       }
     }
-  }
-  
-  private func navigateToOnboarding() {
-    let controller = OnboardingBuilder().buildViewController()!
-    controller.modalPresentationStyle = .fullScreen
-    view.present(controller, animated: true)
-  }
-  
-  private func navigateToDocuments() {
-    let controller = DocumentsBuilder().buildViewController(fileURL: localFileManager.getDocumentsURL())!
-    let navigation = BaseNavigationController(rootViewController: controller)
-    navigation.modalPresentationStyle = .fullScreen
-    view.present(navigation, animated: false)
   }
 }

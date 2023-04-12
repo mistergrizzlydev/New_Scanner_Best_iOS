@@ -24,6 +24,13 @@ final class AppContainer {
     container.register(LocalFileManager.self) { _ in
       return LocalFileManagerDefault()
     }
+    
     // Add more dependencies as needed
+  }
+  
+   func registerMainCoordinator(window: UIWindow?, navigationController: UINavigationController) {
+     container.register(Coordinator.self) { _ in
+       return MainCoordinator(window: window, navigationController: navigationController)
+     }
   }
 }

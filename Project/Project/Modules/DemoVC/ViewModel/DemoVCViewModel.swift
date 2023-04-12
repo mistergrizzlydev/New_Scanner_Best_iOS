@@ -1,5 +1,5 @@
 import Foundation
 
-class SplashViewModel {
+class DemoVCViewModel {
   var title: String?
 }
