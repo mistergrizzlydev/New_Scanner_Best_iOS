@@ -65,6 +65,14 @@ final class BaseNavigationController: UINavigationController {
     
     // Customize the cancel button's appearance
     UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+    
+    // Set the background color for all toolbars
+//    UIToolbar.appearance().backgroundColor = .red
+
+    // Set the tint color for all toolbar items
+    UIToolbar.appearance().tintColor = .black
+    
+    tabBarController?.delegate = self
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -116,5 +124,45 @@ extension UINavigationController {
     }
     
     return nil
+  }
+}
+
+extension UINavigationController {
+  func showHideFloatingButton(_ editing: Bool, animated: Bool) {
+    guard self is BaseNavigationController else { return }
+    let tabBarheight = tabBarController?.tabBar.frame.size.height ?? 0
+    
+    if animated {
+      UIView.animate(withDuration: 0.33, delay: 0.1, options: .curveEaseInOut, animations: { [weak self] in
+        guard let self = self else { return }
+        if editing {
+//          self.getFloatingButton()?.frame.origin.y += tabBarheight
+          self.getFloatingButton()?.alpha = 0.0
+        } else {
+          self.getFloatingButton()?.frame.origin.y -= tabBarheight
+          self.getFloatingButton()?.alpha = 1.0
+        }
+      }, completion: nil)
+    } else {
+      if editing {
+//        self.getFloatingButton()?.frame.origin.y += tabBarheight 
+        self.getFloatingButton()?.alpha = 0.0
+      } else {
+        self.getFloatingButton()?.frame.origin.y -= tabBarheight
+        self.getFloatingButton()?.alpha = 1.0
+      }
+    }
+  }
+}
+
+extension BaseNavigationController: UITabBarControllerDelegate {
+  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+      // Check if the selected view controller is the one you are interested in
+//      if tabBarController.selectedItem == tabBarController.tabBar.items?[2] {
+//          // Do something specific to that tab bar item
+//          print("Tab bar item 2 was pressed")
+//      }
+    
+    print(viewController.classForCoder)
   }
 }

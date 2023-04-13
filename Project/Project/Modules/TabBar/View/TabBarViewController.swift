@@ -33,6 +33,8 @@ class TabBarViewController: UITabBarController, TabBarViewControllerProtocol {
     tabBar.tintColor = UIColor.themeColor
     
     self.setViewControllers(viewControllers, animated: true)
+    
+    self.delegate = self
   }
   
   required init?(coder: NSCoder) {
@@ -41,5 +43,47 @@ class TabBarViewController: UITabBarController, TabBarViewControllerProtocol {
   
   @objc func plusButtonTapped() {
       // Handle the tap event of the plus button
+  }
+}
+
+extension UITabBarController {
+  func showHideTabBar(_ editing: Bool, animated: Bool) {
+    let tabBarheight = tabBar.frame.size.height
+    if animated {
+      UIView.animate(withDuration: 0.3) { [weak self] in
+        guard let self = self else { return }
+        // adjust the frame of the tab bar to animate the hiding/showing
+        if editing {
+          self.tabBar.frame.origin.y += tabBarheight
+        } else {
+          self.tabBar.frame.origin.y -= tabBarheight
+        }
+      }
+    } else {
+      // adjust the frame of the tab bar without animation
+      if editing {
+        self.tabBar.frame.origin.y += tabBarheight
+      } else {
+        self.tabBar.frame.origin.y -= tabBarheight
+      }
+    }
+  }
+}
+
+extension TabBarViewController: UITabBarControllerDelegate {
+  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    //          if let index = tabBarController.viewControllers?.firstIndex(of: viewController), index == 1 {
+    //              // Second tab bar item was selected
+    //              // Do something here
+    //          }
+    print("na", viewController.classForCoder, (viewController as? BaseNavigationController)?.getFloatingButton())
+    
+//    if let floatingButton = (viewController as? BaseNavigationController)?.getFloatingButton() {
+//      floatingButton.alpha = 1
+//    }
+    
+//    if let baseNavigationController = viewController as? BaseNavigationController {
+//      baseNavigationController.showHideFloatingButton(false, animated: true)
+//    }
   }
 }

@@ -44,6 +44,8 @@
 		DA581FB487615B092F7E89D6 /* VisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728E5BBBE417B48B8F796DA5 /* VisionViewController.swift */; };
 		E3015348B43C710C7FAEAFD6 /* StarredViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF328E6CFA6B3E4FEDB9B82F /* StarredViewModel.swift */; };
 		EC23B48F4B00CC380D64E397 /* DocumentPreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6EB56CBE623857423C4096 /* DocumentPreviewViewModel.swift */; };
+		EC2E665029E8AF3A005D3312 /* FileManagerToolbarAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2E664F29E8AF3A005D3312 /* FileManagerToolbarAction.swift */; };
+		EC2E665229E8AF69005D3312 /* FileManagerAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2E665129E8AF69005D3312 /* FileManagerAction.swift */; };
 		EC3BF99B29E33E2500F20F2D /* Sandwich.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3BF99A29E33E2500F20F2D /* Sandwich.framework */; };
 		EC3BF99C29E33E2500F20F2D /* Sandwich.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC3BF99A29E33E2500F20F2D /* Sandwich.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EC4470E529E1A1D4004E67A2 /* SwiftyTesseract in Frameworks */ = {isa = PBXBuildFile; productRef = EC4470E429E1A1D4004E67A2 /* SwiftyTesseract */; };
@@ -143,6 +145,8 @@
 		DC72CA5F3B7AC28DE4055503 /* SplashViewController.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; path = SplashViewController.storyboard; sourceTree = "<group>"; };
 		DF328E6CFA6B3E4FEDB9B82F /* StarredViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StarredViewModel.swift; sourceTree = "<group>"; };
 		E108C41E3526CA0190F4DEA7 /* SettingsViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		EC2E664F29E8AF3A005D3312 /* FileManagerToolbarAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerToolbarAction.swift; sourceTree = "<group>"; };
+		EC2E665129E8AF69005D3312 /* FileManagerAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerAction.swift; sourceTree = "<group>"; };
 		EC3BF99629E33E1B00F20F2D /* Swinject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Swinject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC3BF99A29E33E2500F20F2D /* Sandwich.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sandwich.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECD1ADF329E748680013E4BC /* UIMenu+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIMenu+Extensions.swift"; sourceTree = "<group>"; };
@@ -620,6 +624,8 @@
 				ECD1B65229DF4FD2005B9EDF /* File.swift */,
 				ECD1B65329DF4FD3005B9EDF /* Folder.swift */,
 				ECF3F69429E07C0A005A3338 /* SortComparator.swift */,
+				EC2E664F29E8AF3A005D3312 /* FileManagerToolbarAction.swift */,
+				EC2E665129E8AF69005D3312 /* FileManagerAction.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -838,6 +844,7 @@
 				ECF3F69329E06B9F005A3338 /* SortType.swift in Sources */,
 				ECF3F69729E098B9005A3338 /* LocalFileManager+Thumbnails.swift in Sources */,
 				ECD1B66629DF6969005B9EDF /* UIView+Extensions.swift in Sources */,
+				EC2E665229E8AF69005D3312 /* FileManagerAction.swift in Sources */,
 				ECD1B66829DF6A1E005B9EDF /* LoadingViewController.swift in Sources */,
 				ECD1B65029DF4FCA005B9EDF /* LocalFileManager.swift in Sources */,
 				ECD1B66429DF62F5005B9EDF /* UserDefaults+Extensions.swift in Sources */,
@@ -855,6 +862,7 @@
 				FA49815854AF0EC02B62B111 /* DocumentsViewController.swift in Sources */,
 				ECD1B66E29DF9282005B9EDF /* CenteredButton.swift in Sources */,
 				8F0E0BF76BE7787F7759ACAF /* DocumentsPresenter.swift in Sources */,
+				EC2E665029E8AF3A005D3312 /* FileManagerToolbarAction.swift in Sources */,
 				4E70499B3DDB1AD081372159 /* OnboardingBuilder.swift in Sources */,
 				3A28E19460090D6A5E8271AB /* OnboardingViewModel.swift in Sources */,
 				ECD1B66C29DF926E005B9EDF /* CustomBarButtonItem.swift in Sources */,

@@ -1,0 +1,501 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EC3BF97529E33A9D00F20F2D /* Sandwich.docc in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF97429E33A9D00F20F2D /* Sandwich.docc */; };
+		EC3BF97B29E33A9D00F20F2D /* Sandwich.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3BF97029E33A9D00F20F2D /* Sandwich.framework */; };
+		EC3BF98029E33A9D00F20F2D /* SandwichTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF97F29E33A9D00F20F2D /* SandwichTests.swift */; };
+		EC3BF98129E33A9D00F20F2D /* Sandwich.h in Headers */ = {isa = PBXBuildFile; fileRef = EC3BF97329E33A9D00F20F2D /* Sandwich.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC3BF98B29E33B1000F20F2D /* SandwichPDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF98A29E33B1000F20F2D /* SandwichPDF.swift */; };
+		EC3BF98D29E33B3000F20F2D /* PDFSandwichMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF98C29E33B3000F20F2D /* PDFSandwichMaker.swift */; };
+		EC3BF98F29E33B3700F20F2D /* UIImage+Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF98E29E33B3600F20F2D /* UIImage+Filters.swift */; };
+		EC3BF99129E33B5500F20F2D /* CompressionLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF99029E33B5500F20F2D /* CompressionLevel.swift */; };
+		EC3BF99329E33C2100F20F2D /* LatinLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF99229E33C2100F20F2D /* LatinLanguage.swift */; };
+		EC3BF99529E33C3700F20F2D /* ImageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF99429E33C3700F20F2D /* ImageFilter.swift */; };
+		EC3BF99F29E33EC900F20F2D /* VNImageRequestHandler+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF99E29E33EC900F20F2D /* VNImageRequestHandler+Extensions.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EC3BF97C29E33A9D00F20F2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC3BF96729E33A9D00F20F2D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC3BF96F29E33A9D00F20F2D;
+			remoteInfo = Sandwich;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		EC3BF97029E33A9D00F20F2D /* Sandwich.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Sandwich.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC3BF97329E33A9D00F20F2D /* Sandwich.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sandwich.h; sourceTree = "<group>"; };
+		EC3BF97429E33A9D00F20F2D /* Sandwich.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Sandwich.docc; sourceTree = "<group>"; };
+		EC3BF97A29E33A9D00F20F2D /* SandwichTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SandwichTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC3BF97F29E33A9D00F20F2D /* SandwichTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandwichTests.swift; sourceTree = "<group>"; };
+		EC3BF98A29E33B1000F20F2D /* SandwichPDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandwichPDF.swift; sourceTree = "<group>"; };
+		EC3BF98C29E33B3000F20F2D /* PDFSandwichMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFSandwichMaker.swift; sourceTree = "<group>"; };
+		EC3BF98E29E33B3600F20F2D /* UIImage+Filters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Filters.swift"; sourceTree = "<group>"; };
+		EC3BF99029E33B5500F20F2D /* CompressionLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompressionLevel.swift; sourceTree = "<group>"; };
+		EC3BF99229E33C2100F20F2D /* LatinLanguage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatinLanguage.swift; sourceTree = "<group>"; };
+		EC3BF99429E33C3700F20F2D /* ImageFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilter.swift; sourceTree = "<group>"; };
+		EC3BF99E29E33EC900F20F2D /* VNImageRequestHandler+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VNImageRequestHandler+Extensions.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EC3BF96D29E33A9D00F20F2D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC3BF97729E33A9D00F20F2D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC3BF97B29E33A9D00F20F2D /* Sandwich.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EC3BF96629E33A9D00F20F2D = {
+			isa = PBXGroup;
+			children = (
+				EC3BF97229E33A9D00F20F2D /* Sandwich */,
+				EC3BF97E29E33A9D00F20F2D /* SandwichTests */,
+				EC3BF97129E33A9D00F20F2D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EC3BF97129E33A9D00F20F2D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EC3BF97029E33A9D00F20F2D /* Sandwich.framework */,
+				EC3BF97A29E33A9D00F20F2D /* SandwichTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EC3BF97229E33A9D00F20F2D /* Sandwich */ = {
+			isa = PBXGroup;
+			children = (
+				EC3BF97329E33A9D00F20F2D /* Sandwich.h */,
+				EC3BF98A29E33B1000F20F2D /* SandwichPDF.swift */,
+				EC3BF99229E33C2100F20F2D /* LatinLanguage.swift */,
+				EC3BF98E29E33B3600F20F2D /* UIImage+Filters.swift */,
+				EC3BF9A029E33ECC00F20F2D /* Experiments */,
+				EC3BF99429E33C3700F20F2D /* ImageFilter.swift */,
+				EC3BF98C29E33B3000F20F2D /* PDFSandwichMaker.swift */,
+				EC3BF99029E33B5500F20F2D /* CompressionLevel.swift */,
+				EC3BF97429E33A9D00F20F2D /* Sandwich.docc */,
+			);
+			path = Sandwich;
+			sourceTree = "<group>";
+		};
+		EC3BF97E29E33A9D00F20F2D /* SandwichTests */ = {
+			isa = PBXGroup;
+			children = (
+				EC3BF97F29E33A9D00F20F2D /* SandwichTests.swift */,
+			);
+			path = SandwichTests;
+			sourceTree = "<group>";
+		};
+		EC3BF9A029E33ECC00F20F2D /* Experiments */ = {
+			isa = PBXGroup;
+			children = (
+				EC3BF99E29E33EC900F20F2D /* VNImageRequestHandler+Extensions.swift */,
+			);
+			path = Experiments;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		EC3BF96B29E33A9D00F20F2D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC3BF98129E33A9D00F20F2D /* Sandwich.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		EC3BF96F29E33A9D00F20F2D /* Sandwich */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC3BF98429E33A9D00F20F2D /* Build configuration list for PBXNativeTarget "Sandwich" */;
+			buildPhases = (
+				EC3BF96B29E33A9D00F20F2D /* Headers */,
+				EC3BF96C29E33A9D00F20F2D /* Sources */,
+				EC3BF96D29E33A9D00F20F2D /* Frameworks */,
+				EC3BF96E29E33A9D00F20F2D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Sandwich;
+			productName = Sandwich;
+			productReference = EC3BF97029E33A9D00F20F2D /* Sandwich.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		EC3BF97929E33A9D00F20F2D /* SandwichTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC3BF98729E33A9D00F20F2D /* Build configuration list for PBXNativeTarget "SandwichTests" */;
+			buildPhases = (
+				EC3BF97629E33A9D00F20F2D /* Sources */,
+				EC3BF97729E33A9D00F20F2D /* Frameworks */,
+				EC3BF97829E33A9D00F20F2D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EC3BF97D29E33A9D00F20F2D /* PBXTargetDependency */,
+			);
+			name = SandwichTests;
+			productName = SandwichTests;
+			productReference = EC3BF97A29E33A9D00F20F2D /* SandwichTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EC3BF96729E33A9D00F20F2D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					EC3BF96F29E33A9D00F20F2D = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					EC3BF97929E33A9D00F20F2D = {
+						CreatedOnToolsVersion = 14.2;
+					};
+				};
+			};
+			buildConfigurationList = EC3BF96A29E33A9D00F20F2D /* Build configuration list for PBXProject "Sandwich" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EC3BF96629E33A9D00F20F2D;
+			productRefGroup = EC3BF97129E33A9D00F20F2D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EC3BF96F29E33A9D00F20F2D /* Sandwich */,
+				EC3BF97929E33A9D00F20F2D /* SandwichTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EC3BF96E29E33A9D00F20F2D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC3BF97829E33A9D00F20F2D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EC3BF96C29E33A9D00F20F2D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC3BF99329E33C2100F20F2D /* LatinLanguage.swift in Sources */,
+				EC3BF98D29E33B3000F20F2D /* PDFSandwichMaker.swift in Sources */,
+				EC3BF99F29E33EC900F20F2D /* VNImageRequestHandler+Extensions.swift in Sources */,
+				EC3BF98F29E33B3700F20F2D /* UIImage+Filters.swift in Sources */,
+				EC3BF98B29E33B1000F20F2D /* SandwichPDF.swift in Sources */,
+				EC3BF97529E33A9D00F20F2D /* Sandwich.docc in Sources */,
+				EC3BF99129E33B5500F20F2D /* CompressionLevel.swift in Sources */,
+				EC3BF99529E33C3700F20F2D /* ImageFilter.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC3BF97629E33A9D00F20F2D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC3BF98029E33A9D00F20F2D /* SandwichTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EC3BF97D29E33A9D00F20F2D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC3BF96F29E33A9D00F20F2D /* Sandwich */;
+			targetProxy = EC3BF97C29E33A9D00F20F2D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		EC3BF98229E33A9D00F20F2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EC3BF98329E33A9D00F20F2D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EC3BF98529E33A9D00F20F2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = PQVP6Z8X66;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.xcellent.Sandwich;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EC3BF98629E33A9D00F20F2D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = PQVP6Z8X66;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.xcellent.Sandwich;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EC3BF98829E33A9D00F20F2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PQVP6Z8X66;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.xcellent.SandwichTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EC3BF98929E33A9D00F20F2D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PQVP6Z8X66;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.xcellent.SandwichTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EC3BF96A29E33A9D00F20F2D /* Build configuration list for PBXProject "Sandwich" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC3BF98229E33A9D00F20F2D /* Debug */,
+				EC3BF98329E33A9D00F20F2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC3BF98429E33A9D00F20F2D /* Build configuration list for PBXNativeTarget "Sandwich" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC3BF98529E33A9D00F20F2D /* Debug */,
+				EC3BF98629E33A9D00F20F2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC3BF98729E33A9D00F20F2D /* Build configuration list for PBXNativeTarget "SandwichTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC3BF98829E33A9D00F20F2D /* Debug */,
+				EC3BF98929E33A9D00F20F2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EC3BF96729E33A9D00F20F2D /* Project object */;
+}
