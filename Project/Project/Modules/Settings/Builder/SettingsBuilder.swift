@@ -28,8 +28,9 @@ class SettingsBuilder: SettingsBuilderProtocol {
   }
 
   private static func instantiateViewController() -> SettingsViewController {
-    let identifier = String(describing: SettingsViewController.self)
-    let storyboard = UIStoryboard(name: identifier, bundle: .main)
-    return storyboard.instantiateViewController(withIdentifier: identifier) as! SettingsViewController
+//    let identifier = String(describing: SettingsViewController.self)
+//    let storyboard = UIStoryboard(name: identifier, bundle: .main)
+//    return storyboard.instantiateViewController(withIdentifier: identifier) as! SettingsViewController
+    SettingsViewController()
   }
 }

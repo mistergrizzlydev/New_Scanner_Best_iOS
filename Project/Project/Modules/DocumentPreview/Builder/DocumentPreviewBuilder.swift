@@ -5,28 +5,31 @@ protocol DocumentPreviewBuilderProtocol {
   func buildViewController(file: File) -> DocumentPreviewViewController!
 }
 
-class DocumentPreviewBuilder: DocumentPreviewBuilderProtocol {
-  let container = Container()
-
+final class DocumentPreviewBuilder: DocumentPreviewBuilderProtocol {
+  let container = Container(parent: AppContainer.shared.container)
+  
   func buildViewController(file: File) -> DocumentPreviewViewController! {
     container.register(DocumentPreviewViewController.self) { _ in
       DocumentPreviewBuilder.instantiateViewController()
-
+      
     }.initCompleted { r, h in
       h.presenter = r.resolve(DocumentPreviewPresenter.self)
     }
-
+    
     container.register(DocumentPreviewPresenter.self) { c in
-      DocumentPreviewPresenter(view: c.resolve(DocumentPreviewViewController.self)!, file: file)
+      let coordinator = c.resolve(Coordinator.self)!
+      
+      return DocumentPreviewPresenter(view: c.resolve(DocumentPreviewViewController.self)!,
+                                      file: file, coordinator: coordinator)
     }
-
+    
     return container.resolve(DocumentPreviewViewController.self)!
   }
-
+  
   deinit {
     container.removeAll()
   }
-
+  
   private static func instantiateViewController() -> DocumentPreviewViewController {
     let identifier = String(describing: DocumentPreviewViewController.self)
     let storyboard = UIStoryboard(name: identifier, bundle: .main)

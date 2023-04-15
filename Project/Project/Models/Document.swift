@@ -33,18 +33,43 @@ protocol Document {
   
   var thumbnailURL: URL? { get set }
   var image: UIImage? { get }
+  
+  func isFileStarred() -> Bool
+  func starFile()
+  func unstarFile()
+  
+  func details() -> String?
+}
+
+private struct DocumentConstants {
+  static let kStarredAttribute = "★"
+}
+
+extension URL {
+  var pdfName: String {
+    var fileName = lastPathComponent
+    if let range = fileName.range(of: DocumentConstants.kStarredAttribute) {
+      fileName.removeSubrange(range)
+    }
+    return fileName
+  }
 }
 
 extension Document {
   var fullName: String {
-    return url.lastPathComponent
+    var fileName = url.lastPathComponent
+    if let range = fileName.range(of: DocumentConstants.kStarredAttribute) {
+      fileName.removeSubrange(range)
+    }
+    return fileName
   }
   
   var name: String {
-    switch type {
-    case .file: return url.lastPathComponent//return url.deletingPathExtension().lastPathComponent
-    case .folder: return url.lastPathComponent
+    var fileName = url.lastPathComponent
+    if let range = fileName.range(of: DocumentConstants.kStarredAttribute) {
+      fileName.removeSubrange(range)
     }
+    return fileName
   }
   
   var type: DocumentType {
@@ -61,6 +86,40 @@ extension Document {
   
   var documentURL: URL {
     return url
+  }
+  
+  func isFileStarred() -> Bool {
+    let name = url.lastPathComponent
+    return name.contains(DocumentConstants.kStarredAttribute)
+  }
+  
+  func starFile() {
+    guard !isFileStarred() else { return }
+    let starredName = DocumentConstants.kStarredAttribute + url.lastPathComponent
+    let starredURL = url.deletingLastPathComponent().appendingPathComponent(starredName)
+    do {
+      try FileManager.default.moveItem(at: url, to: starredURL)
+      print("Starred file ", url.path)
+    } catch {
+      // Error handling code
+      print(error.localizedDescription, "starFile")
+    }
+  }
+  
+  func unstarFile() {
+    let unstarredName = url.lastPathComponent.replacingOccurrences(of: DocumentConstants.kStarredAttribute, with: "")
+    let unstarredURL = url.deletingLastPathComponent().appendingPathComponent(unstarredName)
+    do {
+      try FileManager.default.moveItem(at: url, to: unstarredURL)
+      print("unstarFile ", url.path, fileAttributes)
+    } catch {
+      // Error handling code
+      print(error.localizedDescription, "unstarFile")
+    }
+  }
+  
+  func starUnstarFile() {
+    
   }
   
   var count: Int? {
@@ -158,5 +217,25 @@ extension Array where Element == Document {
     let folders = filter { $0.url.isDirectory }
     let files = filter { !$0.url.isDirectory }
     return folders + files
+  }
+}
+
+extension Document {
+  func details() -> String? {
+    guard let attributes = fileAttributes else { return nil }
+
+    let fileName = name
+    let fileSize = attributes[.size] as? UInt64 ?? 0
+    let fileSizeString = ByteCountFormatter.string(fromByteCount: Int64(fileSize), countStyle: .file)
+    let creationDate = attributes[.creationDate] as? Date ?? Date()
+    let type = type == .folder ? "Folder" : "PDF file"
+    let modificationDate = attributes[.modificationDate] as? Date ?? Date()
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .medium
+    dateFormatter.timeStyle = .medium
+    
+    let message = "\nFile name: \(fileName)\n\nFile size: \(fileSizeString)\n\nCreated: \(dateFormatter.string(from: creationDate))\n\nModified: \(dateFormatter.string(from: modificationDate))\n\nType: \(type)"
+    
+    return message
   }
 }

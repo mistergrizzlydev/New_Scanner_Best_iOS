@@ -2,11 +2,12 @@ import UIKit
 
 protocol DocumentsViewControllerProtocol: AnyObject {
   func prepare(with viewModels: [DocumentsViewModel], title: String)
+  func updateEditButtonItemEnabled()
 }
 
 final class DocumentsViewController: UITableViewController, DocumentsViewControllerProtocol {
   private struct Constants {
-    static let title = "My Scans"
+    
   }
   
   var presenter: DocumentsPresenterProtocol!
@@ -27,8 +28,8 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
     super.setEditing(editing, animated: animated)
     
     navigationController?.showHideFloatingButton(editing, animated: animated)
-//    tabBarController?.showHideTabBar(editing, animated: animated)
-
+    //    tabBarController?.showHideTabBar(editing, animated: animated)
+    
     navigationController?.setToolbarHidden(!editing, animated: animated)
     navigationItem.searchController?.searchBar.isUserInteractionEnabled = !editing
     navigationItem.rightBarButtonItems?.first(where: { $0.accessibilityIdentifier == "menuButton" })?.isEnabled = !editing
@@ -37,9 +38,12 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
-    
-    presenter.present()
     setupViews()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    presenter.present()
   }
   
   private func setupViews() {
@@ -78,27 +82,38 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
     self.toolbarItems = toolbarItems
   }
   
-  @objc private func toolbarButtonTapped(_ sender: UIBarButtonItem) {
-    guard let action = FileManagerToolbarAction(rawValue: sender.tag) else {
-      return
-    }
-    
-    switch action {
-    case .share:
-      // handle share action
-      print("share")
-    case .merge:
-      // handle merge action
-      print("merge")
-    case .move:
-      // handle move action
-      print("move")
-    case .delete:
-      // handle delete action
-      print("delete")
+  func updateEditButtonItemEnabled() {
+    if viewModels.isEmpty {
+      editButtonItem.isEnabled = false
+    } else {
+      editButtonItem.isEnabled = true
     }
   }
-
+  
+  @objc private func toolbarButtonTapped(_ sender: UIBarButtonItem) {
+    let selectedViewModels = tableView.indexPathsForSelectedRows?.compactMap { viewModels[$0.row] }
+    guard let action = FileManagerToolbarAction(rawValue: sender.tag), let selectedViewModels = selectedViewModels else { return }
+    
+    //    var selectedViewModels: [DocumentsViewModel] = []
+    //    if let selectedRows = tableView.indexPathsForSelectedRows {
+    //      for indexPath in selectedRows {
+    //        let viewModel = viewModels[indexPath.row]
+    //        selectedViewModels.append(viewModel)
+    //      }
+    //    }
+    
+    switch action {
+    case .share: presenter.onShareTapped(selectedViewModels)
+    case .merge:
+      // handle merge action
+      print("merge", selectedViewModels.count)
+    case .move:
+      // handle move action
+      print("move", selectedViewModels.count)
+    case .delete: presenter.onDeleteTapped(selectedViewModels)
+    }
+  }
+  
   @objc private func selectAllButtonTapped() {
     isAllSelected.toggle()
     
@@ -159,9 +174,7 @@ extension DocumentsViewController {
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: DocumentsTableViewCell.reuseIdentifier,
-                                                   for: indexPath) as? DocumentsTableViewCell else {
-      return UITableViewCell()
-    }
+                                                   for: indexPath) as? DocumentsTableViewCell else { return UITableViewCell() }
     let viewModel = viewModels[indexPath.row]
     cell.configure(with: viewModel)
     return cell
@@ -177,16 +190,6 @@ extension DocumentsViewController {
     guard !tableView.isEditing else { return }
     tableView.deselectRow(at: indexPath, animated: true)
     presenter.didSelect(at: indexPath, viewModel: viewModels[indexPath.row])
-  }
-}
-
-extension DocumentsViewController {
-  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-    return .none // Disable swipe-to-delete while editing
-  }
-  
-  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    return tableView.isEditing
   }
 }
 
@@ -218,37 +221,31 @@ extension DocumentsViewController: UIContextMenuInteractionDelegate {
   }
   
   func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-    guard !tableView.isEditing, let indexPath = tableView.indexPathForRow(at: location) else { return nil }
+    guard !tableView.isEditing, let cell = interaction.view as? DocumentsTableViewCell, let indexPath = tableView.indexPath(for: cell) else { return nil }
     
-    let item = viewModels[indexPath.row]
+    let viewModel = viewModels[indexPath.row]
     
-    let actions = FileManagerAction.allCases.sorted(by: { $0.rawValue < $1.rawValue }).compactMap { createAction(from: $0) { action in
+    let actions = FileManagerAction.allCases(file: viewModel.file).compactMap { FileManagerAction.createAction(from: $0, viewModel: viewModel) { [weak self] action in
       switch action.title {
-      case FileManagerAction.rename.title:
-        // Handle rename action
-        print("Rename action tapped")
-      case FileManagerAction.move.title:
-        // Handle move action
-        print("Move action tapped")
-      case FileManagerAction.copy.title:
-        // Handle copy action
-        print("Copy action tapped")
-      case FileManagerAction.star.title:
-        // Handle star action
-        print("Star action tapped")
-      case FileManagerAction.share.title:
-        // Handle share action
-        print("Share action tapped")
-      case FileManagerAction.properties.title:
-        // Handle properties action
-        print("Properties action tapped")
+      case FileManagerAction.rename.title(file: viewModel.file):
+        self?.presenter.onRenameTapped(viewModel)
+      case FileManagerAction.move.title(file: viewModel.file):
+        self?.presenter.onMoveTapped([viewModel])
+      case FileManagerAction.copy.title(file: viewModel.file):
+        self?.presenter.onCopyTapped(viewModel)
+      case FileManagerAction.star.title(file: viewModel.file):
+        self?.presenter.onStarredTapped(viewModel)
+      case FileManagerAction.share.title(file: viewModel.file):
+        self?.presenter.onShareTapped([viewModel])
+      case FileManagerAction.properties.title(file: viewModel.file):
+        self?.presenter.onDetailsTapped(viewModel)
       default:
         break
       }
     }}
     
-    let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { action in
-      // Delete the item from your data model and update the table view
+    let deleteAction = FileManagerAction.createDeleteAction { [weak self] action in
+      self?.presenter.onDeleteTapped([viewModel])
     }
     
     let deleteMenu = UIMenu(title: "", options: .displayInline, children: [deleteAction])
@@ -256,8 +253,47 @@ extension DocumentsViewController: UIContextMenuInteractionDelegate {
     let menu = UIMenu(children: [actionsMenu, deleteMenu])
     return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: { _ in menu })
   }
+}
+
+extension DocumentsViewController {
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true //tableView.isEditing
+  }
   
-  private func createAction(from managerAction: FileManagerAction, handler: @escaping UIActionHandler) -> UIAction {
-    return UIAction(title: managerAction.title, image: UIImage(systemName: managerAction.iconName), handler: handler)
+  override func tableView(_ tableView: UITableView,
+                          editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    return .none
+  }
+  
+  override func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
+    // Disable editing mode if the user is swiping to show swipe actions
+    if tableView.panGestureRecognizer.translation(in: tableView.superview).x > 0 {
+      tableView.setEditing(false, animated: true)
+    }
+  }
+  
+  override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+    super.tableView(tableView, didEndEditingRowAt: indexPath)
+    
+    // Re-enable the edit button when the swipe action is closed
+    editButtonItem.isEnabled = true
+  }
+  
+  override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    editButtonItem.isEnabled = false
+    let viewModel = viewModels[indexPath.row]
+    let systemName = FileManagerAction.star.iconName(file: viewModel.file)
+    let title = FileManagerAction.star.title(file: viewModel.file)
+    
+    let unstarAction = UIContextualAction(style: .normal, title: title) { (action, view, completionHandler) in
+      // Perform the unstar action for the file at the given indexPath
+      self.presenter.onStarredTapped(viewModel)
+      completionHandler(true)
+    }
+    unstarAction.image = UIImage(systemName: systemName)
+    unstarAction.backgroundColor = .systemGray
+    
+    let configuration = UISwipeActionsConfiguration(actions: [unstarAction])
+    return configuration
   }
 }

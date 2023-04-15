@@ -1,2 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-Project/Pods-Project-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Drops/Drops.framework
+${BUILT_PRODUCTS_DIR}/QuickTableViewController/QuickTableViewController.framework
+${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework
 ${BUILT_PRODUCTS_DIR}/Swinject/Swinject.framework

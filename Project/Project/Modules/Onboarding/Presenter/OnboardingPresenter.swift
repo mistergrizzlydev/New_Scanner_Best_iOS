@@ -37,17 +37,9 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
       debugPrint(error.localizedDescription)
     }
     
-    view.dismissLoadingView(after: 2.0) {
-      self.navigateToDocuments()
+    view.dismissLoadingView(after: 2.0) { [weak self] in
+      guard let self = self else { return }
+      self.coordinator.navigateToDocuments(folder: Folder(url: self.localFileManager.getDocumentsURL()))
     }
-  }
-  
-  private func navigateToDocuments() {
-    let folder = Folder(url: localFileManager.getDocumentsURL())
-    
-    let controller = DocumentsBuilder().buildViewController(folder: folder)!
-    let navigation = BaseNavigationController(rootViewController: controller)
-    navigation.modalPresentationStyle = .fullScreen
-    view.present(navigation, animated: false)
   }
 }

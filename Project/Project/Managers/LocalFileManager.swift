@@ -165,3 +165,22 @@ extension LocalFileManagerDefault {
     }
   }
 }
+
+extension UIPasteboard {
+    static func copyContentsOfFolderToClipboard(at url: URL) {
+        let pasteboard = UIPasteboard.general
+        pasteboard.url = url
+        
+//        var fileURLs: [URL] = []
+//        do {
+//            fileURLs = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
+//        } catch {
+//            print("Error: \(error.localizedDescription)")
+//            return
+//        }
+//
+//        pasteboard.items
+      
+      print("aaa", pasteboard.items, pasteboard.url)
+    }
+}

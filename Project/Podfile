@@ -8,4 +8,8 @@ target 'Project' do
   # Pods for Project
   pod 'Swinject'
 
+  # UI
+  pod 'Drops', :git => 'https://github.com/omaralbeik/Drops.git', :tag => '1.6.0'
+  pod 'SSZipArchive'
+  pod 'QuickTableViewController'
 end

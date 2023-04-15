@@ -1,0 +1,32 @@
+{
+  "name": "Drops",
+  "version": "1.6.0",
+  "summary": "A µFramework for showing iOS 13 like system alerts",
+  "description": "A µFramework for showing alerts like the one used when copying from pasteboard or connecting Apple pencil.",
+  "homepage": "https://github.com/omaralbeik/Drops",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "social_media_url": "http://twitter.com/omaralbeik",
+  "documentation_url": "https://omaralbeik.github.io/Drops",
+  "authors": {
+    "Omar Albeik": "https://twitter.com/omaralbeik"
+  },
+  "module_name": "Drops",
+  "source": {
+    "git": "https://github.com/omaralbeik/Drops.git",
+    "tag": "1.6.0"
+  },
+  "source_files": "Sources/**/*.swift",
+  "swift_versions": [
+    "5.5",
+    "5.6",
+    "5.7"
+  ],
+  "requires_arc": true,
+  "platforms": {
+    "ios": "13.0"
+  },
+  "swift_version": "5.7"
+}

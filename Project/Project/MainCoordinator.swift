@@ -14,7 +14,19 @@ protocol Coordinator {
   func start()
   
   func navigateToOnboarding()
-  func navigateToDocuments(folder: Folder)
+  func navigateToDocuments(from controller: UIViewController?, type: DocumentsType, folder: Folder)
+  func navigateToDocumentPreview(from navigation: UINavigationController?, file: File)
+  
+  func navigateToAnnotation(navigation: UINavigationController?, file: File)
+  func navigateToAnnotation(controller: UIViewController?, file: File)
+  
+  func presentShare(controller: UIViewController?, items: [Any])
+}
+
+extension Coordinator {
+  func navigateToDocuments(from controller: UIViewController? = nil, type: DocumentsType = .myScans, folder: Folder) {
+    navigateToDocuments(from: controller, type: type, folder: folder)
+  }
 }
 
 final class MainCoordinator: NSObject, Coordinator {
@@ -53,25 +65,57 @@ final class MainCoordinator: NSObject, Coordinator {
     window?.rootViewController?.present(controller, animated: true)
   }
   
-  func navigateToDocuments(folder: Folder) {
-    /*
-    let documents = DocumentsBuilder().buildViewController(folder: folder)!.wrappedInNavigation(title: "My Scans", image: .systemFolder(), tabBarItemName: "My Scans", tag: 0)
-    let settings = SettingsBuilder().buildViewController()!.wrappedInNavigation(title: "Settings", image: .systemSettings(), tabBarItemName: "Settings", tag: 1)
-    let tabBar = TabBarBuilder().buildViewController(with: [documents, settings])!
-    tabBar.modalPresentationStyle = .fullScreen
-    window?.rootViewController?.present(tabBar, animated: false)
-     */
-
-    let documents = DocumentsBuilder().buildViewController(folder: folder)!.wrappedInNavigation(title: "My Scans", image: .systemFolder(), tabBarItemName: "My Scans", tag: 0)
-    //VisionBuilder().buildViewController()!.wrappedInNavigation(title: "All", image: .systemFolderFull(), tabBarItemName: "My Scans", tag: 0)
-//    let documents = DemoVCBuilder().buildViewController()!.wrappedInNavigation(title: "Demo", image: .systemFolder(), tabBarItemName: "My Scans", tag: 0)
-    let starred = StarredBuilder().buildViewController()!.wrappedInNavigation(title: "Starred Documents", image: .systemStar(), tabBarItemName: "Starred", tag: 1)
-    let settings = SettingsBuilder().buildViewController()!.wrappedInNavigation(title: "Settings", image: .systemSettings(), tabBarItemName: "Settings", tag: 2)
-    let tabBar = TabBarBuilder().buildViewController(with: [documents, starred, settings])!
-    tabBar.modalPresentationStyle = .fullScreen
-    window?.rootViewController?.present(tabBar, animated: false)
+  func navigateToDocuments(from controller: UIViewController? = nil, type: DocumentsType = .myScans, folder: Folder) {
+    let documents = DocumentsBuilder().buildViewController(folder: folder, type: .myScans)!.wrappedInNavigation(title: DocumentsType.myScans.title,
+                                                                                                                image: DocumentsType.myScans.image,
+                                                                                                                tabBarItemName: DocumentsType.myScans.tabBarItemName, tag: 0)
+    let starred = DocumentsBuilder().buildViewController(folder: folder, type: .starred)!.wrappedInNavigation(title: DocumentsType.starred.title,
+                                                                                                              image: DocumentsType.starred.image,
+                                                                                                              tabBarItemName: DocumentsType.starred.tabBarItemName, tag: 1)
+    if let controller = controller {
+      let image = type == .myScans ? UIImage.systemFolder() : .systemStar()
+      let documents = DocumentsBuilder().buildViewController(folder: folder, type: type)!.wrappedInNavigation(title: type.title,
+                                                                                                              image: type.image,
+                                                                                                                  tabBarItemName: type.tabBarItemName, tag: 0)
+      controller.navigationController?.pushViewController(documents, animated: true)
+    } else {
+      let settings = SettingsBuilder().buildViewController()!.wrappedInNavigation(title: "Settings", image: .systemSettings(), tabBarItemName: "Settings", tag: 2)
+      let tabBar = TabBarBuilder().buildViewController(with: [documents, starred, settings])!
+      tabBar.modalPresentationStyle = .fullScreen
+      window?.rootViewController?.present(tabBar, animated: false)
+    }
+  }
+  
+  func navigateToDocumentPreview(from navigation: UINavigationController?, file: File) {
+    let controller = DocumentPreviewBuilder().buildViewController(file: file)!
+    navigation?.pushViewController(controller, animated: true)
+  }
+  
+  func navigateToAnnotation(navigation: UINavigationController?, file: File) {
+    let annotate = AnnotateBuilder().buildViewController(file: file)!
+    navigation?.pushViewController(annotate, animated: true)
+  }
+  
+  func navigateToAnnotation(controller: UIViewController?, file: File) {
+    let annotate = AnnotateBuilder().buildViewController(file: file)!
+    controller?.present(annotate, animated: true)
+  }
+  
+  func presentShare(controller: UIViewController?, items: [Any]) {
+    controller?.share(items)
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 /*
  final class MainCoordinator: Coordinator {

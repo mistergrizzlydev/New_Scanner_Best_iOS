@@ -2,13 +2,13 @@ import UIKit
 import Swinject
 
 protocol DocumentsBuilderProtocol {
-  func buildViewController(folder: Folder) -> DocumentsViewController!
+  func buildViewController(folder: Folder, type: DocumentsType) -> DocumentsViewController!
 }
 
 class DocumentsBuilder: DocumentsBuilderProtocol {
   private let container = Container(parent: AppContainer.shared.container)
   
-  func buildViewController(folder: Folder) -> DocumentsViewController! {
+  func buildViewController(folder: Folder, type: DocumentsType) -> DocumentsViewController! {
     container.register(DocumentsViewController.self) { _ in
       DocumentsBuilder.instantiateViewController()
       
@@ -18,10 +18,12 @@ class DocumentsBuilder: DocumentsBuilderProtocol {
     
     container.register(DocumentsPresenter.self) { c in
       let localFileManager = c.resolve(LocalFileManager.self)!
+      let coordinator = c.resolve(Coordinator.self)!
       
       return DocumentsPresenter(view: c.resolve(DocumentsViewController.self)!,
+                                coordinator: coordinator,
                                 localFileManager: localFileManager,
-                                folder: folder)
+                                folder: folder, type: type)
     }
     
     return container.resolve(DocumentsViewController.self)!
