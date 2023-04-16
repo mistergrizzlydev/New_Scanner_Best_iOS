@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import MobileCoreServices
+import UniformTypeIdentifiers
 
 protocol Coordinator {
   var childCoordinators: [Coordinator] { get set }
@@ -21,6 +23,8 @@ protocol Coordinator {
   func navigateToAnnotation(controller: UIViewController?, file: File)
   
   func presentShare(controller: UIViewController?, items: [Any])
+  
+  func presentDocumentPickerViewController(controller: UIViewController?, delegate: UIDocumentPickerDelegate?)
 }
 
 extension Coordinator {
@@ -103,6 +107,14 @@ final class MainCoordinator: NSObject, Coordinator {
   
   func presentShare(controller: UIViewController?, items: [Any]) {
     controller?.share(items)
+  }
+  
+  func presentDocumentPickerViewController(controller: UIViewController?, delegate: UIDocumentPickerDelegate?) {
+    let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf])
+    documentPicker.allowsMultipleSelection = true
+    documentPicker.delegate = delegate
+    documentPicker.modalPresentationStyle = .fullScreen
+    controller?.present(documentPicker, animated: true, completion: nil)
   }
 }
 

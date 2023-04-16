@@ -1,5 +1,7 @@
 import UIKit
 import PDFKit
+import MobileCoreServices
+import UniformTypeIdentifiers
 
 protocol DocumentPreviewViewControllerProtocol: AnyObject {
   func prepare(with viewModel: DocumentPreviewViewModel)
@@ -44,53 +46,47 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
   
   private func setupViews() {
     // Setup views
+    pdfView.configure(displayDirection: .horizontal, displayMode: .singlePage)
     
-    pdfView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    pdfView.displayMode = .singlePage
-    pdfView.displayDirection = .horizontal
-    pdfView.autoScales = true
-    pdfView.usePageViewController(true, withViewOptions: [:])
-    
-    pdfView.subviews.forEach { subview in
-      if let scrollView = subview.subviews.first as? UIScrollView {
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
-      }
-    }
+    // if file locked: lock.doc.fill
     
     let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-
-    let addButton = UIBarButtonItem(image: .systemPlus(), style: .plain, target: self, action: nil)
+    
+    let addButton = UIBarButtonItem(image: UIImage(systemName: "doc.badge.plus") /*.systemPlus()*/, style: .plain, target: self, action: nil)
     let shareButton = UIBarButtonItem(image: .systemShare(), style: .plain, target: self, action: #selector(onShareTapped(_:)))
     let annotateButton = UIBarButtonItem(image: .systemAnnotate(), style: .plain, target: self, action: #selector(onAnnotateTapped(_:)))
-    let editButton = UIBarButtonItem(image: .systemEdit(), style: .plain, target: self, action: #selector(onEditTapped(_:)))
-    let textButton = UIBarButtonItem(image: .systemTextSearch(), style: .plain, target: self, action: #selector(onTextTapped(_:)))
+    let editButton = UIBarButtonItem(image: UIImage(systemName: "wand.and.stars")/*.systemEdit()*/, style: .plain, target: self, action: #selector(onEditTapped(_:)))
+    let textButton = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext") /*.systemTextSearch()*/, style: .plain, target: self, action: #selector(onTextTapped(_:)))
     
     let cameraAction = UIAction(title: "Camera", image: UIImage(systemName: "camera")) { _ in
-        // handle camera action
+      // handle camera action
     }
-
+    
     let galleryAction = UIAction(title: "Gallery", image: UIImage(systemName: "photo")) { _ in
-        // handle gallery action
+      // handle gallery action
     }
-
-    addButton.menu = UIMenu(title: "Import page from:", children: [cameraAction, galleryAction])
-
+    
+    let documentsAction = UIAction(title: "Documents", image: UIImage(systemName: "icloud")) { _ in
+      self.presenter.onImportFileFromDocuments()
+    }
+    
+    addButton.menu = UIMenu(title: "Import page from:", children: [documentsAction, galleryAction, cameraAction])
+    
     
     toolbarItems = [addButton, spacer, shareButton, spacer, annotateButton, spacer, editButton, spacer, textButton]
     navigationController?.toolbar.tintColor = UIColor.themeColor
     
     let menuButton = UIBarButtonItem(image: .systemEllipsisCircle(), style: .plain, target: self, action: nil)
-//
-//    let section1 = UIMenu(title: "Create a new folder", options: .displayInline, children: [])
-//    let section2 = UIMenu(title: "Sort by:", options: .displayInline, children: [])
-//    let menu = UIMenu(options: .displayInline, children: [section1, section2])
-//    menuButton.menu = UIMenu.updateActionState(menu: menu)
-//    navigationItem.setRightBarButtonItems([menuButton], animated: true)
+    //
+    //    let section1 = UIMenu(title: "Create a new folder", options: .displayInline, children: [])
+    //    let section2 = UIMenu(title: "Sort by:", options: .displayInline, children: [])
+    //    let menu = UIMenu(options: .displayInline, children: [section1, section2])
+    //    menuButton.menu = UIMenu.updateActionState(menu: menu)
+    //    navigationItem.setRightBarButtonItems([menuButton], animated: true)
     
     
     let noAction = UIAction(title: "No") { _ in
-        
+      
     }
     let yesAction = UIAction(title: "Yes") { _ in
       
@@ -269,6 +265,12 @@ extension DocumentPreviewViewController {
   }
   
   @objc private func onTextTapped(_ sender: UIBarButtonItem) {
-    
+    guard let file = viewModel?.file else { return }
+    let controller = TextBuilder().buildViewController(file: file)!
+    navigationController?.pushViewController(controller, animated: true)
+//    let navigation = BaseNavigationController(rootViewController: controller)
+//    navigation.modalPresentationStyle = .fullScreen
+////    navigation.modalPresentationStyle = .fullScreen
+//    present(navigation, animated: true)
   }
 }

@@ -1255,3 +1255,126 @@ class PDFCreator: NSObject {
     }
     
 }
+
+
+//func convertPDFPagesToImages(pdfDocument: PDFDocument) -> [UIImage] {
+//  var images: [UIImage] = []
+//
+//  for i in 0..<pdfDocument.pageCount {
+//    guard let page = pdfDocument.page(at: i) else {
+//      continue
+//    }
+//    let thumbnailSize = CGSize(width: page.bounds(for: .cropBox).size.width * 2, height: page.bounds(for: .cropBox).size.height * 2)
+//    UIGraphicsBeginImageContextWithOptions(thumbnailSize, false, 0.0)
+//    guard let context = UIGraphicsGetCurrentContext() else {
+//      continue
+//    }
+//    context.setFillColor(UIColor.white.cgColor)
+//    context.fill(CGRect(origin: .zero, size: thumbnailSize))
+//    context.saveGState()
+//    context.translateBy(x: 0.0, y: thumbnailSize.height)
+//    context.scaleBy(x: 1.0, y: -1.0)
+//    page.draw(with: .cropBox, to: context)
+//
+//    context.restoreGState()
+//    let image = UIGraphicsGetImageFromCurrentImageContext()
+//    UIGraphicsEndImageContext()
+//    if let image = image {
+//      images.append(image)
+//    }
+//  }
+//
+//  return images
+//}
+
+//func convertPDFPagesToImages1(pdfDocument: PDFDocument) -> [UIImage] {
+//  var images: [UIImage] = []
+//  
+//  for i in 0..<pdfDocument.pageCount {
+//    guard let page = pdfDocument.page(at: i) else {
+//      continue
+//    }
+//    let thumbnailSize = CGSize(width: page.bounds(for: .cropBox).size.width * 2, height: page.bounds(for: .cropBox).size.height * 2)
+//    UIGraphicsBeginImageContextWithOptions(thumbnailSize, false, 0.0)
+//    page.draw(with: .cropBox, to: UIGraphicsGetCurrentContext()!)
+//    let image = UIGraphicsGetImageFromCurrentImageContext()
+//    UIGraphicsEndImageContext()
+//    if let image = image {
+//      images.append(image)
+//    }
+//  }
+//  
+//  return images
+//}
+//
+//func convertPDFPagesToImages2(pdfDocument: PDFDocument, forScale scale: Double = 2.0, completion: @escaping ([UIImage]) -> Void) {
+//  DispatchQueue.global(qos: .userInitiated).async {
+//    var images: [UIImage] = []
+//    
+//    for i in 0..<pdfDocument.pageCount {
+//      guard let page = pdfDocument.page(at: i) else {
+//        continue
+//      }
+//      let thumbnailSize = CGSize(width: page.bounds(for: .cropBox).size.width * scale,
+//                                 height: page.bounds(for: .cropBox).size.height * scale)
+//      UIGraphicsBeginImageContextWithOptions(thumbnailSize, false, 0.0)
+//      page.draw(with: .cropBox, to: UIGraphicsGetCurrentContext()!)
+//      let image = UIGraphicsGetImageFromCurrentImageContext()
+//      UIGraphicsEndImageContext()
+//      if let image = image {
+//        images.append(image)
+//      }
+//    }
+//    
+//    DispatchQueue.main.async {
+//      completion(images)
+//    }
+//  }
+//}
+
+//class ImageExtractionQueue: OperationQueue {
+//
+//    // Maximum number of concurrent image extraction operations
+//    let maxConcurrentImageExtractions = 3
+//
+//    override init() {
+//        super.init()
+//        self.maxConcurrentOperationCount = maxConcurrentImageExtractions
+//    }
+//
+//    // Add a new image extraction operation to the queue
+//    func addImageExtractionOperation(forPage page: PDFPage, completion: @escaping (UIImage?, Error?) -> Void) {
+//        let operation = ImageExtractionOperation(page: page)
+//        operation.completionBlock = {
+//            completion(operation.image, operation.error)
+//        }
+//        self.addOperation(operation)
+//    }
+//
+//}
+//
+//class ImageExtractionOperation: Operation {
+//
+//    let page: PDFPage
+//    var image: UIImage?
+//    var error: Error?
+//
+//    init(page: PDFPage) {
+//        self.page = page
+//    }
+//
+//    override func main() {
+//        // Extract the image from the PDF page
+//        let thumbnailSize = CGSize(width: 200, height: 200)
+//        guard let pageImage = page.thumbnail(of: thumbnailSize, for: .cropBox) else {
+//            error = ImageExtractionError.imageExtractionFailed
+//            return
+//        }
+//        image = pageImage
+//    }
+//
+//}
+//
+//enum ImageExtractionError: Error {
+//    case imageExtractionFailed
+//}

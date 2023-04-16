@@ -1,12 +1,16 @@
 import UIKit
+import MobileCoreServices
+import UniformTypeIdentifiers
 
 protocol DocumentPreviewPresenterProtocol {
   func present()
   func onSignatureTapped()
   func onShareTapped()
+  
+  func onImportFileFromDocuments()
 }
 
-class DocumentPreviewPresenter: DocumentPreviewPresenterProtocol {
+final class DocumentPreviewPresenter: NSObject, DocumentPreviewPresenterProtocol {
   private weak var view: (DocumentPreviewViewControllerProtocol & UIViewController)!
   let file: File
   let coordinator: Coordinator
@@ -16,6 +20,7 @@ class DocumentPreviewPresenter: DocumentPreviewPresenterProtocol {
     self.view = view
     self.file = file
     self.coordinator = coordinator
+    super.init()
   }
 
   func present() {
@@ -29,5 +34,19 @@ class DocumentPreviewPresenter: DocumentPreviewPresenterProtocol {
   
   func onShareTapped() {
     coordinator.presentShare(controller: view, items: [file.url])
+  }
+  
+  func onImportFileFromDocuments() {
+    coordinator.presentDocumentPickerViewController(controller: view, delegate: self)
+  }
+}
+
+extension DocumentPreviewPresenter: UIDocumentPickerDelegate {
+  func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+    present()
+  }
+  
+  func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+    print("didPickDocumentsAt", urls)
   }
 }
