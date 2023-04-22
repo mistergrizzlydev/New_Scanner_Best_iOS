@@ -18,6 +18,8 @@
 		EC3BF99329E33C2100F20F2D /* LatinLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF99229E33C2100F20F2D /* LatinLanguage.swift */; };
 		EC3BF99529E33C3700F20F2D /* ImageFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF99429E33C3700F20F2D /* ImageFilter.swift */; };
 		EC3BF99F29E33EC900F20F2D /* VNImageRequestHandler+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF99E29E33EC900F20F2D /* VNImageRequestHandler+Extensions.swift */; };
+		EC966CBD29ED876100BA67B5 /* DocumentClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC966CBC29ED876100BA67B5 /* DocumentClassifier.swift */; };
+		EC966CBF29ED876B00BA67B5 /* doc_classifier_v5_fp16.mlmodelc in Resources */ = {isa = PBXBuildFile; fileRef = EC966CBE29ED876B00BA67B5 /* doc_classifier_v5_fp16.mlmodelc */; };
 		ECE467EC29EC92C50048B5D2 /* PDFImageExtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE467EB29EC92C50048B5D2 /* PDFImageExtraction.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +46,8 @@
 		EC3BF99229E33C2100F20F2D /* LatinLanguage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatinLanguage.swift; sourceTree = "<group>"; };
 		EC3BF99429E33C3700F20F2D /* ImageFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilter.swift; sourceTree = "<group>"; };
 		EC3BF99E29E33EC900F20F2D /* VNImageRequestHandler+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VNImageRequestHandler+Extensions.swift"; sourceTree = "<group>"; };
+		EC966CBC29ED876100BA67B5 /* DocumentClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentClassifier.swift; sourceTree = "<group>"; };
+		EC966CBE29ED876B00BA67B5 /* doc_classifier_v5_fp16.mlmodelc */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = doc_classifier_v5_fp16.mlmodelc; sourceTree = "<group>"; };
 		ECE467EB29EC92C50048B5D2 /* PDFImageExtraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFImageExtraction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +94,7 @@
 				EC3BF97329E33A9D00F20F2D /* Sandwich.h */,
 				EC3BF98A29E33B1000F20F2D /* SandwichPDF.swift */,
 				EC3BF99229E33C2100F20F2D /* LatinLanguage.swift */,
+				EC6F932B29EDC61C00DA5B99 /* DocumentClasifier */,
 				ECE467EB29EC92C50048B5D2 /* PDFImageExtraction.swift */,
 				EC3BF98E29E33B3600F20F2D /* UIImage+Filters.swift */,
 				EC3BF9A029E33ECC00F20F2D /* Experiments */,
@@ -115,6 +120,15 @@
 				EC3BF99E29E33EC900F20F2D /* VNImageRequestHandler+Extensions.swift */,
 			);
 			path = Experiments;
+			sourceTree = "<group>";
+		};
+		EC6F932B29EDC61C00DA5B99 /* DocumentClasifier */ = {
+			isa = PBXGroup;
+			children = (
+				EC966CBC29ED876100BA67B5 /* DocumentClassifier.swift */,
+				EC966CBE29ED876B00BA67B5 /* doc_classifier_v5_fp16.mlmodelc */,
+			);
+			path = DocumentClasifier;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +223,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC966CBF29ED876B00BA67B5 /* doc_classifier_v5_fp16.mlmodelc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +248,7 @@
 				EC3BF98F29E33B3700F20F2D /* UIImage+Filters.swift in Sources */,
 				EC3BF98B29E33B1000F20F2D /* SandwichPDF.swift in Sources */,
 				EC3BF97529E33A9D00F20F2D /* Sandwich.docc in Sources */,
+				EC966CBD29ED876100BA67B5 /* DocumentClassifier.swift in Sources */,
 				EC3BF99129E33B5500F20F2D /* CompressionLevel.swift in Sources */,
 				EC3BF99529E33C3700F20F2D /* ImageFilter.swift in Sources */,
 			);

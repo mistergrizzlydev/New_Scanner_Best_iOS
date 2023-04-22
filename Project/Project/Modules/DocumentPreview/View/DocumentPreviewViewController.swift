@@ -10,13 +10,13 @@ protocol DocumentPreviewViewControllerProtocol: AnyObject {
 final class DocumentPreviewViewController: UIViewController, DocumentPreviewViewControllerProtocol {
   var presenter: DocumentPreviewPresenterProtocol!
   
+  @IBOutlet private weak var pageLabel: BorderLabel!
   @IBOutlet private weak var pdfView: PDFView!
   private var viewModel: DocumentPreviewViewModel?
   
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
-    
     presenter.present()
     setupViews()
   }
@@ -24,10 +24,13 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
+    navigationController?.navigationBar.prefersLargeTitles = false
+    navigationItem.largeTitleDisplayMode = .never
+    
     UIView.animate(withDuration: 0.3) {
       self.tabBarController?.tabBar.frame.origin.y = self.view.frame.maxY
       self.navigationController?.setToolbarHidden(false, animated: true)
-      self.navigationController?.hidesBarsOnTap = true
+//      self.navigationController?.hidesBarsOnTap = true
     }
     
     if let toolbar = navigationController?.toolbar {
@@ -37,6 +40,10 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
+    
+    navigationController?.navigationBar.prefersLargeTitles = true
+    navigationItem.largeTitleDisplayMode = .always
+    
     UIView.animate(withDuration: 0.3) {
       self.tabBarController?.tabBar.frame.origin.y = self.view.frame.maxY - self.tabBarController!.tabBar.frame.height
       self.navigationController?.setToolbarHidden(true, animated: false)
@@ -58,15 +65,15 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
     let editButton = UIBarButtonItem(image: UIImage(systemName: "wand.and.stars")/*.systemEdit()*/, style: .plain, target: self, action: #selector(onEditTapped(_:)))
     let textButton = UIBarButtonItem(image: UIImage(systemName: "doc.plaintext") /*.systemTextSearch()*/, style: .plain, target: self, action: #selector(onTextTapped(_:)))
     
-    let cameraAction = UIAction(title: "Camera", image: UIImage(systemName: "camera")) { _ in
+    let cameraAction = UIAction(title: "Take Photo", image: UIImage(systemName: "camera")) { _ in
       // handle camera action
     }
     
-    let galleryAction = UIAction(title: "Gallery", image: UIImage(systemName: "photo")) { _ in
+    let galleryAction = UIAction(title: "Photo Library", image: UIImage(systemName: "photo.on.rectangle")) { _ in
       // handle gallery action
     }
     
-    let documentsAction = UIAction(title: "Documents", image: UIImage(systemName: "icloud")) { _ in
+    let documentsAction = UIAction(title: "Choose Files", image: UIImage(systemName: "folder")) { _ in
       self.presenter.onImportFileFromDocuments()
     }
     
@@ -85,15 +92,24 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
     //    navigationItem.setRightBarButtonItems([menuButton], animated: true)
     
     
-    let noAction = UIAction(title: "No") { _ in
+    let noAction = UIAction(title: "Move") { _ in
       
     }
-    let yesAction = UIAction(title: "Yes") { _ in
+    
+    let yesAction = UIAction(title: "Delete", attributes: .destructive) { _ in
       
     }
     let menu = UIMenu(title: "", children: [noAction, yesAction])
     menuButton.menu = menu
     navigationItem.setRightBarButtonItems([menuButton], animated: true)
+    
+    setupPDFView()
+  }
+  
+  private func setupPDFView() {
+    // Add page changed listener
+    NotificationCenter.default.addObserver(self, selector: #selector(didPageChange(_:)), name: Notification.Name.PDFViewPageChanged, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(didPageChange(_:)), name: Notification.Name.PDFViewVisiblePagesChanged, object: nil)
   }
   
   func prepare(with viewModel: DocumentPreviewViewModel) {
@@ -104,130 +120,21 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
       pdfView.document = pdfDocument
     }
     
+    pdfView.delegate = self
     
-    //    let images = [UIImage(named: "invoice1")!, UIImage(named: "invoice2")!]
-    //    let sandwichPDFData = images.toPDF()!
-    //    do {
-    //      try sandwichPDFData.write(to: viewModel.file.url.deletingLastPathComponent().appendingPathComponent("example.pdf"))
-    //    } catch {
-    //      print(error.localizedDescription)
-    //    }
-    
-    //    let newURL = viewModel.file.url.deletingLastPathComponent().appendingPathComponent("example.pdf")
-    //    let data = PDFManager.createSearchablePDF(from: UIImage(named: "invoice1")!)?.dataRepresentation()
-    //    //UIImage(named: "invoice1")?.testVision()?.dataRepresentation()
-    //
-    //    do {
-    //      try data?.write(to: newURL)
-    //    } catch {
-    //      print(error.localizedDescription)
-    //    }
-    
-    let image = UIImage(named: "invoice1")
-    //    image?.recognizeTextInImage()
-    let newURL = viewModel.file.url.deletingLastPathComponent().appendingPathComponent("example.pdf")
-    //    let data = image?.tint(tintColor: .black.withAlphaComponent(0.2)).pdf?.dataRepresentation() // adds tint cool
-    //
-    //    do {
-    //      try data?.write(to: newURL, options: .atomic)
-    //    } catch {
-    //      print(error.localizedDescription)
-    //    }
-    
-    //    image?.recognizeTextInImageAndDrawOnPDF2 { document in
-    //      do {
-    //        try document?.dataRepresentation()?.write(to: newURL, options: .atomic)
-    //      } catch {
-    //        print(error.localizedDescription)
-    //      }
-    //    }
-    
-    //    guard let pdfDocument = image?.pdf else { return }
-    
-    //    guard let page = pdfDocument.page(at: 0) else { return }
-    //    let renderer = UIGraphicsPDFRenderer(bounds: page.bounds(for: .cropBox))
-    //    let data = renderer.pdfData { context in
-    //        let font = UIFont.systemFont(ofSize: 20)
-    //        let textColor = UIColor.red
-    //        let attributes = [
-    //            NSAttributedString.Key.font: font,
-    //            NSAttributedString.Key.foregroundColor: textColor
-    //        ]
-    //        let text = "Hello, World!"
-    //        let point = CGPoint(x: 100, y: 100)
-    //        let nsText = NSString(string: text)
-    //        nsText.draw(at: point, withAttributes: attributes)
-    //    }
-    //
-    //    try? data.write(to: newURL, options: .atomic)
-    
-    //    guard let page = pdfDocument.page(at: 0) else { return }
-    //    let bounds = page.bounds(for: .cropBox)
-    //    UIGraphicsPDFRenderer(bounds: bounds)
-    //    let text = "Hello, World!"
-    //    let point = CGPoint(x: 100, y: 100)
-    //    let font = UIFont.systemFont(ofSize: 12)
-    //    let textColor = UIColor.black
-    //    let attributes = [
-    //        NSAttributedString.Key.font: font,
-    //        NSAttributedString.Key.foregroundColor: textColor
-    //    ]
-    //    let nsText = NSString(string: text)
-    //    nsText.draw(at: point, withAttributes: attributes)
-    //
-    //    pdfDocument.write(to: newURL)
-    
-    /*
-     // works
-     */
-    /*
-     guard let page = pdfDocument.page(at: 0) else { return }
-     let bounds = page.bounds(for: .cropBox)
-     UIGraphicsBeginPDFContextToFile(newURL.path, bounds, nil)
-     UIGraphicsBeginPDFPage()
-     let context = UIGraphicsGetCurrentContext()
-     page.draw(with: .cropBox, to: context!)
-     let text = "Hello, World!"
-     let point = CGPoint(x: 100, y: 100)
-     let font = UIFont.systemFont(ofSize: 12)
-     let textColor = UIColor.black
-     let attributes = [
-     NSAttributedString.Key.font: font,
-     NSAttributedString.Key.foregroundColor: textColor
-     ]
-     let nsText = NSString(string: text)
-     nsText.draw(at: point, withAttributes: attributes)
-     UIGraphicsEndPDFContext()
-     */
-    //    guard let page = pdfDocument.page(at: 0) else { return }
-    //    let bounds = page.bounds(for: .cropBox)
-    //    UIGraphicsBeginPDFContextToFile(newURL.path, bounds, nil)
-    //    UIGraphicsBeginPDFPage()
-    //    let context = UIGraphicsGetCurrentContext()
-    //    let rotationAngle = -page.rotation // calculate inverse rotation angle
-    //    context?.translateBy(x: 0.0, y: bounds.size.height) // move origin to bottom left
-    //    context?.scaleBy(x: 1.0, y: -1.0) // flip context vertically
-    //    context?.concatenate(page.transform(for: .artBox)) // apply inverse rotation transform
-    //    page.draw(with: .cropBox, to: context!)
-    //    let text = "Hello, World!"
-    //    let point = CGPoint(x: 100, y: 100)
-    //    let font = UIFont.systemFont(ofSize: 12)
-    //    let textColor = UIColor.black
-    //    let attributes = [    NSAttributedString.Key.font: font,    NSAttributedString.Key.foregroundColor: textColor]
-    //    let nsText = NSString(string: text)
-    //    nsText.draw(at: point, withAttributes: attributes)
-    //    UIGraphicsEndPDFContext()
-    
-    
-    
-    
-    //    let doc = image?.write(pdfDocument: pdf!, bounds: bounds)
-    //          do {
-    //            try doc?.dataRepresentation()?.write(to: newURL, options: .atomic)
-    //            drawText(in: newURL)
-    //          } catch {
-    //            print(error.localizedDescription)
-    //          }
+    updatePageLabel()
+  }
+  
+  private func updatePageLabel() {
+    let currentPage = pdfView.currentPage?.pageRef?.pageNumber ?? 0
+    let pageCount = pdfView.document?.pageCount ?? 0
+    pageLabel.text = "\(currentPage) of \(pageCount)"
+  }
+}
+
+extension DocumentPreviewViewController: PDFViewDelegate {
+  @objc private func didPageChange(_ notification: Notification) {
+    updatePageLabel()
   }
 }
 
@@ -261,16 +168,52 @@ extension DocumentPreviewViewController {
   }
   
   @objc private func onEditTapped(_ sender: UIBarButtonItem) {
-    
+    guard let image = getCurrentPageImage() else { return }
+    let scannerViewController = ImageScannerController(image: image, delegate: self)
+    present(scannerViewController, animated: false)
   }
   
   @objc private func onTextTapped(_ sender: UIBarButtonItem) {
     guard let file = viewModel?.file else { return }
     let controller = TextBuilder().buildViewController(file: file)!
     navigationController?.pushViewController(controller, animated: true)
-//    let navigation = BaseNavigationController(rootViewController: controller)
-//    navigation.modalPresentationStyle = .fullScreen
-////    navigation.modalPresentationStyle = .fullScreen
-//    present(navigation, animated: true)
+  }
+}
+
+extension DocumentPreviewViewController: ImageScannerControllerDelegate {
+  func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
+    presentAlert(message: error.localizedDescription, alerts: [UIAlertAction(title: "Ok", style: .default)])
+  }
+  
+  func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
+    scanner.dismiss(animated: false)
+    let image = results.enhancedImage ?? results.croppedScan.image
+    
+    guard let currentPageNumber = pdfView.currentPage?.pageRef?.pageNumber, let newPage = PDFPage(image: image) else { return }
+    
+    if let pdfDocument = pdfView.document, let url = viewModel?.file.url {
+      
+      pdfDocument.removePage(at: currentPageNumber)
+      pdfDocument.insert(newPage, at: currentPageNumber)
+      pdfDocument.write(to: url)
+      pdfView.document = nil
+      pdfView.document = pdfDocument
+      pdfView.layoutDocumentView()
+    }
+  }
+  
+  func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
+    scanner.dismiss(animated: false)
+  }
+}
+
+extension DocumentPreviewViewController {
+  func getCurrentPageImage() -> UIImage? {
+    guard let currentPageNumber = pdfView.currentPage?.pageRef?.pageNumber, let currentPage = pdfView.currentPage else { return nil }
+    let imageRect = currentPage.bounds(for: .mediaBox)
+    let image = UIImage(cgImage: currentPage.thumbnail(of: CGSize(width: imageRect.width, height: imageRect.height), for: .mediaBox).cgImage!)
+    image.draw(in: imageRect)
+    
+    return image
   }
 }

@@ -73,7 +73,7 @@ extension Document {
   }
   
   var type: DocumentType {
-    url.isDirectory ? .folder : .file
+    url.hasDirectoryPath ? .folder : .file
   }
   
   var fileExtension: String? {

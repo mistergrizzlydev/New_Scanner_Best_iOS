@@ -3,6 +3,8 @@ import UIKit
 protocol DocumentsViewControllerProtocol: AnyObject {
   func prepare(with viewModels: [DocumentsViewModel], title: String)
   func updateEditButtonItemEnabled()
+  
+  func display(toolbarButtonAction type: FileManagerToolbarAction, isEnabled: Bool)
 }
 
 final class DocumentsViewController: UITableViewController, DocumentsViewControllerProtocol {
@@ -33,6 +35,11 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
     navigationController?.setToolbarHidden(!editing, animated: animated)
     navigationItem.searchController?.searchBar.isUserInteractionEnabled = !editing
     navigationItem.rightBarButtonItems?.first(where: { $0.accessibilityIdentifier == "menuButton" })?.isEnabled = !editing
+    
+    let mergeButton = toolbarItems?.first(where: { $0.tag == FileManagerToolbarAction.merge.rawValue })
+    mergeButton?.isEnabled = !editing
+    
+    display(toolbarButtonAction: .merge, isEnabled: !isEditing)
   }
   
   override func viewDidLoad() {
@@ -59,20 +66,26 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
     
     let menuItem1 = UIAction(title: "New Folder", image: .systemAddFolder()) { [weak self] action in
       guard let self = self else { return }
-      self.presentAlertWithTextField(title: "Aaa", message: "bbb", placeholder: "placeholder") { text in
-        print(text)
-      }
+      self.presenter.createNewFolder()
     }
+    
+    let galleryAction = UIAction(title: "Photo Library", image: UIImage(systemName: "photo.on.rectangle")) { _ in
+      
+    }
+    let documentsAction = UIAction(title: "Choose Files", image: UIImage(systemName: "folder")) { _ in
+      
+    }
+    let importMenu = UIMenu(title: "Import Documents from:", options: .displayInline, children: [documentsAction, galleryAction])
     
     let section2Actions = SortType.allCases.compactMap { UIAction(title: $0.rawValue, image: $0.image) { [weak self] action in
       let sortFileType = SortType(rawValue: action.title) ?? .date
       self?.sortedFilesType = sortFileType
       self?.presenter.on(sortBy: sortFileType)
-    }
+      }
     }
     let section1 = UIMenu(title: "Create a new folder", options: .displayInline, children: [menuItem1])
     let section2 = UIMenu(title: "Sort by:", options: .displayInline, children: section2Actions)
-    let menu = UIMenu(options: .displayInline, children: [section1, section2])
+    let menu = UIMenu(options: .displayInline, children: [section1, importMenu, section2])
     menuButton?.menu = UIMenu.updateActionState(actionTitle: sortedFilesType.rawValue, menu: menu)
     navigationItem.setRightBarButtonItems([menuButton!, editButtonItem], animated: true)
     
@@ -93,23 +106,16 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
   @objc private func toolbarButtonTapped(_ sender: UIBarButtonItem) {
     let selectedViewModels = tableView.indexPathsForSelectedRows?.compactMap { viewModels[$0.row] }
     guard let action = FileManagerToolbarAction(rawValue: sender.tag), let selectedViewModels = selectedViewModels else { return }
-    
-    //    var selectedViewModels: [DocumentsViewModel] = []
-    //    if let selectedRows = tableView.indexPathsForSelectedRows {
-    //      for indexPath in selectedRows {
-    //        let viewModel = viewModels[indexPath.row]
-    //        selectedViewModels.append(viewModel)
-    //      }
-    //    }
-    
     switch action {
-    case .share: presenter.onShareTapped(selectedViewModels)
+    case .share:
+      presenter.onShareTapped(selectedViewModels)
     case .merge:
       // handle merge action
       print("merge", selectedViewModels.count)
+    case .duplicate:
+      self.presenter.duplicate(for: selectedViewModels)
     case .move:
-      // handle move action
-      print("move", selectedViewModels.count)
+      self.presenter.presentMove(selectedViewModels: selectedViewModels, viewModels: viewModels)
     case .delete: presenter.onDeleteTapped(selectedViewModels)
     }
   }
@@ -187,9 +193,20 @@ extension DocumentsViewController {
   }
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    guard !tableView.isEditing else { return }
-    tableView.deselectRow(at: indexPath, animated: true)
-    presenter.didSelect(at: indexPath, viewModel: viewModels[indexPath.row])
+    if tableView.isEditing {
+      let selectedViewModels = tableView.indexPathsForSelectedRows?.compactMap { viewModels[$0.row] }
+      presenter.checkMergeButton(for: selectedViewModels)
+    } else {
+      tableView.deselectRow(at: indexPath, animated: true)
+      presenter.didSelect(at: indexPath, viewModel: viewModels[indexPath.row])
+    }
+  }
+  
+  override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    if tableView.isEditing {
+      let selectedViewModels = tableView.indexPathsForSelectedRows?.compactMap { viewModels[$0.row] }
+      presenter.checkMergeButton(for: selectedViewModels)
+    }
   }
 }
 
@@ -218,6 +235,11 @@ extension DocumentsViewController: UIContextMenuInteractionDelegate {
   override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     let interaction = UIContextMenuInteraction(delegate: self)
     cell.addInteraction(interaction)
+    
+    if let editControl = cell.editingAccessoryView as? UIControl,
+       let editView = editControl.subviews.first {
+        editView.backgroundColor = UIColor.red
+    }
   }
   
   func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
@@ -230,7 +252,7 @@ extension DocumentsViewController: UIContextMenuInteractionDelegate {
       case FileManagerAction.rename.title(file: viewModel.file):
         self?.presenter.onRenameTapped(viewModel)
       case FileManagerAction.move.title(file: viewModel.file):
-        self?.presenter.onMoveTapped([viewModel])
+        self?.presenter.presentMove(selectedViewModels: [viewModel], viewModels: self?.viewModels ?? [])
       case FileManagerAction.copy.title(file: viewModel.file):
         self?.presenter.onCopyTapped(viewModel)
       case FileManagerAction.star.title(file: viewModel.file):
@@ -282,18 +304,32 @@ extension DocumentsViewController {
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     editButtonItem.isEnabled = false
     let viewModel = viewModels[indexPath.row]
-    let systemName = FileManagerAction.star.iconName(file: viewModel.file)
-    let title = FileManagerAction.star.title(file: viewModel.file)
+    let unstarTitle = FileManagerAction.star.title(file: viewModel.file)
+    let deleteTitle = FileManagerAction.delete.title(file: viewModel.file)
     
-    let unstarAction = UIContextualAction(style: .normal, title: title) { (action, view, completionHandler) in
+    let unstarAction = UIContextualAction(style: .normal, title: unstarTitle) { (action, view, completionHandler) in
       // Perform the unstar action for the file at the given indexPath
       self.presenter.onStarredTapped(viewModel)
       completionHandler(true)
     }
-    unstarAction.image = UIImage(systemName: systemName)
+    unstarAction.image = UIImage(systemName: FileManagerAction.star.iconName(file: viewModel.file))
     unstarAction.backgroundColor = .systemGray
     
-    let configuration = UISwipeActionsConfiguration(actions: [unstarAction])
+    let deleteAction = UIContextualAction(style: .destructive, title: deleteTitle) { (action, view, completionHandler) in
+      // Perform the unstar action for the file at the given indexPath
+      self.presenter.onDeleteTapped([viewModel])
+      completionHandler(true)
+    }
+    deleteAction.image = UIImage(systemName: FileManagerAction.delete.iconName(file: viewModel.file))
+    deleteAction.backgroundColor = .red
+    
+    let configuration = UISwipeActionsConfiguration(actions: [deleteAction, unstarAction])
     return configuration
+  }
+}
+
+extension DocumentsViewController {
+  func display(toolbarButtonAction type: FileManagerToolbarAction, isEnabled: Bool) {
+    toolbarItems?.first(where: { $0.tag == type.rawValue })?.isEnabled = isEnabled
   }
 }

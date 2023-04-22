@@ -2,7 +2,9 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,21 +18,65 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cpw-dd-Dpo" customClass="PDFView">
-                                <rect key="frame" x="0.0" y="48" width="414" height="814"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor"/>
-                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="7vY-GK-rCK">
+                                <rect key="frame" x="0.0" y="58" width="414" height="707"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ob-ED-aeg">
+                                        <rect key="frame" x="169.5" y="0.0" width="75" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="28" id="QRr-yf-hXb"/>
+                                        </constraints>
+                                        <color key="tintColor" name="labelTextColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" title="Button"/>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cpw-dd-Dpo" customClass="PDFView">
+                                        <rect key="frame" x="0.0" y="38" width="414" height="669"/>
+                                        <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Cpw-dd-Dpo" firstAttribute="top" secondItem="1ob-ED-aeg" secondAttribute="bottom" constant="10" id="SW2-lY-18g"/>
+                                    <constraint firstItem="Cpw-dd-Dpo" firstAttribute="leading" secondItem="7vY-GK-rCK" secondAttribute="leading" id="VeM-NK-Re3"/>
+                                    <constraint firstAttribute="trailing" secondItem="Cpw-dd-Dpo" secondAttribute="trailing" id="Wss-Wd-DRA"/>
+                                </constraints>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ov9-Al-RiO" customClass="BorderLabel" customModule="Project" customModuleProvider="target">
+                                <rect key="frame" x="340.5" y="775" width="41.5" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="eRR-Kq-DrT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="irb-VR-Oaa">
+                                <rect key="frame" x="20" y="775" width="75" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="jxH-9r-2rG"/>
+                                </constraints>
+                                <color key="tintColor" name="labelTextColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Button"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Cpw-dd-Dpo" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="03D-yE-m7n"/>
-                            <constraint firstItem="Cpw-dd-Dpo" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="IQm-uw-bUp"/>
-                            <constraint firstItem="Cpw-dd-Dpo" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="YrM-93-FD6"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Cpw-dd-Dpo" secondAttribute="bottom" id="ZeO-u6-KV2"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="ov9-Al-RiO" secondAttribute="bottom" constant="10" id="A3V-Xg-5Ea"/>
+                            <constraint firstItem="ov9-Al-RiO" firstAttribute="top" secondItem="7vY-GK-rCK" secondAttribute="bottom" constant="10" id="Cij-QW-1PV"/>
+                            <constraint firstItem="irb-VR-Oaa" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" constant="-10" id="Cm3-jf-Dap"/>
+                            <constraint firstItem="7vY-GK-rCK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="DK8-sp-gov"/>
+                            <constraint firstItem="irb-VR-Oaa" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="Iws-vy-r5e"/>
+                            <constraint firstItem="7vY-GK-rCK" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="Jdh-gs-fbW"/>
+                            <constraint firstItem="7vY-GK-rCK" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="10" id="Ydc-B0-rOe"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ov9-Al-RiO" secondAttribute="trailing" constant="32" id="pfm-EX-rg2"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="pageLabel" destination="ov9-Al-RiO" id="FUF-BW-WBW"/>
                         <outlet property="pdfView" destination="Cpw-dd-Dpo" id="ehp-mk-lAi"/>
                     </connections>
                 </viewController>
@@ -40,6 +86,9 @@
         </scene>
     </scenes>
     <resources>
+        <namedColor name="labelTextColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

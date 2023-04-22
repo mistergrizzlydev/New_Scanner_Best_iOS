@@ -17,21 +17,70 @@ final class BaseNavigationController: UINavigationController {
     navigationItem.largeTitleDisplayMode = .always
     
     // Customize the navigation bar appearance
-    navigationBar.barTintColor = .white
+    navigationBar.barTintColor = .red
     navigationBar.tintColor = .themeColor
-    navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
-    
-    // Hide the back button title
-    let appearance = UIBarButtonItem.appearance()
-    appearance.setTitleTextAttributes([.foregroundColor: UIColor.themeColor], for: .normal)
-    appearance.setTitleTextAttributes([.foregroundColor: UIColor.themeColor.withAlphaComponent(0.5)], for: .highlighted)
+    navigationBar.titleTextAttributes = [.foregroundColor: UIColor.red]
     
     // Set the appearance of the navigation bar when it is scrolled to the top
 //      let scrollEdgeAppearance = UINavigationBarAppearance()
 //      scrollEdgeAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
 //      scrollEdgeAppearance.backgroundColor = UIColor.blue
 //      navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
-  
+
+    if #available(iOS 13.0, *) {
+      let navBarAppearance = UINavigationBarAppearance()
+      navBarAppearance.largeTitleTextAttributes = [
+        .foregroundColor: UIColor.themeColor,
+        .font: UIFont.systemFont(ofSize: 24, weight: .semibold)
+      ]
+      navBarAppearance.titleTextAttributes = [
+        .foregroundColor: UIColor.themeColor,
+        .font: UIFont.systemFont(ofSize: 18, weight: .regular)
+      ]
+      navigationBar.standardAppearance = navBarAppearance
+      navigationBar.scrollEdgeAppearance = navBarAppearance
+    } else {
+      navigationBar.largeTitleTextAttributes = [
+        .foregroundColor: UIColor.red,
+        .font: UIFont.systemFont(ofSize: 24.0)
+      ]
+      navigationBar.titleTextAttributes = [
+        .foregroundColor: UIColor.themeColor,
+        .font: UIFont.systemFont(ofSize: 18, weight: .regular)
+      ]
+    }
+    
+    // Hide the back button title
+    let appearance = UIBarButtonItem.appearance()
+    appearance.setTitleTextAttributes([.foregroundColor: UIColor.themeColor], for: .normal)
+    appearance.setTitleTextAttributes([.foregroundColor: UIColor.themeColor.withAlphaComponent(0.5)], for: .highlighted)
+    
+    // Customize the cancel button's appearance
+    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+    
+    // Set the background color for all toolbars
+//    UIToolbar.appearance().backgroundColor = .red
+
+    // Set the tint color for all toolbar items
+    UIToolbar.appearance().tintColor = .themeColor
+    
+    tabBarController?.delegate = self
+    
+//    if #available(iOS 13.0, *) {
+//        let appearance = UIBarButtonItemAppearance()
+//        appearance.normal.titleTextAttributes = [.foregroundColor: UIColor.black]
+//
+//        let navigationBarAppearance = UINavigationBarAppearance()
+//        navigationBarAppearance.buttonAppearance = appearance
+//
+//        UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+//    } else {
+//        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+//    }
+//    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+//    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UIToolbar.self]).setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+//    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UIView.self]).setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+    
     /*
     floatingButton = UIButton(type: .system)
     floatingButton?.accessibilityIdentifier = "floatingButton"
@@ -63,33 +112,6 @@ final class BaseNavigationController: UINavigationController {
       floatingButton.heightAnchor.constraint(equalToConstant: 50.0)
     ])
     */
-    
-    
-    // Customize the cancel button's appearance
-    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
-    
-    // Set the background color for all toolbars
-//    UIToolbar.appearance().backgroundColor = .red
-
-    // Set the tint color for all toolbar items
-    UIToolbar.appearance().tintColor = .black
-    
-    tabBarController?.delegate = self
-    
-//    if #available(iOS 13.0, *) {
-//        let appearance = UIBarButtonItemAppearance()
-//        appearance.normal.titleTextAttributes = [.foregroundColor: UIColor.black]
-//
-//        let navigationBarAppearance = UINavigationBarAppearance()
-//        navigationBarAppearance.buttonAppearance = appearance
-//
-//        UINavigationBar.appearance().standardAppearance = navigationBarAppearance
-//    } else {
-//        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
-//    }
-//    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
-//    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UIToolbar.self]).setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
-//    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UIView.self]).setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
   }
   
   override func viewWillAppear(_ animated: Bool) {

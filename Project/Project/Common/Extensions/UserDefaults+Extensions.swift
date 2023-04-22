@@ -20,8 +20,8 @@ extension UserDefaults {
   
   static var sortedFilesType: SortType {
     get {
-      guard let result = standard.string(forKey: "sortedFilesType") else { return .date }
-      return SortType(rawValue: result) ?? .date
+      guard let result = standard.string(forKey: "sortedFilesType") else { return .name }
+      return SortType(rawValue: result) ?? .name
     }
     set {
       standard.set(newValue.rawValue, forKey: "sortedFilesType")

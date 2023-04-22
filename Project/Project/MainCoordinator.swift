@@ -66,7 +66,10 @@ final class MainCoordinator: NSObject, Coordinator {
   func navigateToOnboarding() {
     let controller = OnboardingBuilder().buildViewController()!
     controller.modalPresentationStyle = .fullScreen
-    window?.rootViewController?.present(controller, animated: true)
+    window?.rootViewController?.dismiss(animated: true, completion: { [weak self] in
+      self?.window?.rootViewController = controller
+      self?.window?.makeKeyAndVisible()
+    })//?.present(controller, animated: true)
   }
   
   func navigateToDocuments(from controller: UIViewController? = nil, type: DocumentsType = .myScans, folder: Folder) {

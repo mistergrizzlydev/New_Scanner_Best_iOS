@@ -23,7 +23,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window = UIWindow(windowScene: windowScene)
     AppContainer.shared.registerMainCoordinator(window: window, navigationController: BaseNavigationController())
     mainCoordinator = container.resolve(Coordinator.self) as? MainCoordinator
-    
     mainCoordinator?.start()
   }
 

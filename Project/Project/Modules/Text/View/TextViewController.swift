@@ -56,14 +56,9 @@ final class TextViewController: UIViewController, TextViewControllerProtocol {
     title = viewModel.file.name
 
     SandwichPDF.extractImagesFromPDFView(key: personalKey, pdfView: pdfView) { [weak self] success in
-      
       if success {
-//        DispatchQueue.main.async {
-//          self?.showSuccess()
-//        }
         self?.pdfView.document = PDFDocument(url: viewModel.file.url)
         self?.showSuccess()
-        
         self?.textView.text = self?.pdfView.getText()
       }
     }
@@ -71,7 +66,7 @@ final class TextViewController: UIViewController, TextViewControllerProtocol {
   
   private func showSuccess() {
     guard let viewModel = viewModel else { return }
-    let message = "PDF converted successfully to sandwich."
+    let message = "PDF converted successfully"
     showDrop(message: message, icon: .systemTextSearch())
   }
   
@@ -109,6 +104,5 @@ extension PDFView {
     }
 
     return text
-
   }
 }

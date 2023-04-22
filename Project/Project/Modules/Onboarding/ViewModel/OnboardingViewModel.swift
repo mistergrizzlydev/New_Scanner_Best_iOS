@@ -98,7 +98,7 @@ enum OnboardingCategory: Int, CaseIterable, Comparable {
   var popularFolderNames: [String] {
     switch self {
     case .student:
-      return ["Class notes", "Assignments", "Syllabus"]
+      return ["Class notes", "Assignments", "Reference Material"]
     case .employee:
       return ["Pay stubs", "Performance reviews", "Expense reports"]
     case .businessOwner:

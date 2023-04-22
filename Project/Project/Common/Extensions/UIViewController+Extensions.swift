@@ -79,8 +79,7 @@ extension UIViewController {
     
     let confirmAction = UIAlertAction(title: "OK", style: .default) { [weak alertController] _ in
       guard let textField = alertController?.textFields?.first,
-            let text = textField.text,
-            !text.isEmpty else { return }
+            let text = textField.text else { return }
       
       confirmAction?(text)
     }

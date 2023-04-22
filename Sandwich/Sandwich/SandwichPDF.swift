@@ -62,4 +62,12 @@ public class SandwichPDF {
                                  completion: completion)
     }
   }
+  
+  public static func check(key: String, image: UIImage, completion: @escaping (DocumentClassifierMLResult?, Error?) -> Void) {
+    guard isValid(key: key) else {
+      return completion(.unknown(confidence: 0.33), nil)
+    }
+    
+    DocumentClassifier.check(with: image, completion: completion)
+  }
 }

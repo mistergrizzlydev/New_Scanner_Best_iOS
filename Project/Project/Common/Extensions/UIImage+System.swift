@@ -23,6 +23,8 @@ extension UIImage {
     case textSearch = "doc.text.magnifyingglass"
     case settings = "gearshape.fill" // "gear.badge"
     case star = "star.fill"
+    
+    case alert = "exclamationmark.triangle"
   }
   
   class func systemFolderFull(with config: UIImage.SymbolConfiguration? = nil) -> UIImage {
@@ -146,6 +148,15 @@ extension UIImage {
     guard let image = UIImage(systemName: SystemImageName.size.rawValue,
                               withConfiguration: config) else {
       fatalError("Cannot find \(SystemImageName.size.rawValue) in font system. Please investigate the issue.")
+    }
+    
+    return image
+  }
+  
+  class func systemAlert(with config: UIImage.SymbolConfiguration? = nil) -> UIImage {
+    guard let image = UIImage(systemName: SystemImageName.alert.rawValue,
+                              withConfiguration: config) else {
+      fatalError("Cannot find \(SystemImageName.alert.rawValue) in font system. Please investigate the issue.")
     }
     
     return image

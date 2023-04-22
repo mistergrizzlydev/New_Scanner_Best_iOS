@@ -33,13 +33,20 @@ protocol DocumentsPresenterProtocol {
   
   var sortedFilesType: SortType { get }
   
+  func createNewFolder()
+  
   func onDetailsTapped(_ viewModel: DocumentsViewModel)
   func onShareTapped(_ viewModels: [DocumentsViewModel])
   func onStarredTapped(_ viewModel: DocumentsViewModel)
   func onCopyTapped(_ viewModel: DocumentsViewModel)
-  func onMoveTapped(_ viewModels: [DocumentsViewModel])
   func onRenameTapped(_ viewModel: DocumentsViewModel)
   func onDeleteTapped(_ viewModels: [DocumentsViewModel])
+  
+  func duplicate(for viewModels: [DocumentsViewModel]?)
+  
+  func presentMove(selectedViewModels: [DocumentsViewModel], viewModels: [DocumentsViewModel])
+  
+  func checkMergeButton(for viewModels: [DocumentsViewModel]?)
 }
 
 final class DocumentsPresenter: DocumentsPresenterProtocol {
@@ -109,9 +116,8 @@ final class DocumentsPresenter: DocumentsPresenterProtocol {
   }
   
   func onShareTapped(_ viewModels: [DocumentsViewModel]) {
-//    view.share(viewModels.compactMap { $0.file.url })
-    let files = viewModels.map { $0.file.url }
-    coordinator.presentShare(controller: view, items: files)
+    let urls = viewModels.map { $0.file.url }
+    coordinator.presentShare(controller: view, items: urls)
   }
   
   func onDetailsTapped(_ viewModel: DocumentsViewModel) {
@@ -154,14 +160,7 @@ final class DocumentsPresenter: DocumentsPresenterProtocol {
       view.showDrop(message: message, icon: icon)
     }
   }
-  
-  func onMoveTapped(_ viewModels: [DocumentsViewModel]) {
-    // Handle move action
-    print("Move action tapped")
 
-    present()
-  }
-  
   func onRenameTapped(_ viewModel: DocumentsViewModel) {
     // Handle rename action
     print("Rename action tapped")
@@ -176,19 +175,116 @@ final class DocumentsPresenter: DocumentsPresenterProtocol {
   }
   
   func onDeleteTapped(_ viewModels: [DocumentsViewModel]) {
-    // delete
+    let urls = viewModels.compactMap { $0.file.url }
+    
+    do {
+      try localFileManager.delete(urls)
+
+      if viewModels.count > 1 {
+        let message = "Files deleted successfully"
+        let icon = UIImage(systemName: FileManagerAction.delete.defaultIconName)
+        view.showDrop(message: message, icon: icon)
+      } else {
+        guard let viewModel = viewModels.first else { return }
+        let message = viewModel.file.type == .folder ? "Folder deleted successfully" : "File deleted successfully"
+        let icon = UIImage(systemName: FileManagerAction.delete.defaultIconName)
+        view.showDrop(message: message, icon: icon)
+      }
+      
+    } catch {
+      view.showDrop(message: error.localizedDescription, icon: .systemAlert())
+    }
     
     present()
+  }
+  
+  func presentMove(selectedViewModels: [DocumentsViewModel], viewModels: [DocumentsViewModel]) {
+    let selectedFilesURLs = selectedViewModels.compactMap { $0.file.url }
+    let viewModelsURLs = viewModels.compactMap { $0.file.url }
     
-    if viewModels.count < 1 {
-      let message = "Files deleted successfully"
-      let icon = UIImage(systemName: FileManagerAction.delete.defaultIconName)
-      view.showDrop(message: message, icon: icon)
+    let rootURL = localFileManager.getDocumentsURL()
+    let folders = viewModelsURLs.excluding(selectedFilesURLs)
+    guard !folders.isEmpty else { return }
+    
+    let controller = ListBuilder().buildViewController(rootURL: rootURL, folders: folders)!
+    let navigation = BaseNavigationController(rootViewController: controller)
+    
+    if let sheet = navigation.sheetPresentationController {
+      sheet.detents = [.medium(), .large()]
+      sheet.prefersGrabberVisible = true
+      //        sheet.smallestUndimmedDetentIdentifier = .medium
+      sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+      //        sheet.preferredCornerRadius = 30.0
+    }
+    
+    view.present(navigation, animated: true)
+  }
+}
+
+extension DocumentsPresenter {
+  func createNewFolder() {
+    view.presentAlertWithTextField(title: "Create Folder",
+                                   message: "Please enter a name for the new folder:",
+                                   placeholder: "Folder Name") { [weak self] folderName in
+      guard let self = self else { return }
+        // Handle the folder name entered by the user
+      let name = folderName.isEmpty ? "New Folder" : folderName
+      
+      do {
+        let newFolderURL = try self.localFileManager.createFolder(with: name, at: self.folder.url)
+        debugPrint(newFolderURL)
+      } catch {
+        debugPrint(error.localizedDescription)
+        self.view.showDrop(message: error.localizedDescription, icon: .systemAlert())
+      }
+      
+      self.present()
+    }
+  }
+}
+
+extension DocumentsPresenter {
+  func duplicate(for viewModels: [DocumentsViewModel]?) {
+//    guard let viewModels = viewModels, !viewModels.isEmpty else { return }
+//    let urls = viewModels.compactMap { $0.file.url }
+//
+//    for url in urls {
+//      do {
+//        try FileManager.default.duplicateFile(at: url)
+//      } catch {
+//        print(error.localizedDescription)
+//      }
+//    }
+//
+//    present()
+    
+    guard let url = viewModels?.first?.file.url else { return }
+    print(FileManager.default.validateFolderName(at: url))
+  }
+}
+
+extension DocumentsPresenter {
+  func checkMergeButton(for viewModels: [DocumentsViewModel]?) {
+    guard let viewModels = viewModels, !viewModels.isEmpty else {
+      // No files/folders to merge, so disable the merge button
+      view.display(toolbarButtonAction: .merge, isEnabled: false)
+      return
+    }
+    
+    if viewModels.count == 1 {
+      // Only one file/folder, so disable the merge button
+      view.display(toolbarButtonAction: .merge, isEnabled: false)
     } else {
-      guard let viewModel = viewModels.first else { return }
-      let message = viewModel.file.type == .folder ? "Folder deleted successfully" : "File deleted successfully"
-      let icon = UIImage(systemName: FileManagerAction.delete.defaultIconName)
-      view.showDrop(message: message, icon: icon)
+      let containsFolders = viewModels.contains { $0.file.type == .folder }
+      let containsFiles = viewModels.contains { $0.file.type == .file }
+      
+      if containsFolders && containsFiles {
+        // Mixed files and folders, so disable the merge button
+        view.display(toolbarButtonAction: .merge, isEnabled: false)
+      } else {
+        // Only files or only folders, so enable the merge button
+        view.display(toolbarButtonAction: .merge, isEnabled: true)
+      }
     }
   }
 }

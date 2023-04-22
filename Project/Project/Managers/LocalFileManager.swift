@@ -14,9 +14,13 @@ protocol LocalFileManager: AnyObject {
   func contentsOfDirectory(url: URL, sortBy sortType: SortType) -> [Document]?
   
   func createFile(withName name: String, contents: Data) -> Bool
+  
   func delete(_ document: Document) -> Bool
+  func delete(_ urls: [URL]) throws
   
   func createFolders(for category: OnboardingCategory) throws
+  
+  func createFolder(with name: String, at url: URL) throws -> URL
 }
 
 final class LocalFileManagerDefault: LocalFileManager {
@@ -136,6 +140,12 @@ extension LocalFileManagerDefault {
     let fileManager = FileManager.default
     let url = getDocumentsURL()
     
+    let pdfFile = Bundle.main.bundleURL.appendingPathComponent("TurboScan™ Tutorial.pdf")
+    let newPDFURL = url.appendingPathComponent(pdfFile.lastPathComponent)
+    if !fileManager.fileExists(atPath: newPDFURL.path) {
+      try? fileManager.copyItem(at: pdfFile, to: newPDFURL)
+    }
+    
     // Create directory if it doesn't exist
     if !fileManager.fileExists(atPath: url.path) {
       do {
@@ -183,4 +193,15 @@ extension UIPasteboard {
       
       print("aaa", pasteboard.items, pasteboard.url)
     }
+}
+
+extension LocalFileManager {
+  func createFolder(with name: String, at url: URL) throws -> URL {
+    let fileManager = FileManager.default
+    return try fileManager.createUniqueFolder(at: url, withName: name)
+  }
+  
+  func delete(_ urls: [URL]) throws {
+    try FileManager.default.delete(urls)
+  }
 }

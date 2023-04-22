@@ -1,0 +1,84 @@
+[
+  {
+    "metadataOutputVersion" : "3.0",
+    "storagePrecision" : "Float16",
+    "outputSchema" : [
+      {
+        "isOptional" : "0",
+        "keyType" : "String",
+        "formattedType" : "Dictionary (String → Double)",
+        "type" : "Dictionary",
+        "name" : "Identity",
+        "shortDescription" : ""
+      },
+      {
+        "isOptional" : "0",
+        "formattedType" : "String",
+        "type" : "String",
+        "name" : "classLabel",
+        "shortDescription" : ""
+      }
+    ],
+    "modelParameters" : [
+
+    ],
+    "specificationVersion" : 5,
+    "computePrecision" : "Float16",
+    "isUpdatable" : "0",
+    "availability" : {
+      "macOS" : "11.0",
+      "tvOS" : "14.0",
+      "watchOS" : "7.0",
+      "iOS" : "14.0",
+      "macCatalyst" : "14.0"
+    },
+    "modelType" : {
+      "name" : "MLModelType_neuralNetworkClassifier"
+    },
+    "userDefinedMetadata" : {
+      "com.github.apple.coremltools.version" : "6.0",
+      "com.github.apple.coremltools.source" : "tensorflow==2.9.2"
+    },
+    "classLabels" : [
+      "News",
+      "Music",
+      "Receipt",
+      "Invoice",
+      "HandWritten",
+      "Form",
+      "Unknown",
+      "ID"
+    ],
+    "generatedClassName" : "doc_classifier_v5_fp16",
+    "inputSchema" : [
+      {
+        "height" : "512",
+        "colorspace" : "RGB",
+        "isOptional" : "0",
+        "width" : "512",
+        "isColor" : "1",
+        "formattedType" : "Image (Color 512 × 512)",
+        "hasSizeFlexibility" : "0",
+        "type" : "Image",
+        "shortDescription" : "",
+        "name" : "input_3"
+      }
+    ],
+    "neuralNetworkLayerTypeHistogram" : {
+      "InnerProduct" : 1,
+      "UnaryThreshold" : 35,
+      "Convolution" : 58,
+      "Transpose" : 1,
+      "UpsampleBiLinear" : 2,
+      "PaddingConstant" : 4,
+      "ReduceMean" : 1,
+      "Add" : 13,
+      "BatchNorm" : 1,
+      "SoftmaxND" : 1,
+      "ActivationLeakyReLU" : 3,
+      "ActivationLinear" : 70,
+      "ActivationReLU" : 35
+    },
+    "method" : "predict"
+  }
+]

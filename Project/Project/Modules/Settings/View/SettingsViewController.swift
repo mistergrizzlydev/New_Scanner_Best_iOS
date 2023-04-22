@@ -118,8 +118,6 @@ class SettingsViewController: QuickTableViewController, SettingsViewControllerPr
       return result
   }
 
-  
-  
   // MARK: - Private Methods
   
   private func didToggleSelection() -> (Row) -> Void {
