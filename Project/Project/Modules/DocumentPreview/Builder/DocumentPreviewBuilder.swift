@@ -18,9 +18,11 @@ final class DocumentPreviewBuilder: DocumentPreviewBuilderProtocol {
     
     container.register(DocumentPreviewPresenter.self) { c in
       let coordinator = c.resolve(Coordinator.self)!
+      let localFileManager = c.resolve(LocalFileManager.self)!
       
       return DocumentPreviewPresenter(view: c.resolve(DocumentPreviewViewController.self)!,
-                                      file: file, coordinator: coordinator)
+                                      file: file, coordinator: coordinator,
+                                      localFileManager: localFileManager)
     }
     
     return container.resolve(DocumentPreviewViewController.self)!

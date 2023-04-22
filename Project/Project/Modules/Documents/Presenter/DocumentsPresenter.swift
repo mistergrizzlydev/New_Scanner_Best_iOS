@@ -199,14 +199,10 @@ final class DocumentsPresenter: DocumentsPresenterProtocol {
   }
   
   func presentMove(selectedViewModels: [DocumentsViewModel], viewModels: [DocumentsViewModel]) {
-    let selectedFilesURLs = selectedViewModels.compactMap { $0.file.url }
-    let viewModelsURLs = viewModels.compactMap { $0.file.url }
-    
     let rootURL = localFileManager.getDocumentsURL()
-    let folders = viewModelsURLs.excluding(selectedFilesURLs)
-    guard !folders.isEmpty else { return }
-    
-    let controller = ListBuilder().buildViewController(rootURL: rootURL, folders: folders)!
+    let filesToMove = selectedViewModels.compactMap { $0.file.url }
+    guard !filesToMove.isEmpty else { return }
+    let controller = ListBuilder().buildViewController(rootURL: rootURL, filesToMove: filesToMove)!
     let navigation = BaseNavigationController(rootViewController: controller)
     
     if let sheet = navigation.sheetPresentationController {

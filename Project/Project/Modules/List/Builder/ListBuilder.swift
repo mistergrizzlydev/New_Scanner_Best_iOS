@@ -2,13 +2,13 @@ import UIKit
 import Swinject
 
 protocol ListBuilderProtocol {
-  func buildViewController(rootURL: URL, folders: [URL]) -> ListViewController!
+  func buildViewController(type: ListType, rootURL: URL, filesToMove: [URL]) -> ListViewController!
 }
 
 final class ListBuilder: ListBuilderProtocol {
   let container = Container(parent: AppContainer.shared.container)
   
-  func buildViewController(rootURL: URL, folders:  [URL]) -> ListViewController! {
+  func buildViewController(type: ListType = .main, rootURL: URL, filesToMove: [URL]) -> ListViewController! {
     container.register(ListViewController.self) { _ in
       ListBuilder.instantiateViewController()
       
@@ -23,7 +23,9 @@ final class ListBuilder: ListBuilderProtocol {
       return ListPresenter(view: c.resolve(ListViewController.self)!,
                            coordinator: coordinator,
                            localFileManager: localFileManager,
-                           rootURL: rootURL, folders: folders)
+                           type: type,
+                           rootURL: rootURL,
+                           filesToMove: filesToMove)
     }
     
     return container.resolve(ListViewController.self)!

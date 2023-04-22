@@ -12,7 +12,14 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
   
   @IBOutlet private weak var pageLabel: BorderLabel!
   @IBOutlet private weak var pdfView: PDFView!
+  @IBOutlet private weak var moveButton: UIButton!
+  @IBOutlet private weak var showCategoryButton: UIButton!
+  
   private var viewModel: DocumentPreviewViewModel?
+
+  deinit {
+    NotificationCenter.default.removeObserver(self)
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -57,6 +64,18 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
     
     // if file locked: lock.doc.fill
     
+    moveButton.setTitle("Move to", for: .normal)
+    let font = UIFont.systemFont(ofSize: 12, weight: .medium)
+    let configuration = UIImage.SymbolConfiguration(font: font)
+    let folder = UIImage(systemName: "folder", withConfiguration: configuration)
+    moveButton.setImage(folder, for: .normal)
+    
+    showCategoryButton.setTitle("Other", for: .normal)
+    let showCategoryFont = UIFont.systemFont(ofSize: 8, weight: .medium)
+    let showCategoryConfiguration = UIImage.SymbolConfiguration(font: showCategoryFont)
+    let showCategoryImage = UIImage(systemName: "arrowtriangle.down.fill", withConfiguration: showCategoryConfiguration)
+    showCategoryButton.setImage(showCategoryImage, for: .normal)
+    
     let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     
     let addButton = UIBarButtonItem(image: UIImage(systemName: "doc.badge.plus") /*.systemPlus()*/, style: .plain, target: self, action: nil)
@@ -91,15 +110,37 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
     //    menuButton.menu = UIMenu.updateActionState(menu: menu)
     //    navigationItem.setRightBarButtonItems([menuButton], animated: true)
     
+    let print = UIAction(title: "Print", image: UIImage(systemName: "printer")) { [weak self] _ in
+//      guard let self = self else { return }
+//      let printController = UIPrintInteractionController.shared
+//      let printInfo = UIPrintInfo.printInfo()
+//      printInfo.outputType = .general
+//      printInfo.jobName = self.viewModel?.file.name ?? ""
+//      printController.printInfo = printInfo
+//      printController.printingItem = self.viewModel?.file.url
+//      printController.showsNumberOfCopies = true
+//      printController.showsPaperOrientation = true
+//      printController.present(animated: true)
+      self?.presenter.printDocument()
+    }
+    // dots.and.line.vertical.and.cursorarrow.rectangle
+    // contextualmenu.and.cursorarrow
+    // cursorarrow.and.square.on.square.dashed
     
-    let noAction = UIAction(title: "Move") { _ in
+    let rearangePages = UIAction(title: "Rearrange pages", image: UIImage(systemName: "cursorarrow.and.square.on.square.dashed")) { [weak self] _ in
       
     }
     
-    let yesAction = UIAction(title: "Delete", attributes: .destructive) { _ in
+    let removeAnnotations = UIAction(title: "Remove Annotations",
+                                     image: UIImage(systemName: "pencil.tip.crop.circle.badge.minus"),
+                                     attributes: .destructive) { _ in
       
     }
-    let menu = UIMenu(title: "", children: [noAction, yesAction])
+    
+    let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
+      
+    }
+    let menu = UIMenu(title: "", children: [print, rearangePages, removeAnnotations, delete])
     menuButton.menu = menu
     navigationItem.setRightBarButtonItems([menuButton], animated: true)
     
@@ -118,6 +159,8 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
     
     if let pdfDocument = PDFDocument(url: viewModel.file.url) {
       pdfView.document = pdfDocument
+      
+      print("isSandwichPDF ", pdfView.isSandwichPDF)
     }
     
     pdfView.delegate = self
@@ -141,12 +184,10 @@ extension DocumentPreviewViewController: PDFViewDelegate {
 extension DocumentPreviewViewController {
   @objc private func printButtonTapped() {
     // handle print button tap
-    
   }
   
   @objc private func bookmarkButtonTapped() {
     // handle bookmark button tap
-    
   }
 }
 
@@ -174,7 +215,7 @@ extension DocumentPreviewViewController {
   }
   
   @objc private func onTextTapped(_ sender: UIBarButtonItem) {
-    guard let file = viewModel?.file else { return }
+    guard let file = viewModel?.file, !pdfView.isSandwichPDF else { return }
     let controller = TextBuilder().buildViewController(file: file)!
     navigationController?.pushViewController(controller, animated: true)
   }
@@ -215,5 +256,53 @@ extension DocumentPreviewViewController {
     image.draw(in: imageRect)
     
     return image
+  }
+}
+
+extension PDFView {
+  //        guard let document = document else { return false }
+  // document?.page(at: 0)?.pageRef?.getBoxRect(.cropBox) to extract image
+  /*
+   ▿ Optional<CGRect>
+   ▿ some : (0.0, 0.0, 1190.0, 1684.0)
+   ▿ origin : (0.0, 0.0)
+   - x : 0.0
+   - y : 0.0
+   ▿ size : (1190.0, 1684.0)
+   - width : 1190.0
+   - height : 1684.0
+   */
+  
+  var isSandwichPDF: Bool {
+    document?.isSandwichPDF ?? false
+  }
+}
+
+extension PDFDocument {
+  var isSandwichPDF: Bool {
+    for i in 0..<pageCount {
+      guard let page = page(at: i), let pageRef = page.pageRef else {
+        continue
+      }
+      
+      guard let allowsCopying = pageRef.document?.allowsCopying else {
+        continue
+      }
+      
+      if allowsCopying {
+        return true
+      }
+    }
+    
+    return false
+  }
+}
+
+extension DocumentPreviewViewController {
+  @IBAction private func onMoveTapped(_ button: UIButton) {
+    presenter.presentMove()
+  }
+  @IBAction private func onCategoryTapped(_ button: UIButton) {
+    
   }
 }

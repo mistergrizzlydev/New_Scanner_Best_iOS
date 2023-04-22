@@ -22,13 +22,16 @@
                                 <rect key="frame" x="0.0" y="58" width="414" height="707"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ob-ED-aeg">
-                                        <rect key="frame" x="169.5" y="0.0" width="75" height="28"/>
+                                        <rect key="frame" x="155" y="0.0" width="104.5" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="QRr-yf-hXb"/>
                                         </constraints>
                                         <color key="tintColor" name="labelTextColor"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="gray" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" image="folder" catalog="system" title="Button" imagePadding="0.0"/>
+                                        <connections>
+                                            <action selector="onMoveTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="dzJ-at-Lhj"/>
+                                        </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cpw-dd-Dpo" customClass="PDFView">
                                         <rect key="frame" x="0.0" y="38" width="414" height="669"/>
@@ -58,6 +61,9 @@
                                 <color key="tintColor" name="labelTextColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="gray" title="Button"/>
+                                <connections>
+                                    <action selector="onCategoryTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="6Ik-tZ-s6R"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
@@ -76,8 +82,10 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="moveButton" destination="1ob-ED-aeg" id="mJJ-YA-pB9"/>
                         <outlet property="pageLabel" destination="ov9-Al-RiO" id="FUF-BW-WBW"/>
                         <outlet property="pdfView" destination="Cpw-dd-Dpo" id="ehp-mk-lAi"/>
+                        <outlet property="showCategoryButton" destination="irb-VR-Oaa" id="T5u-va-2mO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -86,6 +94,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="folder" catalog="system" width="128" height="96"/>
         <namedColor name="labelTextColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

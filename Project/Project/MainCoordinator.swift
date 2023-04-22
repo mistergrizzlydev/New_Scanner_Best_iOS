@@ -25,6 +25,8 @@ protocol Coordinator {
   func presentShare(controller: UIViewController?, items: [Any])
   
   func presentDocumentPickerViewController(controller: UIViewController?, delegate: UIDocumentPickerDelegate?)
+  
+  func presentPrint(with printingItem: Any?, jobName: String, showsNumberOfCopies: Bool, showsPaperOrientation: Bool)
 }
 
 extension Coordinator {
@@ -118,6 +120,18 @@ final class MainCoordinator: NSObject, Coordinator {
     documentPicker.delegate = delegate
     documentPicker.modalPresentationStyle = .fullScreen
     controller?.present(documentPicker, animated: true, completion: nil)
+  }
+  
+  func presentPrint(with printingItem: Any?, jobName: String, showsNumberOfCopies: Bool, showsPaperOrientation: Bool) {
+    let printController = UIPrintInteractionController.shared
+    let printInfo = UIPrintInfo.printInfo()
+    printInfo.outputType = .general
+    printInfo.jobName = jobName
+    printController.printInfo = printInfo
+    printController.printingItem = printingItem
+    printController.showsNumberOfCopies = showsNumberOfCopies
+    printController.showsPaperOrientation = showsPaperOrientation
+    printController.present(animated: true)
   }
 }
 

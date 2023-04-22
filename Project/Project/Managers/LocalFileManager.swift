@@ -21,6 +21,8 @@ protocol LocalFileManager: AnyObject {
   func createFolders(for category: OnboardingCategory) throws
   
   func createFolder(with name: String, at url: URL) throws -> URL
+  
+  func moveFile(from sourceURL: URL, to destinationURL: URL) throws
 }
 
 final class LocalFileManagerDefault: LocalFileManager {
@@ -127,6 +129,12 @@ final class LocalFileManagerDefault: LocalFileManager {
       return false
     }
   }
+  
+  func moveFile(from sourceURL: URL, to destinationURL: URL) throws {
+      let fileManager = FileManager.default
+      try fileManager.moveItem(at: sourceURL, to: destinationURL)
+  }
+
 }
 
 extension LocalFileManagerDefault {
