@@ -47,6 +47,7 @@ protocol DocumentsPresenterProtocol {
   func presentMove(selectedViewModels: [DocumentsViewModel], viewModels: [DocumentsViewModel])
   
   func checkMergeButton(for viewModels: [DocumentsViewModel]?)
+  func merge(viewModels: [DocumentsViewModel]?)
 }
 
 final class DocumentsPresenter: DocumentsPresenterProtocol {
@@ -280,6 +281,58 @@ extension DocumentsPresenter {
       } else {
         // Only files or only folders, so enable the merge button
         view.display(toolbarButtonAction: .merge, isEnabled: true)
+      }
+    }
+  }
+  
+  func merge(viewModels: [DocumentsViewModel]?) {
+    guard let viewModels = viewModels, !viewModels.isEmpty else {
+      // No files/folders to merge, so disable the merge button
+      view.display(toolbarButtonAction: .merge, isEnabled: false)
+      return
+    }
+    
+    if viewModels.count == 1 {
+      // Only one file/folder, so disable the merge button
+      view.display(toolbarButtonAction: .merge, isEnabled: false)
+    } else {
+      let folders = viewModels.filter { $0.file.type == .folder }//.contains { $0.file.type == .folder }
+      let files = viewModels.filter { $0.file.type == .file }//contains { $0.file.type == .file }
+      let containsFolders = !folders.isEmpty
+      let containsFiles = !files.isEmpty
+      
+      if containsFolders && containsFiles {
+        // Mixed files and folders, so disable the merge button
+        view.display(toolbarButtonAction: .merge, isEnabled: false)
+      } else {
+        // Only files or only folders, so enable the merge button
+        view.display(toolbarButtonAction: .merge, isEnabled: true)
+      }
+      
+      if folders.isEmpty && !files.isEmpty {
+        view.presentAlertWithTextField(title: "Merge PDFs",
+                                       message: "Enter a name for the merged PDF:",
+                                       placeholder: "Merged PDF Name") { [weak self] name in
+          guard let self = self else { return }
+            // Handle the folder name entered by the user
+          let name = name.isEmpty ? "New PDF (merged)" : name
+          let urls = files.compactMap { $0.file.url }
+          self.localFileManager.mergePDF(urls: urls, with: name, toRootURL: self.folder.url)
+          self.present()
+          self.view.endEditing()
+        }
+      } else {
+        view.presentAlertWithTextField(title: "Merge Folders",
+                                       message: "Enter a name for the merged folder:",
+                                       placeholder: "Merged Folder Name") { [weak self] name in
+          guard let self = self else { return }
+          // Handle the folder name entered by the user
+          let name = name.isEmpty ? "New Folder (merged)" : name
+          let urls = folders.compactMap { $0.file.url }
+          self.localFileManager.mergeFolders(urls: urls, with: name, toRootURL: self.folder.url)
+          self.present()
+          self.view.endEditing()
+        }
       }
     }
   }

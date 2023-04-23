@@ -5,6 +5,7 @@ protocol DocumentsViewControllerProtocol: AnyObject {
   func updateEditButtonItemEnabled()
   
   func display(toolbarButtonAction type: FileManagerToolbarAction, isEnabled: Bool)
+  func endEditing()
 }
 
 final class DocumentsViewController: UITableViewController, DocumentsViewControllerProtocol {
@@ -53,8 +54,20 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
     presenter.present()
   }
   
+  func endEditing() {
+    let doneButton = "test"
+    if let button = navigationItem.rightBarButtonItems?.first(where: { $0.isEnabled }) {
+      //    button?.sendActions(for: .touchUpInside)
+      _ = button.target?.perform(button.action, with: button)
+    }
+  }
+  
   private func setupViews() {
     tableView.estimatedRowHeight = UITableView.automaticDimension
+    if #available(iOS 15.0, *) {
+      tableView.sectionHeaderTopPadding = 0.0
+    }
+    
     setupSearchBar()
     
     tableView.allowsMultipleSelectionDuringEditing = true
@@ -110,8 +123,7 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
     case .share:
       presenter.onShareTapped(selectedViewModels)
     case .merge:
-      // handle merge action
-      print("merge", selectedViewModels.count)
+      presenter.merge(viewModels: selectedViewModels)
     case .duplicate:
       self.presenter.duplicate(for: selectedViewModels)
     case .move:
@@ -238,7 +250,7 @@ extension DocumentsViewController: UIContextMenuInteractionDelegate {
     
     if let editControl = cell.editingAccessoryView as? UIControl,
        let editView = editControl.subviews.first {
-        editView.backgroundColor = UIColor.red
+      editView.backgroundColor = UIColor.red
     }
   }
   

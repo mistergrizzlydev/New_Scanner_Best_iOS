@@ -118,37 +118,60 @@ extension FileManager {
     let pathExtension = url.pathExtension
     
     var validatedName = ""
-    var suffixNumber = 1
+    var suffixNumber = 0
     
-    guard let lastCharacter = fileName.last,
+    if let lastCharacter = fileName.last,
           let name = fileName.components(separatedBy: String(lastCharacter)).first,
-          let lastCharacterInt = Int(String(lastCharacter)) else {
-      // handle the error case here
-      return nil
-    }
-    
-    suffixNumber = lastCharacterInt + 1
-    
-    if name.last == " " {
-      validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.hasDirectoryPath)
-    } else {
-      validatedName = constructValidatedName(name: "\(name) ", suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.hasDirectoryPath)
-    }
-    
-    var newURL = url
-    newURL = url.deletingLastPathComponent().appendingPathComponent(validatedName)
-    
-    repeat {
-      validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber,
-                                             pathExtension: pathExtension,
-                                             isDirectory: url.hasDirectoryPath)
+       let lastCharacterInt = Int(String(lastCharacter)) {
+      
+      
+      suffixNumber = lastCharacterInt + 1
+      
+      if name.last == " " {
+        validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.hasDirectoryPath)
+      } else {
+        validatedName = constructValidatedName(name: "\(name) ", suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.hasDirectoryPath)
+      }
+      
+      var newURL = url
       newURL = url.deletingLastPathComponent().appendingPathComponent(validatedName)
       
+      repeat {
+        validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber,
+                                               pathExtension: pathExtension,
+                                               isDirectory: url.hasDirectoryPath)
+        newURL = url.deletingLastPathComponent().appendingPathComponent(validatedName)
+        
+        suffixNumber += 1
+        
+      } while fileExists(atPath: newURL.path)
+      
+      return validatedName
+    } else {
+      let name = url.deletingPathExtension().lastPathComponent
       suffixNumber += 1
       
-    } while fileExists(atPath: newURL.path)
-    
-    return validatedName
+      if name.last == " " {
+        validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.hasDirectoryPath)
+      } else {
+        validatedName = constructValidatedName(name: "\(name) ", suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.hasDirectoryPath)
+      }
+      
+      var newURL = url
+      newURL = url.deletingLastPathComponent().appendingPathComponent(validatedName)
+      
+      repeat {
+        validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber,
+                                               pathExtension: pathExtension,
+                                               isDirectory: url.hasDirectoryPath)
+        newURL = url.deletingLastPathComponent().appendingPathComponent(validatedName)
+        
+        suffixNumber += 1
+        
+      } while fileExists(atPath: newURL.path)
+      
+      return validatedName
+    }
   }
   
   private func constructValidatedName(name: String, suffixNumber: Int, pathExtension: String, isDirectory: Bool) -> String {
@@ -160,15 +183,62 @@ extension FileManager {
   }
 }
 
+extension FileManager {
+  func mergeFolders(urls: [URL], to destinationFolderUrl: URL) throws -> URL? {
+    do {
+      // If the destination folder already exists, delete it
+      if fileExists(atPath: destinationFolderUrl.path) {
+        try removeItem(at: destinationFolderUrl)
+      }
+      
+      // Create the new destination folder
+      try createDirectory(at: destinationFolderUrl, withIntermediateDirectories: true, attributes: nil)
+      
+      // Recursively copy the contents of each source folder to the destination folder
+      for sourceUrl in urls {
+        try copyContentsOfFolder(at: sourceUrl, to: destinationFolderUrl)
+      }
+      
+      // Return the URL of the new destination folder
+      return destinationFolderUrl
+      
+    } catch {
+      return nil
+    }
+  }
+  
+  private func copyContentsOfFolder(at sourceUrl: URL, to destinationUrl: URL) throws {
+    let contents = try contentsOfDirectory(at: sourceUrl, includingPropertiesForKeys: nil, options: [])
+    
+    for item in contents {
+      let destinationUrl = destinationUrl.appendingPathComponent(item.lastPathComponent)
+      
+      if fileExists(atPath: item.path, isDirectory: nil) {
+        // If the item is a folder, recursively copy its contents to the destination folder
+        try copyContentsOfFolder(at: item, to: destinationUrl)
+      } else {
+        // If the item is a file, copy it to the destination folder
+        try copyItem(at: item, to: destinationUrl)
+      }
+    }
+  }
+}
 
-
-
-
-
-
-
-
-
+extension LocalFileManager {
+  func mergeFolders(urls: [URL], with folderName: String, toRootURL url: URL) {
+    let fileManager = FileManager.default
+    let folderURL = url.appendingPathComponent(folderName)
+    let validatedName = fileManager.validateFolderName(at: folderURL)
+    
+    if let validatedName = validatedName {
+      do {
+        _ = try fileManager.mergeFolders(urls: urls, to: url.appendingPathComponent(validatedName))
+      } catch {
+        print("error: ", error.localizedDescription)
+      }
+    }
+  }
+}
 
 
 

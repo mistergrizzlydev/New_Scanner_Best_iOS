@@ -23,6 +23,8 @@ protocol LocalFileManager: AnyObject {
   func createFolder(with name: String, at url: URL) throws -> URL
   
   func moveFile(from sourceURL: URL, to destinationURL: URL) throws
+  func mergePDF(urls: [URL], with name: String, toRootURL url: URL)
+  func mergeFolders(urls: [URL], with folderName: String, toRootURL url: URL)
 }
 
 final class LocalFileManagerDefault: LocalFileManager {
@@ -134,7 +136,6 @@ final class LocalFileManagerDefault: LocalFileManager {
       let fileManager = FileManager.default
       try fileManager.moveItem(at: sourceURL, to: destinationURL)
   }
-
 }
 
 extension LocalFileManagerDefault {
