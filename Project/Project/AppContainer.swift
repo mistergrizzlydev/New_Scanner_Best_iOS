@@ -1,10 +1,3 @@
-//
-//  AppContainer.swift
-//  Project
-//
-//  Created by Mister Grizzly on 06.04.2023.
-//
-
 import Swinject
 
 final class AppContainer {

@@ -1,9 +1,3 @@
-//
-//  VNImageRequestHandler+Extensions.swift
-//  Project
-//
-//  Created by Mister Grizzly on 08.04.2023.
-//
 //  copied from https://github.com/CombineExtensions/CxVision/blob/499a8455c89c7ffd7479be99130b694c0ea38d1d/CxVision/Source/VNImageRequestHandler%2BCx.swift
 // copied from https://github.com/CombineExtensions/CxVision/blob/499a8455c89c7ffd7479be99130b694c0ea38d1d/CxVision/Source/Configuration.swift
 import Vision

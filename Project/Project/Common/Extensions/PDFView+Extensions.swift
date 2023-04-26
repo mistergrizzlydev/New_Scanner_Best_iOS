@@ -1,10 +1,3 @@
-//
-//  PDFView+Extensions.swift
-//  Project
-//
-//  Created by Mister Grizzly on 15.04.2023.
-//
-
 import PDFKit
 import UIKit
 
@@ -21,6 +14,52 @@ extension PDFView {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
       }
+    }
+  }
+}
+
+extension PDFView {
+  var hasAnnotations: Bool {
+    guard let document = document else { return false }
+    for pageNumber in 0..<document.pageCount {
+      if let page = document.page(at: pageNumber) {
+        if !page.annotations.isEmpty {
+          return true // This page has annotations, return true immediately
+        }
+      }
+    }
+    
+    return false // No annotations found in any page
+  }
+}
+
+extension PDFView {
+  func removeAllAnnotations() {
+    guard let document = document else { return }
+    
+    for pageNumber in 0..<document.pageCount {
+      if let page = document.page(at: pageNumber) {
+        page.removeAllAnnotations()
+      }
+    }
+  }
+}
+
+extension PDFView {
+  func refresh() {
+//    guard let documentURL = document?.documentURL else { return }
+//    document?.write(to: documentURL, withOptions: [:])
+    document?.reSave()
+    
+    // Refresh the PDF view to show the updated document
+    displayMode = displayMode
+  }
+}
+
+extension PDFPage {
+  func removeAllAnnotations() {
+    for annotation in annotations {
+      removeAnnotation(annotation)
     }
   }
 }

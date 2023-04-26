@@ -1,10 +1,3 @@
-//
-//  DocClassifierv6.swift
-//  Sandwich
-//
-//  Created by Mister Grizzly on 17.04.2023.
-//
-
 import CoreML
 import Vision
 import UIKit

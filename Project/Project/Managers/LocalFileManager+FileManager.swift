@@ -103,6 +103,49 @@ extension FileManager {
 //  }
 }
 
+extension LocalFileManager {
+  func duplicateFiles(_ urls: [URL]) throws {
+    try FileManager.default.duplicateFiles(urls)
+  }
+}
+
+extension FileManager {
+  func duplicateFiles(_ urls: [URL]) throws {
+    for url in urls {
+      if let validatedName = validateFolderName(at: url) {
+        let newFileURL = url.deletingLastPathComponent().appendingPathComponent(validatedName)
+        try copyItem(at: url, to: newFileURL)
+      }
+      
+//      let newDirectoryURL = url.deletingLastPathComponent().appendingPathComponent("\(name) - Duplicated")
+//
+//      var isDirectory: ObjCBool = false
+//      let fileExists = self.fileExists(atPath: url.path, isDirectory: &isDirectory)
+//
+//      guard fileExists && isDirectory.boolValue else {
+//        throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError, userInfo: nil)
+//      }
+//
+//      guard let enumerator = self.enumerator(at: url, includingPropertiesForKeys: [.isRegularFileKey],
+//                                             options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants]) else {
+//        throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError, userInfo: nil)
+//      }
+//
+//      do {
+//        try self.createDirectory(at: newDirectoryURL, withIntermediateDirectories: true, attributes: nil)
+//
+//        while let file = enumerator.nextObject() as? String {
+//          let fileURL = URL(fileURLWithPath: file, relativeTo: url)
+//          let newFileURL = newDirectoryURL.appendingPathComponent(fileURL.lastPathComponent)
+//          try self.copyItem(at: fileURL, to: newFileURL)
+//        }
+//
+//      } catch {
+//        print(error.localizedDescription)
+//      }
+    }
+  }
+}
 
 extension FileManager {
   func delete(_ urls: [URL]) throws {
@@ -176,9 +219,9 @@ extension FileManager {
   
   private func constructValidatedName(name: String, suffixNumber: Int, pathExtension: String, isDirectory: Bool) -> String {
     if isDirectory {
-      return "\(name)\(suffixNumber)"
+      return "\(name) \(suffixNumber)"
     } else {
-      return "\(name)\(suffixNumber).\(pathExtension)"
+      return "\(name) \(suffixNumber).\(pathExtension)"
     }
   }
 }

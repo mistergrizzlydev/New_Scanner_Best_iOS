@@ -1,10 +1,3 @@
-//
-//  SortType.swift
-//  Project
-//
-//  Created by Mister Grizzly on 07.04.2023.
-//
-
 import UIKit
 
 enum SortType: String {

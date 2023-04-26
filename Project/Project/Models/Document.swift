@@ -1,10 +1,3 @@
-//
-//  Document.swift
-//  TurboScan
-//
-//  Created by Mister Grizzly on 06.04.2023.
-//
-
 import Foundation
 import CoreGraphics
 import UIKit

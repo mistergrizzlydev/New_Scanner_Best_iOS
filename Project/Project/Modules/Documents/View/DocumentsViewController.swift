@@ -41,6 +41,7 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
     mergeButton?.isEnabled = !editing
     
     display(toolbarButtonAction: .merge, isEnabled: !isEditing)
+    display(toolbarButtonAction: .duplicate, isEnabled: !isEditing)
   }
   
   override func viewDidLoad() {
@@ -55,9 +56,7 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
   }
   
   func endEditing() {
-    let doneButton = "test"
     if let button = navigationItem.rightBarButtonItems?.first(where: { $0.isEnabled }) {
-      //    button?.sendActions(for: .touchUpInside)
       _ = button.target?.perform(button.action, with: button)
     }
   }

@@ -1,10 +1,3 @@
-//
-//  Reusable.swift
-//  Project
-//
-//  Created by Mister Grizzly on 15.04.2023.
-//
-
 import UIKit
 
 protocol Reusable {

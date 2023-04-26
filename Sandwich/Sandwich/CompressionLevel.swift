@@ -1,10 +1,3 @@
-//
-//  CompressionLevel.swift
-//  Sandwich
-//
-//  Created by Mister Grizzly on 09.04.2023.
-//
-
 import Foundation
 
 public enum CompressionLevel: Int {

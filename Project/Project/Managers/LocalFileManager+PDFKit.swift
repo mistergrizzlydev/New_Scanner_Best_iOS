@@ -1,11 +1,6 @@
-//
-//  LocalFileManager+PDFKit.swift
-//  Project
-//
-//  Created by Mister Grizzly on 07.04.2023.
-//
-
 import PDFKit
+
+typealias PDFDoc = PDFDocument
 
 extension LocalFileManager {
   func generateThumbnail(for pdfURL: URL) -> UIImage? {

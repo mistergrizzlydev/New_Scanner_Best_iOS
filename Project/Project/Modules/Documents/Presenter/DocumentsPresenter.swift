@@ -197,6 +197,7 @@ final class DocumentsPresenter: DocumentsPresenterProtocol {
     }
     
     present()
+    view.endEditing()
   }
   
   func presentMove(selectedViewModels: [DocumentsViewModel], viewModels: [DocumentsViewModel]) {
@@ -242,21 +243,18 @@ extension DocumentsPresenter {
 
 extension DocumentsPresenter {
   func duplicate(for viewModels: [DocumentsViewModel]?) {
-//    guard let viewModels = viewModels, !viewModels.isEmpty else { return }
-//    let urls = viewModels.compactMap { $0.file.url }
-//
-//    for url in urls {
-//      do {
-//        try FileManager.default.duplicateFile(at: url)
-//      } catch {
-//        print(error.localizedDescription)
-//      }
-//    }
-//
-//    present()
-    
-    guard let url = viewModels?.first?.file.url else { return }
-    print(FileManager.default.validateFolderName(at: url))
+    guard let viewModels = viewModels, !viewModels.isEmpty else {
+      view.display(toolbarButtonAction: .duplicate, isEnabled: false)
+      return
+    }
+    let urls = viewModels.compactMap { $0.file.url }
+    do {
+      try localFileManager.duplicateFiles(urls)
+      present()
+      view.endEditing()
+    } catch {
+      self.view.showDrop(message: error.localizedDescription, icon: .systemAlert())
+    }
   }
 }
 
@@ -265,22 +263,38 @@ extension DocumentsPresenter {
     guard let viewModels = viewModels, !viewModels.isEmpty else {
       // No files/folders to merge, so disable the merge button
       view.display(toolbarButtonAction: .merge, isEnabled: false)
+      view.display(toolbarButtonAction: .duplicate, isEnabled: false)
       return
     }
     
     if viewModels.count == 1 {
       // Only one file/folder, so disable the merge button
       view.display(toolbarButtonAction: .merge, isEnabled: false)
+
+      if viewModels.first?.file.type == .file {
+        view.display(toolbarButtonAction: .duplicate, isEnabled: true)
+      } else {
+        view.display(toolbarButtonAction: .duplicate, isEnabled: false)
+      }
+      
     } else {
       let containsFolders = viewModels.contains { $0.file.type == .folder }
       let containsFiles = viewModels.contains { $0.file.type == .file }
       
-      if containsFolders && containsFiles {
-        // Mixed files and folders, so disable the merge button
-        view.display(toolbarButtonAction: .merge, isEnabled: false)
-      } else {
-        // Only files or only folders, so enable the merge button
+//      if containsFolders && containsFiles {
+//        // Mixed files and folders, so disable the merge button
+//        view.display(toolbarButtonAction: .merge, isEnabled: false)
+//      } else {
+//        // Only files or only folders, so enable the merge button
+//        view.display(toolbarButtonAction: .merge, isEnabled: true)
+//      }
+      
+      if containsFiles && !containsFolders {
+        view.display(toolbarButtonAction: .duplicate, isEnabled: true)
         view.display(toolbarButtonAction: .merge, isEnabled: true)
+      } else {
+        view.display(toolbarButtonAction: .duplicate, isEnabled: false)
+        view.display(toolbarButtonAction: .merge, isEnabled: false)
       }
     }
   }

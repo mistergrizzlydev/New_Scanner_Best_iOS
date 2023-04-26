@@ -5,6 +5,7 @@ import UniformTypeIdentifiers
 
 protocol DocumentPreviewViewControllerProtocol: AnyObject {
   func prepare(with viewModel: DocumentPreviewViewModel)
+  func refreshPDFView()
 }
 
 final class DocumentPreviewViewController: UIViewController, DocumentPreviewViewControllerProtocol {
@@ -103,6 +104,13 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
     navigationController?.toolbar.tintColor = UIColor.themeColor
     
     let menuButton = UIBarButtonItem(image: .systemEllipsisCircle(), style: .plain, target: self, action: nil)
+    setMenu(to: menuButton)
+    navigationItem.setRightBarButtonItems([menuButton], animated: true)
+    
+    setupPDFView()
+  }
+  
+  private func setMenu(to menuButton: UIBarButtonItem) {
     //
     //    let section1 = UIMenu(title: "Create a new folder", options: .displayInline, children: [])
     //    let section2 = UIMenu(title: "Sort by:", options: .displayInline, children: [])
@@ -128,23 +136,24 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
     // cursorarrow.and.square.on.square.dashed
     
     let rearangePages = UIAction(title: "Rearrange pages", image: UIImage(systemName: "cursorarrow.and.square.on.square.dashed")) { [weak self] _ in
-      
+      self?.presenter.rearrange(with: self?.pdfView.document)
     }
     
     let removeAnnotations = UIAction(title: "Remove Annotations",
                                      image: UIImage(systemName: "pencil.tip.crop.circle.badge.minus"),
-                                     attributes: .destructive) { _ in
-      
+                                     attributes: .destructive) { [weak self] _ in
+      self?.pdfView.removeAllAnnotations()
+      self?.refreshPDFView()
+      self?.showDrop(message: "Annotations removed", icon: UIImage(systemName: "pencil.tip.crop.circle.badge.minus"))
     }
     
     let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
-      
+      self.presenter.delete()
     }
-    let menu = UIMenu(title: "", children: [print, rearangePages, removeAnnotations, delete])
-    menuButton.menu = menu
-    navigationItem.setRightBarButtonItems([menuButton], animated: true)
     
-    setupPDFView()
+    let children: [UIMenuElement] = pdfView.hasAnnotations ? [print, rearangePages, removeAnnotations, delete] : [print, rearangePages, delete]
+    let menu = UIMenu(title: "", children: children)
+    menuButton.menu = menu
   }
   
   private func setupPDFView() {
@@ -159,6 +168,14 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
     
     if let pdfDocument = PDFDocument(url: viewModel.file.url) {
       pdfView.document = pdfDocument
+      pdfView.delegate = self
+      pdfView.enableDataDetectors = true
+      
+      if #available(iOS 16.0, *) {
+//        pdfView.isInMarkupMode = true
+      } else {
+        // Fallback on earlier versions
+      }
       
       print("isSandwichPDF ", pdfView.isSandwichPDF)
     }
@@ -178,6 +195,26 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
 extension DocumentPreviewViewController: PDFViewDelegate {
   @objc private func didPageChange(_ notification: Notification) {
     updatePageLabel()
+  }
+  
+  func pdfViewWillClick(onLink sender: PDFView, with url: URL) {
+    
+  }
+  
+  func pdfViewParentViewController() -> UIViewController {
+    self
+  }
+  
+  func pdfViewPerformFind(_ sender: PDFView) {
+    
+  }
+  
+  func pdfViewPerformGo(toPage sender: PDFView) {
+    
+  }
+  
+  func pdfViewOpenPDF(_ sender: PDFView, forRemoteGoToAction action: PDFActionRemoteGoTo) {
+    
   }
 }
 
@@ -245,6 +282,14 @@ extension DocumentPreviewViewController: ImageScannerControllerDelegate {
   
   func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
     scanner.dismiss(animated: false)
+  }
+  
+  func refreshPDFView() {
+    let menuButton = UIBarButtonItem(image: .systemEllipsisCircle(), style: .plain, target: self, action: nil)
+    setMenu(to: menuButton)
+    navigationItem.setRightBarButtonItems([menuButton], animated: true)
+    
+    pdfView.refresh()
   }
 }
 

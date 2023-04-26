@@ -118,7 +118,7 @@ final class AnnotateViewController: QLPreviewController, AnnotateViewControllerP
 
 extension AnnotateViewController: QLPreviewControllerDataSource {
   func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
-    return 1
+    1
   }
   
   func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
@@ -132,26 +132,36 @@ extension AnnotateViewController: QLPreviewControllerDataSource {
 
 extension AnnotateViewController: QLPreviewControllerDelegate {
   func previewController(_ controller: QLPreviewController, didUpdateContentsOf previewItem: QLPreviewItem) {
-    
+    guard let previewItemURL = previewItem.previewItemURL else { return }
+    NotificationCenter.default.post(name: .annotateScreenContentsDidUpdate, object: nil, userInfo: ["file_url": previewItemURL])
   }
   
   func previewController(_ controller: QLPreviewController, didSaveEditedCopyOf previewItem: QLPreviewItem, at modifiedContentsURL: URL) {
-    
+    guard let previewItemURL = previewItem.previewItemURL else { return }
+    NotificationCenter.default.post(name: .annotateScreenEditedCopyDidSave, object: nil, userInfo: ["file_url": previewItemURL,
+                                                                                                    "modified_file_url": modifiedContentsURL])
   }
   
-  func previewController(_ controller: QLPreviewController, transitionViewFor item: QLPreviewItem) -> UIView? {
-    return nil
-  }
+  func previewController(_ controller: QLPreviewController, transitionViewFor item: QLPreviewItem) -> UIView? { nil }
   
   func previewControllerWillDismiss(_ controller: QLPreviewController) {
-    
+    guard let viewModel = viewModel, let previewItemURL = viewModel.item.previewItemURL else { return }
+    NotificationCenter.default.post(name: .annotateScreenWillDismiss, object: nil, userInfo: ["file_url": previewItemURL])
   }
   
   func previewControllerDidDismiss(_ controller: QLPreviewController) {
-    
+    guard let viewModel = viewModel, let previewItemURL = viewModel.item.previewItemURL else { return }
+    NotificationCenter.default.post(name: .annotateScreenDidDismiss, object: nil, userInfo: ["file_url": previewItemURL])
   }
 }
 
+extension Notification.Name {
+  static let annotateScreenWillDismiss = Notification.Name("AnnotateScreenWillDismiss")
+  static let annotateScreenDidDismiss = Notification.Name("AnnotateScreenDidDismiss")
+  
+  static let annotateScreenContentsDidUpdate = Notification.Name("AnnotateScreenContentsDidUpdate")
+  static let annotateScreenEditedCopyDidSave = Notification.Name("AnnotateScreenEditedCopyDidSave")
+}
 
 
 

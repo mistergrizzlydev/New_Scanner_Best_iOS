@@ -1,10 +1,3 @@
-//
-//  LocalFileManager.swift
-//  TurboScan
-//
-//  Created by Mister Grizzly on 06.04.2023.
-//
-
 import UIKit
 
 protocol LocalFileManager: AnyObject {
@@ -25,6 +18,9 @@ protocol LocalFileManager: AnyObject {
   func moveFile(from sourceURL: URL, to destinationURL: URL) throws
   func mergePDF(urls: [URL], with name: String, toRootURL url: URL)
   func mergeFolders(urls: [URL], with folderName: String, toRootURL url: URL)
+  func duplicateFiles(_ urls: [URL]) throws
+  
+  func deletePencilKitFiles(at url: URL) throws
 }
 
 final class LocalFileManagerDefault: LocalFileManager {
@@ -212,5 +208,13 @@ extension LocalFileManager {
   
   func delete(_ urls: [URL]) throws {
     try FileManager.default.delete(urls)
+  }
+}
+
+extension LocalFileManager {
+  func deletePencilKitFiles(at url: URL) throws {
+    let contents = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles])
+    let cachePencilKitFiles = contents.filter { $0.isCachePencilKitFile }
+    try FileManager.default.delete(cachePencilKitFiles)
   }
 }

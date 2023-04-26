@@ -1,13 +1,7 @@
-//
-//  MainCoordinator.swift
-//  Project
-//
-//  Created by Mister Grizzly on 07.04.2023.
-//
-
 import UIKit
 import MobileCoreServices
 import UniformTypeIdentifiers
+import QuickLook
 
 protocol Coordinator {
   var childCoordinators: [Coordinator] { get set }
@@ -19,8 +13,8 @@ protocol Coordinator {
   func navigateToDocuments(from controller: UIViewController?, type: DocumentsType, folder: Folder)
   func navigateToDocumentPreview(from navigation: UINavigationController?, file: File)
   
-  func navigateToAnnotation(navigation: UINavigationController?, file: File)
-  func navigateToAnnotation(controller: UIViewController?, file: File)
+  func navigateToAnnotation(navigation: UINavigationController?, file: File, delegate: QLPreviewControllerDelegate?)
+  func navigateToAnnotation(controller: UIViewController?, file: File, delegate: QLPreviewControllerDelegate?)
   
   func presentShare(controller: UIViewController?, items: [Any])
   
@@ -100,13 +94,15 @@ final class MainCoordinator: NSObject, Coordinator {
     navigation?.pushViewController(controller, animated: true)
   }
   
-  func navigateToAnnotation(navigation: UINavigationController?, file: File) {
+  func navigateToAnnotation(navigation: UINavigationController?, file: File, delegate: QLPreviewControllerDelegate?) {
     let annotate = AnnotateBuilder().buildViewController(file: file)!
+//    annotate.delegate = delegate
     navigation?.pushViewController(annotate, animated: true)
   }
   
-  func navigateToAnnotation(controller: UIViewController?, file: File) {
+  func navigateToAnnotation(controller: UIViewController?, file: File, delegate: QLPreviewControllerDelegate?) {
     let annotate = AnnotateBuilder().buildViewController(file: file)!
+//    annotate.delegate = delegate
     controller?.present(annotate, animated: true)
   }
   

@@ -1,10 +1,3 @@
-//
-//  DocumentCategory.swift
-//  Project
-//
-//  Created by Mister Grizzly on 17.04.2023.
-//
-
 import Foundation
 import Vision
 

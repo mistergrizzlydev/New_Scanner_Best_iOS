@@ -1,10 +1,3 @@
-//
-//  UIImage+PDF.swift
-//  Project
-//
-//  Created by Mister Grizzly on 08.04.2023.
-//
-
 import PDFKit
 
 /*
