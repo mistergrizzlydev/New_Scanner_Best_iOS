@@ -21,7 +21,7 @@ final class AppContainer {
     // Add more dependencies as needed
   }
   
-   func registerMainCoordinator(window: UIWindow?, navigationController: UINavigationController) {
+   func registerMainCoordinator(window: BaseWindow?, navigationController: UINavigationController) {
      container.register(Coordinator.self) { _ in
        return MainCoordinator(window: window, navigationController: navigationController)
      }

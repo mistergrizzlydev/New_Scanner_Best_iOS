@@ -2,7 +2,7 @@ import UIKit
 import Swinject
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-  var window: UIWindow?
+  var window: BaseWindow?
   private var mainCoordinator: MainCoordinator?
   private let container = Container(parent: AppContainer.shared.container)
   
@@ -14,9 +14,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
     guard let windowScene = (scene as? UIWindowScene) else { return }
     
-    window = UIWindow(windowScene: windowScene)
+    window = BaseWindow(windowScene: windowScene)
     AppContainer.shared.registerMainCoordinator(window: window, navigationController: BaseNavigationController())
     mainCoordinator = container.resolve(Coordinator.self) as? MainCoordinator
+    window?.overrideUserInterfaceStyle = UserDefaults.appearance.overrideUserInterfaceStyle
+    
     mainCoordinator?.start()
   }
 

@@ -1,5 +1,5 @@
 import Foundation
 
-class SettingsViewModel {
-  var title: String?
+struct SettingsViewModel {
+  let title: String
 }

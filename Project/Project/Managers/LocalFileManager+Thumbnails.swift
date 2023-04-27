@@ -1,10 +1,14 @@
 import UIKit
 
-enum ImageSize {
+enum ImageSize: String, CaseIterable {
   case low
   case medium
   case small
   case original
+  
+  var name: String {
+    rawValue.capitalized
+  }
   
   var sizeValue: CGFloat {
     switch self {

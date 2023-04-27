@@ -28,9 +28,6 @@ final class RearrangeBuilder: RearrangeBuilderProtocol {
   }
 
   private static func instantiateViewController() -> RearrangeViewController {
-//    let identifier = String(describing: RearrangeViewController.self)
-//    let storyboard = UIStoryboard(name: identifier, bundle: .main)
-//    return storyboard.instantiateViewController(withIdentifier: identifier) as! RearrangeViewController
     RearrangeViewController(collectionViewLayout: UICollectionViewFlowLayout())
   }
 }

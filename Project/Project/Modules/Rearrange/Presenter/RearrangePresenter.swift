@@ -114,7 +114,6 @@ extension PDFDocument {
   }
 }
 
-
 extension Notification.Name {
   static let rearrangeScreenDeletePage = Notification.Name("RearrangeScreenDeletePage")
   static let rearrangeScreenDeleteLastPage = Notification.Name("RearrangeScreenDeleteLastPage")

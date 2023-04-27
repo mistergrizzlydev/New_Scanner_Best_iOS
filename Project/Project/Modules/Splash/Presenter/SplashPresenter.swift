@@ -18,6 +18,12 @@ final class SplashPresenter: SplashPresenterProtocol {
   }
   
   func present() {
+    if UserDefaults.standard.isFirstLaunch() {
+      UserDefaults.isDistorsionEnabled = true
+      UserDefaults.isCameraStabilizationEnabled = true
+      UserDefaults.isOCREnabled = true
+    }
+    
     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
       guard let self = self else { return }
       if UserDefaults.isOnboarded {

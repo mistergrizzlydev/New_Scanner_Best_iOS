@@ -192,32 +192,6 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
   }
 }
 
-extension DocumentPreviewViewController: PDFViewDelegate {
-  @objc private func didPageChange(_ notification: Notification) {
-    updatePageLabel()
-  }
-  
-  func pdfViewWillClick(onLink sender: PDFView, with url: URL) {
-    
-  }
-  
-  func pdfViewParentViewController() -> UIViewController {
-    self
-  }
-  
-  func pdfViewPerformFind(_ sender: PDFView) {
-    
-  }
-  
-  func pdfViewPerformGo(toPage sender: PDFView) {
-    
-  }
-  
-  func pdfViewOpenPDF(_ sender: PDFView, forRemoteGoToAction action: PDFActionRemoteGoTo) {
-    
-  }
-}
-
 extension DocumentPreviewViewController {
   @objc private func printButtonTapped() {
     // handle print button tap
@@ -252,7 +226,7 @@ extension DocumentPreviewViewController {
   }
   
   @objc private func onTextTapped(_ sender: UIBarButtonItem) {
-    guard let file = viewModel?.file, !pdfView.isSandwichPDF else { return }
+    guard let file = viewModel?.file/*, !pdfView.isSandwichPDF*/ else { return }
     let controller = TextBuilder().buildViewController(file: file)!
     navigationController?.pushViewController(controller, animated: true)
   }
@@ -348,6 +322,32 @@ extension DocumentPreviewViewController {
     presenter.presentMove()
   }
   @IBAction private func onCategoryTapped(_ button: UIButton) {
+    
+  }
+}
+
+extension DocumentPreviewViewController: PDFViewDelegate {
+  @objc private func didPageChange(_ notification: Notification) {
+    updatePageLabel()
+  }
+  
+  func pdfViewWillClick(onLink sender: PDFView, with url: URL) {
+    
+  }
+  
+  func pdfViewParentViewController() -> UIViewController {
+    self
+  }
+  
+  func pdfViewPerformFind(_ sender: PDFView) {
+    
+  }
+  
+  func pdfViewPerformGo(toPage sender: PDFView) {
+    
+  }
+  
+  func pdfViewOpenPDF(_ sender: PDFView, forRemoteGoToAction action: PDFActionRemoteGoTo) {
     
   }
 }
