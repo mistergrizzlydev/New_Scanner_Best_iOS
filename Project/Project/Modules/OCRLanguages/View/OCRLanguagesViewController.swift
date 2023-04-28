@@ -29,21 +29,8 @@ final class OCRLanguagesViewController: QuickTableViewController, OCRLanguagesVi
     presenter.present()
     setupViews()
   }
-    
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-//    DispatchQueue.main.async {
-////      self.navigationItem.largeTitleDisplayMode = .always
-//      self.navigationController?.navigationBar.prefersLargeTitles = true
-//      self.navigationController?.navigationBar.sizeToFit()
-//      self.tableView.reloadData()
-//    }
-  }
   
   private func setupViews() {
-//    tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-//    tableView.scrollIndicatorInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-    
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OCRLanguageCell")
     tableView.tableFooterView = UIView()
   }

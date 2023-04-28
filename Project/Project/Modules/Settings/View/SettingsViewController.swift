@@ -30,8 +30,6 @@ class SettingsViewController: QuickTableViewController, SettingsViewControllerPr
   }
   
   private func setupViews() {
-//    tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-//    tableView.scrollIndicatorInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
   }
   
   private func setupCells() {

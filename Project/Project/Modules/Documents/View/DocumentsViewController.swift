@@ -101,18 +101,15 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
     navigationItem.setRightBarButtonItems([menuButton!, editButtonItem], animated: true)
     
     //    hidesBottomBarWhenPushed = true
-    
     let toolbarItems = FileManagerToolbarAction.toolbarItems(target: self, action: #selector(toolbarButtonTapped(_:)))
     self.toolbarItems = toolbarItems
-    
-    // Handle camera:
-    
+        
     cameraButtonTapped = { [weak self] in
-      print("Camera button tapped!")
+      self?.presenter.presentCamera()
     }
     
     galleryButtonTapped = { [weak self] in
-      print("Gallery button tapped!")
+      self?.presenter.presentPhotoLibrary()
     }
   }
   

@@ -1,30 +1,6 @@
 import UIKit
-
-enum DocumentsType {
-  case myScans
-  case starred
-  
-  var title: String {
-    switch self {
-    case .myScans: return "My Scans"
-    case .starred: return "Starred Documents"
-    }
-  }
-  
-  var tabBarItemName: String {
-    switch self {
-    case .myScans: return "My Scans"
-    case .starred: return "Starred"
-    }
-  }
-  
-  var image: UIImage {
-    switch self {
-    case .myScans: return .systemFolder()
-    case .starred: return .systemStar()
-    }
-  }
-}
+import PhotosUI
+import VisionKit
 
 protocol DocumentsPresenterProtocol {
   func present()
@@ -34,6 +10,9 @@ protocol DocumentsPresenterProtocol {
   var sortedFilesType: SortType { get }
   
   func createNewFolder()
+  
+  func presentCamera()
+  func presentPhotoLibrary()
   
   func onDetailsTapped(_ viewModel: DocumentsViewModel)
   func onShareTapped(_ viewModels: [DocumentsViewModel])
@@ -50,7 +29,7 @@ protocol DocumentsPresenterProtocol {
   func merge(viewModels: [DocumentsViewModel]?)
 }
 
-final class DocumentsPresenter: DocumentsPresenterProtocol {
+final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
   private struct Constants {
     
   }
@@ -72,6 +51,7 @@ final class DocumentsPresenter: DocumentsPresenterProtocol {
     self.localFileManager = localFileManager
     self.folder = folder
     self.type = type
+    super.init()
   }
   
   func present() {
@@ -347,6 +327,69 @@ extension DocumentsPresenter {
           self.present()
           self.view.endEditing()
         }
+      }
+    }
+  }
+}
+
+extension DocumentsPresenter {
+  func presentCamera() {
+    coordinator.presentDocumentScanner(in: view, delegate: self) { success in
+      print(success)
+    }
+  }
+  
+  func presentPhotoLibrary() {
+    coordinator.presentImagePicker(in: view, delegate: self) { success in
+      print(success)
+      
+      if success {
+        
+      } else {
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let settings = UIAlertAction(title: "Settings", style: .default, handler: { _ in
+          if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+          }
+        })
+        
+        self.view.presentAlert(withTitle: "Photo Library Access Denied", message: "Please allow access to your photo library in Settings to import photos.", alerts: [cancel, settings])
+      }
+    }
+  }
+}
+
+extension DocumentsPresenter: VNDocumentCameraViewControllerDelegate {
+  func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
+    // Handle the scanned document
+    for pageIndex in 0..<scan.pageCount {
+      let image = scan.imageOfPage(at: pageIndex)
+      // Do something with the scanned page image
+    }
+    controller.dismiss(animated: true, completion: nil)
+  }
+  
+  func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
+    controller.dismiss(animated: true, completion: nil)
+  }
+  
+  func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
+    controller.dismiss(animated: true)
+  }
+}
+
+extension DocumentsPresenter: PHPickerViewControllerDelegate {
+  func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+    print(results.count, results)
+    
+    results.loadImages { (images, error) in
+      if let error = error {
+        debugPrint("Error loading images: \(error.localizedDescription)")
+      } else if let images = images {
+        // Use the loaded images here
+        
+        print(images.count, results.count)
+        picker.dismiss(animated: true)
       }
     }
   }

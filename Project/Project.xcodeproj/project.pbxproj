@@ -117,6 +117,8 @@
 		EC78B76929FC6F01005807E0 /* FloatingStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC78B76829FC6F01005807E0 /* FloatingStackView.swift */; };
 		EC78B76B29FC717B005807E0 /* BaseFloatingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC78B76A29FC717B005807E0 /* BaseFloatingTableViewController.swift */; };
 		EC78B76D29FC7BE9005807E0 /* UIWindow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC78B76C29FC7BE9005807E0 /* UIWindow+Extensions.swift */; };
+		EC78B76F29FC821E005807E0 /* DocumentsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC78B76E29FC821E005807E0 /* DocumentsType.swift */; };
+		EC78B77129FC83E2005807E0 /* PHPickerResult+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC78B77029FC83E2005807E0 /* PHPickerResult+Extensions.swift */; };
 		EC7FDC3F29FAC24A004091C7 /* BaseWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7FDC3E29FAC24A004091C7 /* BaseWindow.swift */; };
 		EC7FDC4129FAFFDD004091C7 /* PageSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7FDC4029FAFFDD004091C7 /* PageSize.swift */; };
 		EC7FDC4329FB072A004091C7 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7FDC4229FB072A004091C7 /* AppConfiguration.swift */; };
@@ -293,6 +295,8 @@
 		EC78B76829FC6F01005807E0 /* FloatingStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingStackView.swift; sourceTree = "<group>"; };
 		EC78B76A29FC717B005807E0 /* BaseFloatingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFloatingTableViewController.swift; sourceTree = "<group>"; };
 		EC78B76C29FC7BE9005807E0 /* UIWindow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extensions.swift"; sourceTree = "<group>"; };
+		EC78B76E29FC821E005807E0 /* DocumentsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsType.swift; sourceTree = "<group>"; };
+		EC78B77029FC83E2005807E0 /* PHPickerResult+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHPickerResult+Extensions.swift"; sourceTree = "<group>"; };
 		EC7FDC3E29FAC24A004091C7 /* BaseWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWindow.swift; sourceTree = "<group>"; };
 		EC7FDC4029FAFFDD004091C7 /* PageSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSize.swift; sourceTree = "<group>"; };
 		EC7FDC4229FB072A004091C7 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -1091,6 +1095,7 @@
 			isa = PBXGroup;
 			children = (
 				ECD1B65129DF4FD2005B9EDF /* Document.swift */,
+				EC78B76E29FC821E005807E0 /* DocumentsType.swift */,
 				ECF3F69229E06B9F005A3338 /* SortType.swift */,
 				EC7FDC4029FAFFDD004091C7 /* PageSize.swift */,
 				EC629DF229FC1D8F00CFC70E /* StartType.swift */,
@@ -1148,6 +1153,7 @@
 			children = (
 				ECD1ADF329E748680013E4BC /* UIMenu+Extensions.swift */,
 				EC629DEE29FBF4FB00CFC70E /* UIDevice+Extensions.swift */,
+				EC78B77029FC83E2005807E0 /* PHPickerResult+Extensions.swift */,
 				ECD8739029E9BDD000024821 /* Bundle+Extensions.swift */,
 				EC78B76C29FC7BE9005807E0 /* UIWindow+Extensions.swift */,
 				ECF3F69A29E0B488005A3338 /* UIColor+Extensions.swift */,
@@ -1392,6 +1398,7 @@
 				EC6F933929EDC9ED00DA5B99 /* VisionRectangleDetector.swift in Sources */,
 				ECD1B66229DF57B3005B9EDF /* URL+Extensions.swift in Sources */,
 				ECF3F69B29E0B488005A3338 /* UIColor+Extensions.swift in Sources */,
+				EC78B76F29FC821E005807E0 /* DocumentsType.swift in Sources */,
 				AC1547B427ED97F4E3E87E56 /* SplashViewController.swift in Sources */,
 				0E13C6D4F5D97805C86F5751 /* SplashPresenter.swift in Sources */,
 				EC0C44E729F9D07E00DBB306 /* RearrangeCollectionViewCell.swift in Sources */,
@@ -1442,6 +1449,7 @@
 				7E65C35A1F278D80C6694B5D /* VisionViewModel.swift in Sources */,
 				DA581FB487615B092F7E89D6 /* VisionViewController.swift in Sources */,
 				3330827D911211F5EB588A9F /* VisionPresenter.swift in Sources */,
+				EC78B77129FC83E2005807E0 /* PHPickerResult+Extensions.swift in Sources */,
 				EC6F933E29EDC9F400DA5B99 /* EditScanViewController.swift in Sources */,
 				EC0A01BD29F2F483000317EE /* LocalFileManager+FileManager.swift in Sources */,
 				EC629DEB29FBEA3200CFC70E /* SettingsSwitchRow.swift in Sources */,

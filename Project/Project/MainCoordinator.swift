@@ -2,6 +2,9 @@ import UIKit
 import MobileCoreServices
 import UniformTypeIdentifiers
 import QuickLook
+import VisionKit
+import Photos
+import PhotosUI
 
 protocol Coordinator {
   var childCoordinators: [Coordinator] { get set }
@@ -21,6 +24,9 @@ protocol Coordinator {
   func presentDocumentPickerViewController(controller: UIViewController?, delegate: UIDocumentPickerDelegate?)
   
   func presentPrint(with printingItem: Any?, jobName: String, showsNumberOfCopies: Bool, showsPaperOrientation: Bool)
+  
+  func presentDocumentScanner(in controller: UIViewController?, delegate: VNDocumentCameraViewControllerDelegate?, completion: ((Bool) -> Void)?)
+  func presentImagePicker(in controller: UIViewController?, delegate: PhotosUI.PHPickerViewControllerDelegate?, completion: ((Bool) -> Void)?)
 }
 
 extension Coordinator {
@@ -129,9 +135,104 @@ final class MainCoordinator: NSObject, Coordinator {
     printController.showsPaperOrientation = showsPaperOrientation
     printController.present(animated: true)
   }
+  
+  func presentDocumentScanner(in controller: UIViewController?, delegate: VNDocumentCameraViewControllerDelegate? = nil, completion: ((Bool) -> Void)? = nil) {
+    guard VNDocumentCameraViewController.isSupported else {
+      // Document scanning is not supported on this device
+      completion?(false)
+      return
+    }
+    
+    let documentScannerViewController = VNDocumentCameraViewController()
+    documentScannerViewController.delegate = delegate
+    controller?.present(documentScannerViewController, animated: true, completion: {
+      completion?(true)
+    })
+  }
+  
+  func presentImagePicker(in controller: UIViewController?, delegate: PhotosUI.PHPickerViewControllerDelegate? = nil, completion: ((Bool) -> Void)? = nil) {
+    PHPhotoLibrary.checkAuthorizationStatus { [weak self] status in
+      
+      switch status {
+      case .authorized, .limited:
+        // Access to photo library is authorized
+        // Present the picker view controller here
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .any(of: [.images])
+        configuration.selectionLimit = 10 // Set to 0 for no limit
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = delegate
+        
+        controller?.present(picker, animated: true, completion: {
+          completion?(true)
+        })
+        //        case .limited:
+        //            // Access to photo library is limited
+        //            // Present the picker view controller here, but with limited functionality
+      case .notDetermined, .restricted, .denied:
+        //            // Access to photo library is not yet determined
+        //            // Authorization request has been sent in the checkAuthorizationStatus method
+        //        case .denied:
+        //            // Access to photo library is denied
+        //            // Handle this case here
+        //        case .restricted:
+        //            // Access to photo library is restricted
+        //            // Handle this case here
+        completion?(false)
+        return
+      }
+    }
+  }
 }
 
 
+
+extension PHPhotoLibrary {
+    
+    enum AuthorizationStatus {
+        case authorized
+        case limited
+        case notDetermined
+        case denied
+        case restricted
+    }
+    
+    static func checkAuthorizationStatus(completion: @escaping (AuthorizationStatus) -> Void) {
+        if #available(iOS 14, *) {
+            let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+            switch status {
+            case .authorized:
+                completion(.authorized)
+            case .limited:
+                completion(.limited)
+            case .notDetermined:
+                PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+                    DispatchQueue.main.async {
+                        if status == .authorized {
+                            completion(.authorized)
+                        } else {
+                            completion(.denied)
+                        }
+                    }
+                }
+            case .denied:
+                completion(.denied)
+            case .restricted:
+                completion(.restricted)
+            @unknown default:
+                break
+            }
+        } else {
+            let status = PHPhotoLibrary.authorizationStatus()
+            if status == .authorized {
+                completion(.authorized)
+            } else {
+                completion(.denied)
+            }
+        }
+    }
+    
+}
 
 
 
