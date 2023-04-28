@@ -1,6 +1,6 @@
 import UIKit
 
-enum ImageSize: String, CaseIterable {
+enum ImageSize: String {
   case low
   case medium
   case small
@@ -21,6 +21,10 @@ enum ImageSize: String, CaseIterable {
     case .original:
       return 1.0
     }
+  }
+  
+  static var allCases: [ImageSize] {
+    [.small, .low, .medium, .original]
   }
 }
 

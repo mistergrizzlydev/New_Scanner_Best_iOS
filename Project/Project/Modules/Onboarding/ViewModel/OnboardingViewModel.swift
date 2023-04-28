@@ -76,6 +76,24 @@ enum OnboardingCategory: Int, CaseIterable, Comparable {
   case parent
   case traveler
   
+  var category: String {
+    switch self {
+    case .skip:
+      return "No category"
+    case .student:
+      return "Student"
+    case .employee:
+      return "Employee"
+    case .businessOwner:
+      return "Business Owner"
+    case .freelancer:
+      return "Freelancer"
+    case .parent:
+      return "Parent"
+    case .traveler:
+      return "Traveler"
+    }
+  }
   var name: String {
     switch self {
     case .student:

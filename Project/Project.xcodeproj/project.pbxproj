@@ -81,6 +81,15 @@
 		EC2E665229E8AF69005D3312 /* FileManagerAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2E665129E8AF69005D3312 /* FileManagerAction.swift */; };
 		EC3BF99B29E33E2500F20F2D /* Sandwich.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3BF99A29E33E2500F20F2D /* Sandwich.framework */; };
 		EC3BF99C29E33E2500F20F2D /* Sandwich.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EC3BF99A29E33E2500F20F2D /* Sandwich.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EC629DE429FBDB4800CFC70E /* PurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC629DE329FBDB4800CFC70E /* PurchaseManager.swift */; };
+		EC629DE729FBDB6400CFC70E /* AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC629DE629FBDB6400CFC70E /* AppManager.swift */; };
+		EC629DE929FBE7FE00CFC70E /* SettingsNavigationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC629DE829FBE7FE00CFC70E /* SettingsNavigationRow.swift */; };
+		EC629DEB29FBEA3200CFC70E /* SettingsSwitchRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC629DEA29FBEA3200CFC70E /* SettingsSwitchRow.swift */; };
+		EC629DED29FBF41000CFC70E /* SecurityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC629DEC29FBF41000CFC70E /* SecurityManager.swift */; };
+		EC629DEF29FBF4FB00CFC70E /* UIDevice+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC629DEE29FBF4FB00CFC70E /* UIDevice+Extensions.swift */; };
+		EC629DF129FBF8EA00CFC70E /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC629DF029FBF8EA00CFC70E /* KeychainManager.swift */; };
+		EC629DF329FC1D8F00CFC70E /* StartType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC629DF229FC1D8F00CFC70E /* StartType.swift */; };
+		EC629DF529FC242200CFC70E /* CryptoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC629DF429FC242200CFC70E /* CryptoManager.swift */; };
 		EC6F933529EDC9ED00DA5B99 /* EditScanCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6F932F29EDC9ED00DA5B99 /* EditScanCornerView.swift */; };
 		EC6F933629EDC9ED00DA5B99 /* Quadrilateral.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6F933029EDC9ED00DA5B99 /* Quadrilateral.swift */; };
 		EC6F933729EDC9ED00DA5B99 /* QuadrilateralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6F933129EDC9ED00DA5B99 /* QuadrilateralView.swift */; };
@@ -245,6 +254,15 @@
 		EC2E665129E8AF69005D3312 /* FileManagerAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerAction.swift; sourceTree = "<group>"; };
 		EC3BF99629E33E1B00F20F2D /* Swinject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Swinject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC3BF99A29E33E2500F20F2D /* Sandwich.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sandwich.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC629DE329FBDB4800CFC70E /* PurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManager.swift; sourceTree = "<group>"; };
+		EC629DE629FBDB6400CFC70E /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
+		EC629DE829FBE7FE00CFC70E /* SettingsNavigationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationRow.swift; sourceTree = "<group>"; };
+		EC629DEA29FBEA3200CFC70E /* SettingsSwitchRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSwitchRow.swift; sourceTree = "<group>"; };
+		EC629DEC29FBF41000CFC70E /* SecurityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityManager.swift; sourceTree = "<group>"; };
+		EC629DEE29FBF4FB00CFC70E /* UIDevice+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extensions.swift"; sourceTree = "<group>"; };
+		EC629DF029FBF8EA00CFC70E /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		EC629DF229FC1D8F00CFC70E /* StartType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartType.swift; sourceTree = "<group>"; };
+		EC629DF429FC242200CFC70E /* CryptoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoManager.swift; sourceTree = "<group>"; };
 		EC6F932F29EDC9ED00DA5B99 /* EditScanCornerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditScanCornerView.swift; sourceTree = "<group>"; };
 		EC6F933029EDC9ED00DA5B99 /* Quadrilateral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quadrilateral.swift; sourceTree = "<group>"; };
 		EC6F933129EDC9ED00DA5B99 /* QuadrilateralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuadrilateralView.swift; sourceTree = "<group>"; };
@@ -441,6 +459,8 @@
 		17432DB95D43D9596DFA0C68 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EC629DE829FBE7FE00CFC70E /* SettingsNavigationRow.swift */,
+				EC629DEA29FBEA3200CFC70E /* SettingsSwitchRow.swift */,
 				5A38D3C3DAE0340E7598D964 /* SettingsViewController.swift */,
 				5CA0B962C5DEFB5DED5004E9 /* SettingsViewController.storyboard */,
 			);
@@ -994,6 +1014,17 @@
 			path = "Scanner+Extensions";
 			sourceTree = "<group>";
 		};
+		EC629DE529FBDB5500CFC70E /* LocalFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				ECD1B64F29DF4FCA005B9EDF /* LocalFileManager.swift */,
+				EC0A01BC29F2F483000317EE /* LocalFileManager+FileManager.swift */,
+				ECF3F69029E056B7005A3338 /* LocalFileManager+PDFKit.swift */,
+				ECF3F69629E098B9005A3338 /* LocalFileManager+Thumbnails.swift */,
+			);
+			path = LocalFileManager;
+			sourceTree = "<group>";
+		};
 		EC6F932E29EDC9E100DA5B99 /* Scanner */ = {
 			isa = PBXGroup;
 			children = (
@@ -1040,6 +1071,7 @@
 				ECF3F68E29E044B7005A3338 /* MainCoordinator.swift */,
 				ECD1B65B29DF55B1005B9EDF /* AppContainer.swift */,
 				EC7FDC4229FB072A004091C7 /* AppConfiguration.swift */,
+				EC629DE629FBDB6400CFC70E /* AppManager.swift */,
 				ECD1B65D29DF570E005B9EDF /* Models */,
 				ECD1B66029DF5727005B9EDF /* Managers */,
 				ECD1B65F29DF5722005B9EDF /* Common */,
@@ -1055,6 +1087,7 @@
 				ECD1B65129DF4FD2005B9EDF /* Document.swift */,
 				ECF3F69229E06B9F005A3338 /* SortType.swift */,
 				EC7FDC4029FAFFDD004091C7 /* PageSize.swift */,
+				EC629DF229FC1D8F00CFC70E /* StartType.swift */,
 				EC966CBA29ED84AE00BA67B5 /* DocumentCategory.swift */,
 				ECD1B65229DF4FD2005B9EDF /* File.swift */,
 				ECD1B65329DF4FD3005B9EDF /* Folder.swift */,
@@ -1094,10 +1127,11 @@
 		ECD1B66029DF5727005B9EDF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				ECD1B64F29DF4FCA005B9EDF /* LocalFileManager.swift */,
-				EC0A01BC29F2F483000317EE /* LocalFileManager+FileManager.swift */,
-				ECF3F69029E056B7005A3338 /* LocalFileManager+PDFKit.swift */,
-				ECF3F69629E098B9005A3338 /* LocalFileManager+Thumbnails.swift */,
+				EC629DE329FBDB4800CFC70E /* PurchaseManager.swift */,
+				EC629DF029FBF8EA00CFC70E /* KeychainManager.swift */,
+				EC629DF429FC242200CFC70E /* CryptoManager.swift */,
+				EC629DEC29FBF41000CFC70E /* SecurityManager.swift */,
+				EC629DE529FBDB5500CFC70E /* LocalFileManager */,
 				ECD8739829E9CE2900024821 /* Logger.swift */,
 			);
 			path = Managers;
@@ -1107,6 +1141,7 @@
 			isa = PBXGroup;
 			children = (
 				ECD1ADF329E748680013E4BC /* UIMenu+Extensions.swift */,
+				EC629DEE29FBF4FB00CFC70E /* UIDevice+Extensions.swift */,
 				ECD8739029E9BDD000024821 /* Bundle+Extensions.swift */,
 				ECF3F69A29E0B488005A3338 /* UIColor+Extensions.swift */,
 				EC0A01BA29F2EFEC000317EE /* Array+Extensions.swift */,
@@ -1326,15 +1361,18 @@
 				ECF3F69329E06B9F005A3338 /* SortType.swift in Sources */,
 				ECF3F69729E098B9005A3338 /* LocalFileManager+Thumbnails.swift in Sources */,
 				ECE4016729F03E8C00F4013B /* BorderLabel.swift in Sources */,
+				EC629DEF29FBF4FB00CFC70E /* UIDevice+Extensions.swift in Sources */,
 				EC8083C329EB2ED10003A050 /* PDFView+Extensions.swift in Sources */,
 				EC6F934C29EDC9FB00DA5B99 /* CGPoint+Utils.swift in Sources */,
 				EC0A01BB29F2EFEC000317EE /* Array+Extensions.swift in Sources */,
 				EC6F935629EDC9FB00DA5B99 /* UIImage+Orientation.swift in Sources */,
 				ECD1B66629DF6969005B9EDF /* UIView+Extensions.swift in Sources */,
+				EC629DF129FBF8EA00CFC70E /* KeychainManager.swift in Sources */,
 				EC2E665229E8AF69005D3312 /* FileManagerAction.swift in Sources */,
 				ECD1B66829DF6A1E005B9EDF /* LoadingViewController.swift in Sources */,
 				ECD1B65029DF4FCA005B9EDF /* LocalFileManager.swift in Sources */,
 				ECD1B66429DF62F5005B9EDF /* UserDefaults+Extensions.swift in Sources */,
+				EC629DE429FBDB4800CFC70E /* PurchaseManager.swift in Sources */,
 				ECD8739129E9BDD000024821 /* Bundle+Extensions.swift in Sources */,
 				ECF3F69129E056B7005A3338 /* LocalFileManager+PDFKit.swift in Sources */,
 				ECD1B65829DF52E7005B9EDF /* DocumentsTableViewCell.swift in Sources */,
@@ -1348,7 +1386,9 @@
 				0E13C6D4F5D97805C86F5751 /* SplashPresenter.swift in Sources */,
 				EC0C44E729F9D07E00DBB306 /* RearrangeCollectionViewCell.swift in Sources */,
 				6D95D9932C6483C8BCC83226 /* DocumentsBuilder.swift in Sources */,
+				EC629DF529FC242200CFC70E /* CryptoManager.swift in Sources */,
 				ECA038B429EAF110008CC3AE /* Reusable.swift in Sources */,
+				EC629DED29FBF41000CFC70E /* SecurityManager.swift in Sources */,
 				EC6F934029EDC9F400DA5B99 /* ZoomGestureController.swift in Sources */,
 				024CB2C819D8D3DC942EBAED /* DocumentsViewModel.swift in Sources */,
 				FA49815854AF0EC02B62B111 /* DocumentsViewController.swift in Sources */,
@@ -1379,6 +1419,7 @@
 				14373FDEFCD9068C65C39FB2 /* TabBarPresenter.swift in Sources */,
 				D1ECD1AB0C2F505A43967CA2 /* SettingsBuilder.swift in Sources */,
 				CB8D884DEE2A51CC0E104D64 /* SettingsViewModel.swift in Sources */,
+				EC629DE729FBDB6400CFC70E /* AppManager.swift in Sources */,
 				EC6F934D29EDC9FB00DA5B99 /* CGImagePropertyOrientation.swift in Sources */,
 				EC6F933529EDC9ED00DA5B99 /* EditScanCornerView.swift in Sources */,
 				EC966CBB29ED84AE00BA67B5 /* DocumentCategory.swift in Sources */,
@@ -1392,6 +1433,7 @@
 				3330827D911211F5EB588A9F /* VisionPresenter.swift in Sources */,
 				EC6F933E29EDC9F400DA5B99 /* EditScanViewController.swift in Sources */,
 				EC0A01BD29F2F483000317EE /* LocalFileManager+FileManager.swift in Sources */,
+				EC629DEB29FBEA3200CFC70E /* SettingsSwitchRow.swift in Sources */,
 				ECD8738F29E9B86900024821 /* UIViewController+Alerts.swift in Sources */,
 				8002428F653EF03FE8D04AC2 /* DemoVCBuilder.swift in Sources */,
 				EC7FDC4129FAFFDD004091C7 /* PageSize.swift in Sources */,
@@ -1402,6 +1444,7 @@
 				992A9D8AEDBD222E7967F853 /* DemoVCPresenter.swift in Sources */,
 				ECD8739929E9CE2900024821 /* Logger.swift in Sources */,
 				3AA1DC858A4384262F406569 /* AnnotateBuilder.swift in Sources */,
+				EC629DE929FBE7FE00CFC70E /* SettingsNavigationRow.swift in Sources */,
 				D66442E0A46979A24882DB8D /* AnnotateViewModel.swift in Sources */,
 				2FD39EF373E1BD56F2636487 /* AnnotateViewController.swift in Sources */,
 				8C1898806DB4C32A37741987 /* AnnotatePresenter.swift in Sources */,
@@ -1428,6 +1471,7 @@
 				6B3DD09CED5B1628AEC77638 /* RearrangeViewController.swift in Sources */,
 				9609E0B12D915D47163E80B8 /* RearrangePresenter.swift in Sources */,
 				2CBC109A15A0FD5C4F19BBC0 /* SelectableBuilder.swift in Sources */,
+				EC629DF329FC1D8F00CFC70E /* StartType.swift in Sources */,
 				28F92CF936FED313BEEB17ED /* SelectableViewModel.swift in Sources */,
 				8D625C1CBF5D78686BAD579E /* SelectableViewController.swift in Sources */,
 				08EEC4D69DB1172EDC804016 /* SelectablePresenter.swift in Sources */,

@@ -61,19 +61,25 @@ extension UIViewController {
   }
   
   func presentAlertWithTextField(title: String? = Bundle.main.appName, message: String?,
+                                 preferredStyle: UIAlertController.Style = .alert,
+                                 keyboardType: UIKeyboardType = .default,
+                                 clearButtonMode: UITextField.ViewMode = .always,
+                                 text: String? = nil,
                                  placeholder: String?,
                                  confirmAction: ((String) -> Void)?,
                                  cancelAction: (() -> Void)? = nil) {
-    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
     
     alertController.addTextField { textField in
       textField.placeholder = placeholder
+      textField.text = text
+      textField.keyboardType = keyboardType
+      textField.clearButtonMode = clearButtonMode
     }
     
+    
     let confirmAction = UIAlertAction(title: "OK", style: .default) { [weak alertController] _ in
-      guard let textField = alertController?.textFields?.first,
-            let text = textField.text else { return }
-      
+      guard let textField = alertController?.textFields?.first, let text = textField.text else { return }
       confirmAction?(text)
     }
     alertController.addAction(confirmAction)

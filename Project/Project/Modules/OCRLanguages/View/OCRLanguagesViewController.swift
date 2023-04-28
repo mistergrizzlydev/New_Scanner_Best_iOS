@@ -30,9 +30,19 @@ final class OCRLanguagesViewController: QuickTableViewController, OCRLanguagesVi
     setupViews()
   }
     
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+//    DispatchQueue.main.async {
+////      self.navigationItem.largeTitleDisplayMode = .always
+//      self.navigationController?.navigationBar.prefersLargeTitles = true
+//      self.navigationController?.navigationBar.sizeToFit()
+//      self.tableView.reloadData()
+//    }
+  }
+  
   private func setupViews() {
-    tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-    tableView.scrollIndicatorInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+//    tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+//    tableView.scrollIndicatorInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
     
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OCRLanguageCell")
     tableView.tableFooterView = UIView()
@@ -99,5 +109,13 @@ final class OCRLanguagesViewController: QuickTableViewController, OCRLanguagesVi
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     60.0
+  }
+  
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return 20
+  }
+  
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    return UIView()
   }
 }

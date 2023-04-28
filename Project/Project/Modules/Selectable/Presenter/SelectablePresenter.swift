@@ -38,6 +38,10 @@ final class SelectablePresenter: SelectablePresenterProtocol {
       UserDefaults.imageCompressionLevel = imageCompressionLevel
     }
     
+    if let startType = StartType(rawValue: selectedOption) {
+      UserDefaults.startType = startType
+    }
+    
     NotificationCenter.default.post(name: .selectableScreenDidSelectOption, object: nil)
   }
 }

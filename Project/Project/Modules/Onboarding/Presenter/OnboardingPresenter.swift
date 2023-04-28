@@ -29,6 +29,7 @@ final class OnboardingPresenter: OnboardingPresenterProtocol {
   
   func onCategoryTapped(_ category: OnboardingCategory) {
     view.showLoadingView(title: "Loading...")
+    UserDefaults.onboardingCategory = category
     
     do {
       try localFileManager.createFolders(for: category)

@@ -8,6 +8,9 @@ protocol SettingsPresenterProtocol {
   func present()
   
   func showAppearance()
+  func showStartAppWith()
+  func grabDefaultEmail()
+  
   func showScanCompression()
   func showPageSize()
   
@@ -46,6 +49,22 @@ final class SettingsPresenter: NSObject, SettingsPresenterProtocol {
     let selectedOption = UserDefaults.appearance.rawValue
     let controller = SelectableBuilder().buildViewController(title: "Appearance", options: options, selectedOption: selectedOption)!
     view.navigationController?.pushViewController(controller, animated: true)
+  }
+  
+  func showStartAppWith() {
+    let options = StartType.allCases.compactMap { $0.rawValue }
+    let selectedOption = UserDefaults.startType.rawValue
+    let controller = SelectableBuilder().buildViewController(title: "Start App with", options: options, selectedOption: selectedOption)!
+    view.navigationController?.pushViewController(controller, animated: true)
+  }
+  
+  func grabDefaultEmail() {
+    let text = UserDefaults.emailFromAccount.isEmpty ? nil : UserDefaults.emailFromAccount
+    view.presentAlertWithTextField(message: "Link your email address for seamless sharing of documents and folders", keyboardType: .emailAddress,
+                                   text: text, placeholder: "john.doe@example.com") { [weak self] result in
+      UserDefaults.emailFromAccount = result
+      self?.present()
+    }
   }
   
   func showScanCompression() {
