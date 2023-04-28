@@ -8,7 +8,7 @@ protocol DocumentsViewControllerProtocol: AnyObject {
   func endEditing()
 }
 
-final class DocumentsViewController: UITableViewController, DocumentsViewControllerProtocol {
+final class DocumentsViewController: BaseFloatingTableViewController, DocumentsViewControllerProtocol {
   private struct Constants {
     
   }
@@ -29,8 +29,6 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
   
   override func setEditing(_ editing: Bool, animated: Bool) {
     super.setEditing(editing, animated: animated)
-    
-    navigationController?.showHideFloatingButton(editing, animated: animated)
     //    tabBarController?.showHideTabBar(editing, animated: animated)
     
     navigationController?.setToolbarHidden(!editing, animated: animated)
@@ -40,6 +38,7 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
     let mergeButton = toolbarItems?.first(where: { $0.tag == FileManagerToolbarAction.merge.rawValue })
     mergeButton?.isEnabled = !editing
     
+    showHideFloatingStackView(isHidden: isEditing)
     display(toolbarButtonAction: .merge, isEnabled: !isEditing)
     display(toolbarButtonAction: .duplicate, isEnabled: !isEditing)
   }
@@ -105,6 +104,16 @@ final class DocumentsViewController: UITableViewController, DocumentsViewControl
     
     let toolbarItems = FileManagerToolbarAction.toolbarItems(target: self, action: #selector(toolbarButtonTapped(_:)))
     self.toolbarItems = toolbarItems
+    
+    // Handle camera:
+    
+    cameraButtonTapped = { [weak self] in
+      print("Camera button tapped!")
+    }
+    
+    galleryButtonTapped = { [weak self] in
+      print("Gallery button tapped!")
+    }
   }
   
   func updateEditButtonItemEnabled() {

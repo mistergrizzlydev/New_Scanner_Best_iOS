@@ -75,9 +75,7 @@ extension TabBarViewController: UITabBarControllerDelegate {
     //          if let index = tabBarController.viewControllers?.firstIndex(of: viewController), index == 1 {
     //              // Second tab bar item was selected
     //              // Do something here
-    //          }
-    print("na", viewController.classForCoder, (viewController as? BaseNavigationController)?.getFloatingButton())
-    
+    //          }    
 //    if let floatingButton = (viewController as? BaseNavigationController)?.getFloatingButton() {
 //      floatingButton.alpha = 1
 //    }

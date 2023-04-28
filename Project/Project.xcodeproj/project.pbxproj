@@ -114,6 +114,9 @@
 		EC6F935E29EDCA2A00DA5B99 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6F935D29EDCA2A00DA5B99 /* ReviewViewController.swift */; };
 		EC6F936929EDCA3400DA5B99 /* RectangleFeaturesFunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6F936329EDCA3300DA5B99 /* RectangleFeaturesFunnel.swift */; };
 		EC6F936A29EDCA3400DA5B99 /* RectangleDetectorResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6F936429EDCA3300DA5B99 /* RectangleDetectorResult.swift */; };
+		EC78B76929FC6F01005807E0 /* FloatingStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC78B76829FC6F01005807E0 /* FloatingStackView.swift */; };
+		EC78B76B29FC717B005807E0 /* BaseFloatingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC78B76A29FC717B005807E0 /* BaseFloatingTableViewController.swift */; };
+		EC78B76D29FC7BE9005807E0 /* UIWindow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC78B76C29FC7BE9005807E0 /* UIWindow+Extensions.swift */; };
 		EC7FDC3F29FAC24A004091C7 /* BaseWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7FDC3E29FAC24A004091C7 /* BaseWindow.swift */; };
 		EC7FDC4129FAFFDD004091C7 /* PageSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7FDC4029FAFFDD004091C7 /* PageSize.swift */; };
 		EC7FDC4329FB072A004091C7 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7FDC4229FB072A004091C7 /* AppConfiguration.swift */; };
@@ -287,6 +290,9 @@
 		EC6F935D29EDCA2A00DA5B99 /* ReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		EC6F936329EDCA3300DA5B99 /* RectangleFeaturesFunnel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectangleFeaturesFunnel.swift; sourceTree = "<group>"; };
 		EC6F936429EDCA3300DA5B99 /* RectangleDetectorResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RectangleDetectorResult.swift; sourceTree = "<group>"; };
+		EC78B76829FC6F01005807E0 /* FloatingStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingStackView.swift; sourceTree = "<group>"; };
+		EC78B76A29FC717B005807E0 /* BaseFloatingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFloatingTableViewController.swift; sourceTree = "<group>"; };
+		EC78B76C29FC7BE9005807E0 /* UIWindow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extensions.swift"; sourceTree = "<group>"; };
 		EC7FDC3E29FAC24A004091C7 /* BaseWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWindow.swift; sourceTree = "<group>"; };
 		EC7FDC4029FAFFDD004091C7 /* PageSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSize.swift; sourceTree = "<group>"; };
 		EC7FDC4229FB072A004091C7 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -1143,6 +1149,7 @@
 				ECD1ADF329E748680013E4BC /* UIMenu+Extensions.swift */,
 				EC629DEE29FBF4FB00CFC70E /* UIDevice+Extensions.swift */,
 				ECD8739029E9BDD000024821 /* Bundle+Extensions.swift */,
+				EC78B76C29FC7BE9005807E0 /* UIWindow+Extensions.swift */,
 				ECF3F69A29E0B488005A3338 /* UIColor+Extensions.swift */,
 				EC0A01BA29F2EFEC000317EE /* Array+Extensions.swift */,
 				ECF3F69C29E0B7DC005A3338 /* UIImage+Default.swift */,
@@ -1164,6 +1171,8 @@
 			children = (
 				ECD1B65929DF5538005B9EDF /* BaseNavigationController.swift */,
 				EC7FDC3E29FAC24A004091C7 /* BaseWindow.swift */,
+				EC78B76829FC6F01005807E0 /* FloatingStackView.swift */,
+				EC78B76A29FC717B005807E0 /* BaseFloatingTableViewController.swift */,
 				ECE4016629F03E8C00F4013B /* BorderLabel.swift */,
 				ECA038B329EAF110008CC3AE /* Reusable.swift */,
 				ECD1B66729DF6A1E005B9EDF /* LoadingViewController.swift */,
@@ -1347,6 +1356,7 @@
 				ECD1ADF629E7496C0013E4BC /* TestViewController.swift in Sources */,
 				ECD1B63C29DF4E07005B9EDF /* AppDelegate.swift in Sources */,
 				ECD1B63E29DF4E07005B9EDF /* SceneDelegate.swift in Sources */,
+				EC78B76D29FC7BE9005807E0 /* UIWindow+Extensions.swift in Sources */,
 				EC6F935429EDC9FB00DA5B99 /* UIImage+Utils.swift in Sources */,
 				ECD1B66A29DF6A43005B9EDF /* UIViewController+Extensions.swift in Sources */,
 				ECD1B65C29DF55B1005B9EDF /* AppContainer.swift in Sources */,
@@ -1423,6 +1433,7 @@
 				EC6F934D29EDC9FB00DA5B99 /* CGImagePropertyOrientation.swift in Sources */,
 				EC6F933529EDC9ED00DA5B99 /* EditScanCornerView.swift in Sources */,
 				EC966CBB29ED84AE00BA67B5 /* DocumentCategory.swift in Sources */,
+				EC78B76B29FC717B005807E0 /* BaseFloatingTableViewController.swift in Sources */,
 				ECF3F69D29E0B7DC005A3338 /* UIImage+Default.swift in Sources */,
 				61EF748883C8884D1C980F95 /* SettingsViewController.swift in Sources */,
 				74932B32ABF760A55C230ECA /* SettingsPresenter.swift in Sources */,
@@ -1479,6 +1490,7 @@
 				1E1ABFB48BBEDDAC2690E857 /* OCRLanguagesViewModel.swift in Sources */,
 				C4CCAC36F38FC24A0FA45B10 /* OCRLanguagesViewController.swift in Sources */,
 				8C3454B6959B6528A6689169 /* OCRLanguagesPresenter.swift in Sources */,
+				EC78B76929FC6F01005807E0 /* FloatingStackView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,7 +2,7 @@ import UIKit
 
 extension UIColor {
   private enum Color: String{
-    case themeColor, bgColor, labelColor, labelTextColor
+    case themeColor, bgColor, labelColor, labelTextColor, themeGreen, themeBlick
   }
   
   class var themeColor: UIColor {
@@ -32,6 +32,22 @@ extension UIColor {
   class var labelTextColor: UIColor {
     guard let color = UIColor(named: Color.labelTextColor.rawValue) else {
       fatalError("Cannot find \(Color.labelTextColor.rawValue) in Colors.xcassets file. Please add it back.")
+    }
+    
+    return color
+  }
+  
+  class var themeGreen: UIColor {
+    guard let color = UIColor(named: Color.themeGreen.rawValue) else {
+      fatalError("Cannot find \(Color.themeGreen.rawValue) in Colors.xcassets file. Please add it back.")
+    }
+    
+    return color
+  }
+  
+  class var themeBlick: UIColor {
+    guard let color = UIColor(named: Color.themeBlick.rawValue) else {
+      fatalError("Cannot find \(Color.themeBlick.rawValue) in Colors.xcassets file. Please add it back.")
     }
     
     return color
