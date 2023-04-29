@@ -33,81 +33,101 @@ class SettingsViewController: QuickTableViewController, SettingsViewControllerPr
   }
   
   private func setupCells() {
+    let imageConfig = UIImage.SymbolConfiguration(pointSize: 23, weight: .regular)
+    let profileImageConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .regular)
+    let profileImage = UIImage(systemName: "person.circle.fill", withConfiguration: profileImageConfig)
+    
     let isPro = true
     let securityIcon = UIDevice.current.biometricType == .faceID ? "faceid" : "touchid"
     tableContents = [
       SettingsSection(title: "", rows: [
-        SettingsNavigationRow(text: "TurboScan™ Ultra", detailText: .none, icon: .image(UIImage(systemName: "star.square.fill")!),
+        SettingsNavigationRow(text: "TurboScan™ Ultra", detailText: .none, icon: .image(UIImage(systemName: "star.square.fill", withConfiguration: imageConfig)!),
                               isPro: AppManager.isProVersion, action: showOnPlusTapped()),
       ].filter { $0.isPro }, footer: "Get more out of your scanner app with our Plus version! Upgrade now to enjoy advanced features and more options.", isPro: AppManager.isProVersion),
       
-      //SortType
+      SettingsSection(title: "", rows: [
+        SettingsNavigationRow(text: UserDefaults.onboardingCategory.settingsCategory, detailText: .subtitle(UserDefaults.onboardingCategory.settingsName),
+                              icon: .image(profileImage!),
+                              isPro: isPro),
+      ], footer: "Your role has been set to \(UserDefaults.onboardingCategory.category). This cannot be changed.", isPro: isPro),
+      
       SettingsSection(title: "OCR", rows: [
         SettingsNavigationRow(text: "Text Recognition (OCR)", detailText: .value1(UserDefaults.isOCREnabled ? "On" : "Off"),
-                              icon: .image(UIImage(systemName: "square.text.square.fill")!),
-                              isPro: isPro, action: showOCRLanguagesTapped()), //  text.viewfinder
-        SettingsNavigationRow(text: "Scan Compression", detailText: .value1(UserDefaults.imageCompressionLevel.name),
-                              icon: .image(UIImage(systemName: "arrow.up.and.down.square.fill")!), isPro: isPro, action: showOnScanCompressionTapped()), // rectangle.compress.vertical
-        SettingsNavigationRow(text: "Default Page Size", detailText: .value1(UserDefaults.pageSize.name),
-                              icon: .image(UIImage(systemName: "rectangle.on.rectangle.square.fill")!), isPro: isPro, action: showDefaultPageSizeTapped()),
-        SettingsNavigationRow(text: "Default Name", detailText: .none, icon: .image(UIImage(systemName: "a.square.fill")!), isPro: isPro, action: showOnPlusTapped()),
+                              icon: .image(UIImage(systemName: "square.text.square.fill", withConfiguration: imageConfig)!),
+                              isPro: isPro, action: showOCRLanguagesTapped()),
+        SettingsNavigationRow(text: "Scan Compression", detailText: .subtitle(UserDefaults.imageCompressionLevel.name),
+                              icon: .image(UIImage(systemName: "arrow.up.and.down.square.fill", withConfiguration: imageConfig)!),
+                              isPro: isPro, action: showOnScanCompressionTapped()),
+        SettingsNavigationRow(text: "Default Page Size", detailText: .subtitle(UserDefaults.pageSize.name),
+                              icon: .image(UIImage(systemName: "rectangle.on.rectangle.square.fill", withConfiguration: imageConfig)!),
+                              isPro: isPro, action: showDefaultPageSizeTapped()),
+
+        SettingsNavigationRow(text: "Default Smart category", detailText: .subtitle(UserDefaults.documentClasifierCategory.name),
+                              icon: .image(UIImage(systemName: "eye.square.fill", withConfiguration: imageConfig)!),
+                              isPro: isPro, action: showDefaultDocumentCategoryTapped()),
+        
+        SettingsNavigationRow(text: "Default sort type", detailText: .subtitle(UserDefaults.sortedFilesType.rawValue),
+                              icon: .image(UserDefaults.sortedFilesType.settingsImage), isPro: isPro, action: showDefaultSortTypeTapped()),
+
+        SettingsNavigationRow(text: "Default Name", detailText: .none, icon: .image(UIImage(systemName: "a.square.fill", withConfiguration: imageConfig)!),
+                              isPro: isPro, action: showOnPlusTapped()),
         
         SwitchRow(text: "Distortion Correction", detailText: DetailText.none,
-                  switchValue: UserDefaults.isDistorsionEnabled, icon: .image(UIImage(systemName: "square.stack.3d.down.right.fill")!),
+                  switchValue: UserDefaults.isDistorsionEnabled, icon: .image(UIImage(systemName: "square.stack.3d.down.right.fill", withConfiguration: imageConfig)!),
                   action: didToggleDisortionCorrectionSwitch()),
         
         SwitchRow(text: "Camera Stabilization", detailText: DetailText.none,
-                  switchValue: UserDefaults.isCameraStabilizationEnabled, icon: .image(UIImage(systemName: "dot.square.fill")!),
+                  switchValue: UserDefaults.isCameraStabilizationEnabled, icon: .image(UIImage(systemName: "dot.square.fill", withConfiguration: imageConfig)!),
                   action: didToggleCameraStabilizationSwitch()),
         
       ], footer: "Learn more about our app, make requests, and stay informed about our policies!", isPro: isPro),
       
       SettingsSection(title: "Customizations", rows: [
-        SettingsNavigationRow(text: "Appearance", detailText: .value1(UserDefaults.appearance.name),
-                              icon: .image(UIImage(systemName: "sparkles.square.filled.on.square")!),
+        SettingsNavigationRow(text: "Appearance", detailText: .subtitle(UserDefaults.appearance.name),
+                              icon: .image(UIImage(systemName: "sparkles.square.filled.on.square", withConfiguration: imageConfig)!),
                               isPro: isPro, action: showAppearance()),
         
-        SettingsNavigationRow(text: "Start App with", detailText: .value1(UserDefaults.startType.rawValue),
-                              icon: .image(UIImage(systemName: "flag.square.fill")!),
+        SettingsNavigationRow(text: "Start App with", detailText: .subtitle(UserDefaults.startType.rawValue),
+                              icon: .image(UIImage(systemName: "flag.square.fill", withConfiguration: imageConfig)!),
                               isPro: isPro, action: showStartWith()),
         
         SettingsNavigationRow(text: "Email from account", detailText: .subtitle("(\(UserDefaults.emailFromAccount))"),
-                              icon: .image(UIImage(systemName: "person.crop.square.filled.and.at.rectangle.fill")!), isPro: isPro,
+                              icon: .image(UIImage(systemName: "person.crop.square.filled.and.at.rectangle.fill", withConfiguration: imageConfig)!), isPro: isPro,
                               accessoryButtonAction: showGrabDefaulEmailAlert()),
       ].filter { $0.isPro }, footer: nil, // "Switch between light, dark, or system appearance modes. Change the appearance of the app to match your style preferences!"
                       isPro: isPro),
       
       SettingsSection(title: "Security", rows: [
         SwitchRow(text: UIDevice.current.biometricType.name, detailText: DetailText.none,
-                  switchValue: KeychainManager.default.isAppLocked, icon: .image(UIImage(systemName: securityIcon)!),
+                  switchValue: KeychainManager.default.isAppLocked, icon: .image(UIImage(systemName: "\(securityIcon)", withConfiguration: imageConfig)!),
                   action: didToggleBiometricAuthSwitch())
       ], footer: "Unlock app name with \(UIDevice.current.biometricType.name) recognition. You have to set a passcode as a fallback.",
                       isPro: UIDevice.current.biometricType != .none ),
       
       SettingsSection(title: "Help", rows: [
         SettingsNavigationRow(text: "Get Support", detailText: .subtitle(AppConfiguration.Help.support.rawValue),
-                              icon: .image(UIImage(systemName: "square.and.pencil.circle.fill")!),
+                              icon: .image(UIImage(systemName: "square.and.pencil.circle.fill", withConfiguration: imageConfig)!),
                               isPro: isPro, action: onSupportTapped()),
         SettingsNavigationRow(text: "Feature Requests", detailText: .value1("🤟"),
-                              icon: .image(UIImage(systemName: "lightbulb.circle.fill")!),
+                              icon: .image(UIImage(systemName: "lightbulb.circle.fill", withConfiguration: imageConfig)!),
                               isPro: isPro, action: onFeatureRequestTapped()),
         SettingsNavigationRow(text: "Tell a Friend", detailText: .value1("❤️"),
-                              icon: .image(UIImage(systemName: "heart.text.square.fill")!),
+                              icon: .image(UIImage(systemName: "heart.text.square.fill", withConfiguration: imageConfig)!),
                               isPro: isPro, action: onTellAFriendTapped()),
         
-        SettingsNavigationRow(text: "Privacy Policy", detailText: .none, icon: .image(UIImage(systemName: "hand.raised.square.fill")!),
+        SettingsNavigationRow(text: "Privacy Policy", detailText: .none, icon: .image(UIImage(systemName: "hand.raised.square.fill", withConfiguration: imageConfig)!),
                               isPro: isPro, action: showPPTapped()),
-        SettingsNavigationRow(text: "Terms and Conditions", detailText: .none, icon: .image(UIImage(systemName: "checkmark.shield.fill")!),
+        SettingsNavigationRow(text: "Terms and Conditions", detailText: .none, icon: .image(UIImage(systemName: "checkmark.shield.fill", withConfiguration: imageConfig)!),
                               isPro: isPro, action: showTaCTapped()),
       ], footer: "Learn more about our app, make requests, and stay informed about our policies!",
                       isPro: isPro),
       
       SettingsSection(title: "About", rows: [
-        SettingsNavigationRow(text: "Rate TurboScan™", detailText: .none, icon: .image(UIImage(systemName: "star.square.on.square.fill")!),
+        SettingsNavigationRow(text: "Rate TurboScan™", detailText: .none, icon: .image(UIImage(systemName: "star.square.on.square.fill", withConfiguration: imageConfig)!),
                               isPro: isPro, action: onRateTapped()),
-        SettingsNavigationRow(text: "What's New", detailText: .none, icon: .image(UIImage(systemName: "bookmark.square.fill")!),
+        SettingsNavigationRow(text: "What's New", detailText: .none, icon: .image(UIImage(systemName: "bookmark.square.fill", withConfiguration: imageConfig)!),
                               isPro: isPro, action: onWhatsNewTapped()),
-        SettingsNavigationRow(text: "More Apps", detailText: .none, icon: .image(UIImage(systemName: "square.stack.3d.up.fill")!),
+        SettingsNavigationRow(text: "More Apps", detailText: .none, icon: .image(UIImage(systemName: "square.stack.3d.up.fill", withConfiguration: imageConfig)!),
                               isPro: isPro, action: onMoreAppsTapped()),
       ], footer: "Get more out of your scanner app with our Plus version! Upgrade now to enjoy advanced features and more options.",
                       isPro: isPro)
@@ -148,11 +168,11 @@ class SettingsViewController: QuickTableViewController, SettingsViewControllerPr
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return 20
+    return 40
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    return UIView()
+    return super.tableView.headerView(forSection: section)
   }
 }
 
@@ -303,6 +323,18 @@ extension SettingsViewController {
   private func showDefaultPageSizeTapped() -> (Row) -> Void {
     return { [weak self] row in
       self?.presenter.showPageSize()
+    }
+  }
+  
+  private func showDefaultSortTypeTapped() -> (Row) -> Void {
+    return { [weak self] row in
+      self?.presenter.showSortType()
+    }
+  }
+  
+  private func showDefaultDocumentCategoryTapped() -> (Row) -> Void {
+    return { [weak self] row in
+      self?.presenter.showSmartCategories()
     }
   }
   

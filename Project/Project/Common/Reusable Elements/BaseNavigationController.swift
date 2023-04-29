@@ -50,6 +50,16 @@ final class BaseNavigationController: UINavigationController {
     // Customize the cancel button's appearance
     UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
     
+    //
+    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationController.self]).setTitleTextAttributes([.foregroundColor: UIColor.themeColor], for: .normal)
+    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UIToolbar.self]).setTitleTextAttributes([.foregroundColor: UIColor.themeColor], for: .normal)
+    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).setTitleTextAttributes([.foregroundColor: UIColor.themeColor], for: .normal)
+    
+    UIButton.appearance(whenContainedInInstancesOf: [UINavigationController.self]).tintColor = UIColor.themeColor
+    UIButton.appearance(whenContainedInInstancesOf: [UIToolbar.self]).tintColor = UIColor.themeColor
+    UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = UIColor.themeColor
+    //
+    
     // Set the background color for all toolbars
 //    UIToolbar.appearance().backgroundColor = .red
 

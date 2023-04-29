@@ -99,10 +99,10 @@ final class OCRLanguagesViewController: QuickTableViewController, OCRLanguagesVi
   }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-    return 20
+    return 40
   }
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    return UIView()
+    return super.tableView.headerView(forSection: section)
   }
 }

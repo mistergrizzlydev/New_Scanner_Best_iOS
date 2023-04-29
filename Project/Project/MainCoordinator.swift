@@ -143,7 +143,7 @@ final class MainCoordinator: NSObject, Coordinator {
       return
     }
     
-    let documentScannerViewController = VNDocumentCameraViewController()
+    let documentScannerViewController = VNDocumentCameraViewController()    
     documentScannerViewController.delegate = delegate
     controller?.present(documentScannerViewController, animated: true, completion: {
       completion?(true)
@@ -159,25 +159,26 @@ final class MainCoordinator: NSObject, Coordinator {
         // Present the picker view controller here
         var configuration = PHPickerConfiguration()
         configuration.filter = .any(of: [.images])
+//        configuration.preferredAssetRepresentationMode = .current
         configuration.selectionLimit = 10 // Set to 0 for no limit
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = delegate
-        
+
         controller?.present(picker, animated: true, completion: {
           completion?(true)
         })
-        //        case .limited:
-        //            // Access to photo library is limited
-        //            // Present the picker view controller here, but with limited functionality
+//        case .limited:
+//            // Access to photo library is limited
+//            // Present the picker view controller here, but with limited functionality
       case .notDetermined, .restricted, .denied:
-        //            // Access to photo library is not yet determined
-        //            // Authorization request has been sent in the checkAuthorizationStatus method
-        //        case .denied:
-        //            // Access to photo library is denied
-        //            // Handle this case here
-        //        case .restricted:
-        //            // Access to photo library is restricted
-        //            // Handle this case here
+//            // Access to photo library is not yet determined
+//            // Authorization request has been sent in the checkAuthorizationStatus method
+//        case .denied:
+//            // Access to photo library is denied
+//            // Handle this case here
+//        case .restricted:
+//            // Access to photo library is restricted
+//            // Handle this case here
         completion?(false)
         return
       }
@@ -188,7 +189,6 @@ final class MainCoordinator: NSObject, Coordinator {
 
 
 extension PHPhotoLibrary {
-    
     enum AuthorizationStatus {
         case authorized
         case limited
@@ -231,7 +231,6 @@ extension PHPhotoLibrary {
             }
         }
     }
-    
 }
 
 

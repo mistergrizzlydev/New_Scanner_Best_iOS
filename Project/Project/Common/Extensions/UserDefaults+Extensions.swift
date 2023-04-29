@@ -93,6 +93,17 @@ extension UserDefaults {
     }
   }
   
+  static var documentClasifierCategory: DocumentClasifierCategory {
+    get {
+      let result = standard.integer(forKey: "ee77d129-389a-4f8f-a8b8-150c973c2127")
+      return DocumentClasifierCategory(rawValue: result) ?? .invoice
+    }
+    set {
+      standard.set(newValue.rawValue, forKey: "ee77d129-389a-4f8f-a8b8-150c973c2127")
+      standard.synchronize()
+    }
+  }
+  
   static var isOCREnabled: Bool {
     get {
       return standard.bool(forKey: "45a7b1bd-770a-400b-9140-2fe9f7af18cb")

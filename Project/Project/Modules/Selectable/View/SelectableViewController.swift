@@ -33,8 +33,6 @@ final class SelectableViewController: UITableViewController, SelectableViewContr
   private func setupViews() {
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OptionCell")
     tableView.tableFooterView = UIView()
-    tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-    tableView.scrollIndicatorInsets = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
   }
 
   func prepare(with viewModel: SelectableViewModel) {
@@ -66,5 +64,17 @@ final class SelectableViewController: UITableViewController, SelectableViewContr
     self.selectedOption = selectedOption
     tableView.reloadData()
     presenter.didSelect(at: indexPath, selectedOption: selectedOption)
+  }
+  
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    48.0
+  }
+  
+  override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    40
+  }
+  
+  override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    UIView()
   }
 }

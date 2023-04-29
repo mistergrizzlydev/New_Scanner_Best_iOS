@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     print("Device has \(biometricTypeName)")
 
-    
     return true
   }
   

@@ -13,6 +13,8 @@ protocol SettingsPresenterProtocol {
   
   func showScanCompression()
   func showPageSize()
+  func showSortType()
+  func showSmartCategories()
   
   func onDistortionTapped()
   func onCameraStabilizationTapped()
@@ -78,6 +80,20 @@ final class SettingsPresenter: NSObject, SettingsPresenterProtocol {
     let options = PageSize.allCases.compactMap { $0.name }
     let selectedOption = UserDefaults.pageSize.rawValue
     let controller = SelectableBuilder().buildViewController(title: "Default Page Size", options: options, selectedOption: selectedOption)!
+    view.navigationController?.pushViewController(controller, animated: true)
+  }
+  
+  func showSortType() {
+    let options = SortType.allCases.compactMap { $0.rawValue }
+    let selectedOption = UserDefaults.sortedFilesType.rawValue
+    let controller = SelectableBuilder().buildViewController(title: "Default Sort type", options: options, selectedOption: selectedOption)!
+    view.navigationController?.pushViewController(controller, animated: true)
+  }
+  
+  func showSmartCategories() {
+    let options = DocumentClasifierCategory.allCases.compactMap { $0.name }
+    let selectedOption = UserDefaults.documentClasifierCategory.name
+    let controller = SelectableBuilder().buildViewController(title: "Default Smart category", options: options, selectedOption: selectedOption)!
     view.navigationController?.pushViewController(controller, animated: true)
   }
   

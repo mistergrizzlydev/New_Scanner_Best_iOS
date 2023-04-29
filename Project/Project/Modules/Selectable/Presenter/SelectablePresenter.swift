@@ -42,6 +42,14 @@ final class SelectablePresenter: SelectablePresenterProtocol {
       UserDefaults.startType = startType
     }
     
+    if let sortType = SortType(rawValue: selectedOption) {
+      UserDefaults.sortedFilesType = sortType
+    }
+    
+    if let smartCategory = DocumentClasifierCategory(classification: selectedOption) {
+      UserDefaults.documentClasifierCategory = smartCategory
+    }
+    
     NotificationCenter.default.post(name: .selectableScreenDidSelectOption, object: nil)
   }
 }

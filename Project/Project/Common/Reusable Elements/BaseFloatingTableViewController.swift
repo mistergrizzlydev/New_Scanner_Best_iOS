@@ -17,8 +17,8 @@ class BaseFloatingTableViewController: UITableViewController {
       stackView.translatesAutoresizingMaskIntoConstraints = false
       
       NSLayoutConstraint.activate([
-        stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-        stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -104),
+        stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -12),
+        stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64),
         stackView.heightAnchor.constraint(equalToConstant: buttonSize),
         stackView.widthAnchor.constraint(equalToConstant: (buttonSize * 2) + buttonSpacing + 1)
       ])
