@@ -29,7 +29,7 @@ import Foundation
 extension FileManager {
   func createUniqueFolder(at folderURL: URL, withName folderName: String) throws -> URL {
     // Validate folder name
-    let validatedFolderName = validateFolderName(at: folderURL) ?? "" //validateDocumentTitle(title: folderName, at: folderURL)
+    let validatedFolderName = validateDocumentTitle(title: folderName, at: folderURL)
     
     // Append validated folder name to folder URL
     let newFolderURL = folderURL.appendingPathComponent(validatedFolderName)
@@ -88,19 +88,19 @@ extension FileManager {
 //    return newURLs
 //  }
   
-//  private func validateDocumentTitle(title: String, at folderURL: URL) -> String {
-//    var validatedTitle = title
-//    var suffixNumber = 1
-//
-//    // Check if file/folder name already exists
-//    while fileExists(atPath: folderURL.appendingPathComponent(validatedTitle).path) {
-//      // If file/folder already exists, add numerical suffix until unique name is found
-//      validatedTitle = "\(title) \(suffixNumber)"
-//      suffixNumber += 1
-//    }
-//
-//    return validatedTitle
-//  }
+  private func validateDocumentTitle(title: String, at folderURL: URL) -> String {
+    var validatedTitle = title
+    var suffixNumber = 1
+
+    // Check if file/folder name already exists
+    while fileExists(atPath: folderURL.appendingPathComponent(validatedTitle).path) {
+      // If file/folder already exists, add numerical suffix until unique name is found
+      validatedTitle = "\(title) \(suffixNumber)"
+      suffixNumber += 1
+    }
+
+    return validatedTitle
+  }
 }
 
 extension LocalFileManager {

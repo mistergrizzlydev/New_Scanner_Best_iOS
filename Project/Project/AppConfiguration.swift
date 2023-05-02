@@ -1,6 +1,10 @@
 import Foundation
 
 struct AppConfiguration {
+    enum OCR {
+        static let personalKey = "K6THam-YqqTcU-WTWSde-qaayNa-cDqMLc-gLH"
+    }
+    
   enum Help: String {
     case support = "newturboscanapp@gmail.com "
     case featureRequeast = "newturboscanapp@gmail.com"

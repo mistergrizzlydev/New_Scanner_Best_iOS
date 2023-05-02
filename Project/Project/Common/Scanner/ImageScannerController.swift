@@ -2,7 +2,7 @@ import AVFoundation
 import UIKit
 
 /// A set of methods that your delegate object must implement to interact with the image scanner interface.
-public protocol ImageScannerControllerDelegate: NSObjectProtocol {
+protocol ImageScannerControllerDelegate: NSObjectProtocol {
   
   /// Tells the delegate that the user scanned a document.
   ///
@@ -32,10 +32,10 @@ public protocol ImageScannerControllerDelegate: NSObjectProtocol {
 /// 1. Uses the camera to capture an image with a rectangle that has been detected.
 /// 2. Edit the detected rectangle.
 /// 3. Review the cropped down version of the rectangle.
-public final class ImageScannerController: UINavigationController {
+final class ImageScannerController: BaseNavigationController {
   
   /// The object that acts as the delegate of the `ImageScannerController`.
-  public weak var imageScannerDelegate: ImageScannerControllerDelegate?
+  weak var imageScannerDelegate: ImageScannerControllerDelegate?
   
   // MARK: - Life Cycle
   
@@ -48,13 +48,16 @@ public final class ImageScannerController: UINavigationController {
     return view
   }()
   
-  override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
     return .portrait
   }
   
-  public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil) {
+  required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil) {
     super.init(rootViewController: UIViewController())
     
+      navigationBar.prefersLargeTitles = false
+      navigationItem.largeTitleDisplayMode = .automatic
+      
     self.imageScannerDelegate = delegate
     
     view.backgroundColor = .white
@@ -72,11 +75,11 @@ public final class ImageScannerController: UINavigationController {
     }
   }
   
-  override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
   }
   
-  public required init?(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
@@ -102,7 +105,7 @@ public final class ImageScannerController: UINavigationController {
     }
   }
   
-  public func useImage(image: UIImage) {
+  func useImage(image: UIImage) {
     detect(image: image) { [weak self] detectedQuad in
       guard let self else { return }
       let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
@@ -110,7 +113,7 @@ public final class ImageScannerController: UINavigationController {
     }
   }
   
-  public func resetScanner() {
+  func resetScanner() {
     setViewControllers([UIViewController()], animated: true)
   }
   
@@ -136,14 +139,14 @@ public final class ImageScannerController: UINavigationController {
 }
 
 /// Data structure containing information about a scan, including both the image and an optional PDF.
-public struct ImageScannerScan {
-  public enum ImageScannerError: Error {
+struct ImageScannerScan {
+  enum ImageScannerError: Error {
     case failedToGeneratePDF
   }
   
-  public var image: UIImage
+  var image: UIImage
   
-  public func generatePDFData(completion: @escaping (Result<Data, ImageScannerError>) -> Void) {
+  func generatePDFData(completion: @escaping (Result<Data, ImageScannerError>) -> Void) {
     DispatchQueue.global(qos: .userInteractive).async {
       if let pdfData = self.image.pdfData() {
         completion(.success(pdfData))
@@ -163,29 +166,29 @@ public struct ImageScannerScan {
 /// Data structure containing information about a scanning session.
 /// Includes the original scan, cropped scan, detected rectangle, and whether the user selected the enhanced scan.
 /// May also include an enhanced scan if no errors were encountered.
-public struct ImageScannerResults {
+struct ImageScannerResults {
   
   /// The original scan taken by the user, prior to the cropping applied by WeScan.
-  public var originalScan: ImageScannerScan
+  var originalScan: ImageScannerScan
   
   /// The deskewed and cropped scan using the detected rectangle, without any filters.
-  public var croppedScan: ImageScannerScan
+  var croppedScan: ImageScannerScan
   
   /// The enhanced scan, passed through an Adaptive Thresholding function.
   /// This image will always be grayscale and may not always be available.
-  public var enhancedScan: ImageScannerScan?
+  var enhancedScan: ImageScannerScan?
   
   /// Whether the user selected the enhanced scan or not.
   /// The `enhancedScan` may still be available even if it has not been selected by the user.
-  public var doesUserPreferEnhancedScan: Bool
+  var doesUserPreferEnhancedScan: Bool
   
   /// The detected rectangle which was used to generate the `scannedImage`.
-  public var detectedRectangle: Quadrilateral
+  var detectedRectangle: Quadrilateral
   
-  public var originalImage: UIImage?
-  public var scannedImage: UIImage?
-  public var enhancedImage: UIImage?
-  public var doesUserPreferEnhancedImage = false
+  var originalImage: UIImage?
+  var scannedImage: UIImage?
+  var enhancedImage: UIImage?
+  var doesUserPreferEnhancedImage = false
   
   init(
     detectedRectangle: Quadrilateral,

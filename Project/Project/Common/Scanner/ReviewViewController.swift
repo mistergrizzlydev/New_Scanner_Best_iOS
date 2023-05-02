@@ -68,6 +68,16 @@ final class ReviewViewController: UIViewController {
     // We only show the toolbar (with the enhance button) if the enhanced image is available.
     if enhancedImageIsAvailable {
       navigationController?.setToolbarHidden(false, animated: true)
+        
+        
+//        navigationController?.toolbar.tintColor = .bgColor
+//        navigationController?.toolbar.barTintColor = .bgColor
+        
+        navigationController?.toolbar.backgroundColor = .bgColor
+//        navigationController?.toolbar.isTranslucent = true
+//
+//        UIToolbar.appearance().barTintColor = UIColor.bgColor
+//        UIToolbar.appearance().tintColor = .bgColor
     }
   }
   
@@ -84,7 +94,7 @@ final class ReviewViewController: UIViewController {
   
   private func setupToolbar() {
     guard enhancedImageIsAvailable else { return }
-    
+      
     let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
     let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     toolbarItems = [fixedSpace, enhanceButton, flexibleSpace, rotateButton, fixedSpace]

@@ -1,12 +1,12 @@
 import LocalAuthentication
 import UIKit
+import AVFoundation
 
 extension UIDevice {
   enum BiometricType {
     case none
     case touchID
     case faceID
-    
     
     var name: String {
       switch self {
@@ -46,4 +46,13 @@ extension UIDevice {
     
     return biometricType
   }
+}
+
+extension UIDevice {
+    static func hasFlash() -> Bool {
+        if let device = AVCaptureDevice.default(for: .video) {
+            return device.hasTorch
+        }
+        return false
+    }
 }

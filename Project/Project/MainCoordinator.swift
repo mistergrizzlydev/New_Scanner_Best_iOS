@@ -88,7 +88,9 @@ final class MainCoordinator: NSObject, Coordinator {
                                                                                                                   tabBarItemName: type.tabBarItemName, tag: 0)
       controller.navigationController?.pushViewController(documents, animated: true)
     } else {
-      let settings = SettingsBuilder().buildViewController()!.wrappedInNavigation(title: "Settings", image: .systemSettings(), tabBarItemName: "Settings", tag: 2)
+      let settings = SettingsBuilder().buildDefaultViewController()!.wrappedInNavigation(title: "Settings",
+                                                                                         image: .systemSettings(),
+                                                                                         tabBarItemName: "Settings", tag: 2)
       let tabBar = TabBarBuilder().buildViewController(with: [documents, starred, settings])!
       tabBar.modalPresentationStyle = .fullScreen
       window?.rootViewController?.present(tabBar, animated: false)
@@ -143,20 +145,20 @@ final class MainCoordinator: NSObject, Coordinator {
       return
     }
     
-    let documentScannerViewController = VNDocumentCameraViewController()    
-    documentScannerViewController.delegate = delegate
-    controller?.present(documentScannerViewController, animated: true, completion: {
-      completion?(true)
-    })
+      let documentScannerViewController = DocumentScannerController()
+      documentScannerViewController.delegate = delegate
+      controller?.present(documentScannerViewController, animated: true, completion: {
+          documentScannerViewController.pressButtons()
+          documentScannerViewController.addHintView()
+          documentScannerViewController.showLabels()
+          completion?(true)
+      })
   }
   
   func presentImagePicker(in controller: UIViewController?, delegate: PhotosUI.PHPickerViewControllerDelegate? = nil, completion: ((Bool) -> Void)? = nil) {
-    PHPhotoLibrary.checkAuthorizationStatus { [weak self] status in
-      
+    PHPhotoLibrary.checkAuthorizationStatus { status in
       switch status {
       case .authorized, .limited:
-        // Access to photo library is authorized
-        // Present the picker view controller here
         var configuration = PHPickerConfiguration()
         configuration.filter = .any(of: [.images])
 //        configuration.preferredAssetRepresentationMode = .current
@@ -167,75 +169,13 @@ final class MainCoordinator: NSObject, Coordinator {
         controller?.present(picker, animated: true, completion: {
           completion?(true)
         })
-//        case .limited:
-//            // Access to photo library is limited
-//            // Present the picker view controller here, but with limited functionality
       case .notDetermined, .restricted, .denied:
-//            // Access to photo library is not yet determined
-//            // Authorization request has been sent in the checkAuthorizationStatus method
-//        case .denied:
-//            // Access to photo library is denied
-//            // Handle this case here
-//        case .restricted:
-//            // Access to photo library is restricted
-//            // Handle this case here
         completion?(false)
         return
       }
     }
   }
 }
-
-
-
-extension PHPhotoLibrary {
-    enum AuthorizationStatus {
-        case authorized
-        case limited
-        case notDetermined
-        case denied
-        case restricted
-    }
-    
-    static func checkAuthorizationStatus(completion: @escaping (AuthorizationStatus) -> Void) {
-        if #available(iOS 14, *) {
-            let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-            switch status {
-            case .authorized:
-                completion(.authorized)
-            case .limited:
-                completion(.limited)
-            case .notDetermined:
-                PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
-                    DispatchQueue.main.async {
-                        if status == .authorized {
-                            completion(.authorized)
-                        } else {
-                            completion(.denied)
-                        }
-                    }
-                }
-            case .denied:
-                completion(.denied)
-            case .restricted:
-                completion(.restricted)
-            @unknown default:
-                break
-            }
-        } else {
-            let status = PHPhotoLibrary.authorizationStatus()
-            if status == .authorized {
-                completion(.authorized)
-            } else {
-                completion(.denied)
-            }
-        }
-    }
-}
-
-
-
-
 
 
 

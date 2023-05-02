@@ -55,9 +55,10 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
   }
   
   func endEditing() {
-    if let button = navigationItem.rightBarButtonItems?.first(where: { $0.isEnabled }) {
-      _ = button.target?.perform(button.action, with: button)
-    }
+      if let button = navigationItem.rightBarButtonItems?.first(where: { $0.title?.lowercased() == "done" }){
+          _ = button.target?.perform(button.action, with: button)
+      }
+      tableView.setEditing(false, animated: true)
   }
   
   private func setupViews() {
@@ -133,7 +134,8 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
       self.presenter.duplicate(for: selectedViewModels)
     case .move:
       self.presenter.presentMove(selectedViewModels: selectedViewModels, viewModels: viewModels)
-    case .delete: presenter.onDeleteTapped(selectedViewModels)
+    case .delete:
+        presenter.onDeleteTapped(selectedViewModels)
     }
   }
   

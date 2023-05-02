@@ -34,11 +34,26 @@ final class AnnotateViewController: QLPreviewController, AnnotateViewControllerP
     delay(0.33) { [weak self] in
       guard let self = self else { return }
       
+        // QLOverlayDefaultActionButtonAccessibilityIdentifier
+        // (navigation.view.allSubviews().filter { $0 is UIToolbar } as? [UIToolbar])?.last?.items?.first?.accessibilityIdentifier
+        // QLPDFItemViewControllerBarSearchRightButtonAccessibilityIdentifier
+        // (navigation.view.allSubviews().filter { $0 is UIToolbar } as? [UIToolbar])?.last?.items?[2].accessibilityIdentifier
+        
       if let navigation = self.children.first as? UINavigationController {
         if #available(iOS 16.0, *) {
           
+            // wip
+//            if let overlay = (navigation.view.allSubviews().filter { $0 is UIToolbar } as? [UIToolbar])?.last?.items?.first(where: { $0.accessibilityIdentifier == "QLOverlayDefaultActionButtonAccessibilityIdentifier" }) {
+////                _ = overlay.target?.perform(overlay.action, with: overlay)
+//            }
+//
+//            if let pdfItem = (navigation.view.allSubviews().filter { $0 is UIToolbar } as? [UIToolbar])?.last?.items?.first(where: { $0.accessibilityIdentifier == "QLPDFItemViewControllerBarSearchRightButtonAccessibilityIdentifier" }) {
+//                _ = pdfItem.target?.perform(pdfItem.action, with: pdfItem)
+//            }
+                
           switch UIDevice.current.userInterfaceIdiom {
           case .pad:
+              
             let navigationBar = navigation.view.subviews.first(where: { ($0 is UINavigationBar) }) as? UINavigationBar
             let navigationItem = navigationBar?.items?.first(where: { $0 is UINavigationItem })
             if let markupNavButton = navigationItem?.rightBarButtonItems?.first(where: { ($0 as UIBarButtonItem).accessibilityIdentifier == Constants.markupButtonAccessibilityIdentifier }) {

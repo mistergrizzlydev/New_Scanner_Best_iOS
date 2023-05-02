@@ -2,7 +2,7 @@ import UIKit
 
 extension UIColor {
   private enum Color: String{
-    case themeColor, bgColor, labelColor, labelTextColor, themeGreen, themeBlick, themeSelectedColor
+    case themeColor, bgColor, labelColor, labelTextColor, themeGreen, themeBlick, themeSelectedColor, themeLigthGray
   }
   
   class var themeColor: UIColor {
@@ -60,4 +60,12 @@ extension UIColor {
     
     return color
   }
+    
+    class var themeLigthGray: UIColor {
+      guard let color = UIColor(named: Color.themeLigthGray.rawValue) else {
+        fatalError("Cannot find \(Color.themeLigthGray.rawValue) in Colors.xcassets file. Please add it back.")
+      }
+      
+      return color
+    }
 }

@@ -1,6 +1,7 @@
 import UIKit
 import PhotosUI
 import VisionKit
+import Sandwich
 
 protocol DocumentsPresenterProtocol {
   func present()
@@ -52,6 +53,8 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
     self.folder = folder
     self.type = type
     super.init()
+    
+    registerNotifications()
   }
   
   func present() {
@@ -76,6 +79,15 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
     }
     
     view.updateEditButtonItemEnabled()
+  }
+  
+  private func registerNotifications() {
+    let notificationCenter = NotificationCenter.default
+    let queue = OperationQueue.main
+    notificationCenter.addObserver(forName: .moveFolderOrFile, object: nil, queue: queue) { [weak self] notification in
+      self?.present()
+      self?.view.endEditing()
+    }
   }
   
   func on(sortBy sortType: SortType) {
@@ -141,7 +153,7 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
       view.showDrop(message: message, icon: icon)
     }
   }
-
+  
   func onRenameTapped(_ viewModel: DocumentsViewModel) {
     // Handle rename action
     print("Rename action tapped")
@@ -160,7 +172,7 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
     
     do {
       try localFileManager.delete(urls)
-
+      
       if viewModels.count > 1 {
         let message = "Files deleted successfully"
         let icon = UIImage(systemName: FileManagerAction.delete.defaultIconName)
@@ -205,7 +217,7 @@ extension DocumentsPresenter {
                                    message: "Please enter a name for the new folder:",
                                    placeholder: "Folder Name") { [weak self] folderName in
       guard let self = self else { return }
-        // Handle the folder name entered by the user
+      // Handle the folder name entered by the user
       let name = folderName.isEmpty ? "New Folder" : folderName
       
       do {
@@ -250,7 +262,7 @@ extension DocumentsPresenter {
     if viewModels.count == 1 {
       // Only one file/folder, so disable the merge button
       view.display(toolbarButtonAction: .merge, isEnabled: false)
-
+      
       if viewModels.first?.file.type == .file {
         view.display(toolbarButtonAction: .duplicate, isEnabled: true)
       } else {
@@ -261,13 +273,13 @@ extension DocumentsPresenter {
       let containsFolders = viewModels.contains { $0.file.type == .folder }
       let containsFiles = viewModels.contains { $0.file.type == .file }
       
-//      if containsFolders && containsFiles {
-//        // Mixed files and folders, so disable the merge button
-//        view.display(toolbarButtonAction: .merge, isEnabled: false)
-//      } else {
-//        // Only files or only folders, so enable the merge button
-//        view.display(toolbarButtonAction: .merge, isEnabled: true)
-//      }
+      //      if containsFolders && containsFiles {
+      //        // Mixed files and folders, so disable the merge button
+      //        view.display(toolbarButtonAction: .merge, isEnabled: false)
+      //      } else {
+      //        // Only files or only folders, so enable the merge button
+      //        view.display(toolbarButtonAction: .merge, isEnabled: true)
+      //      }
       
       if containsFiles && !containsFolders {
         view.display(toolbarButtonAction: .duplicate, isEnabled: true)
@@ -308,7 +320,7 @@ extension DocumentsPresenter {
                                        message: "Enter a name for the merged PDF:",
                                        placeholder: "Merged PDF Name") { [weak self] name in
           guard let self = self else { return }
-            // Handle the folder name entered by the user
+          // Handle the folder name entered by the user
           let name = name.isEmpty ? "New PDF (merged)" : name
           let urls = files.compactMap { $0.file.url }
           self.localFileManager.mergePDF(urls: urls, with: name, toRootURL: self.folder.url)
@@ -362,11 +374,21 @@ extension DocumentsPresenter {
 extension DocumentsPresenter: VNDocumentCameraViewControllerDelegate {
   func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
     // Handle the scanned document
+    var images: [UIImage] = []
+    
     for pageIndex in 0..<scan.pageCount {
       let image = scan.imageOfPage(at: pageIndex)
-      // Do something with the scanned page image
+      images.append(image)
     }
-    controller.dismiss(animated: true, completion: nil)
+    let url = folder.url.appendingPathComponent(folder.url.generateFileName)
+    
+    // add here doc clasifier for naming...
+    SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
+                          toSandwichPDFatURL: url, isTextRecognition: UserDefaults.isOCREnabled,
+                          quality: UserDefaults.imageCompressionLevel.compressionLevel()) { error in
+      self.present()
+      controller.dismiss(animated: true, completion: nil)
+    }
   }
   
   func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
@@ -382,15 +404,55 @@ extension DocumentsPresenter: PHPickerViewControllerDelegate {
   func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
     print(results.count, results)
     
-    results.loadImages { (images, error) in
+    results.loadImages { [weak self] (images, error) in
+      guard let self = self else { return }
       if let error = error {
-        debugPrint("Error loading images: \(error.localizedDescription)")
+        self.view.showDrop(message: "Error loading images: \(error.localizedDescription)", icon: .systemAlert())
       } else if let images = images {
-        // Use the loaded images here
-        
         print(images.count, results.count)
-        picker.dismiss(animated: true)
+        let url = self.folder.url.appendingPathComponent(self.folder.url.generateFileName)
+        SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
+                              toSandwichPDFatURL: url, isTextRecognition: UserDefaults.isOCREnabled,
+                              quality: UserDefaults.imageCompressionLevel.compressionLevel()) { error in
+          self.present()
+          picker.dismiss(animated: true)
+        }
       }
     }
+  }
+}
+
+extension ImageSize {
+  func compressionLevel() -> CompressionLevel {
+    switch self {
+    case .low, .small:
+      return .low
+    case .medium:
+      return .medium
+    case .original:
+      return .original
+    }
+  }
+}
+
+extension URL {
+  var generateFileName: String {
+//    let formatter = DateFormatter()
+//    formatter.dateFormat = "MMM dd yyyy, hh:mm:s a"
+//    let dateString = formatter.string(from: Date())
+////
+//    let name = Locale.current.name(self)
+//    let fileName = "\(name).pdf"
+    return Locale.current.name(self)
+  }
+}
+
+extension Locale {
+  func name(_ rootURL: URL) -> String {
+    let name = Tag.convertToDate(from: UserDefaults.standard.selectedTags)
+    let fileName = "\(name).pdf"
+    let fileURL = rootURL.appendingPathComponent(fileName)
+    
+    return FileManager.default.validateFolderName(at: fileURL) ?? fileName
   }
 }

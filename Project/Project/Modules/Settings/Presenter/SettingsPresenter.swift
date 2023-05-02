@@ -5,214 +5,252 @@ import WhatsNewKit
 import SwiftUI
 
 protocol SettingsPresenterProtocol {
-  func present()
-  
-  func showAppearance()
-  func showStartAppWith()
-  func grabDefaultEmail()
-  
-  func showScanCompression()
-  func showPageSize()
-  func showSortType()
-  func showSmartCategories()
-  
-  func onDistortionTapped()
-  func onCameraStabilizationTapped()
-  
-  func onPPTapped()
-  func onTermsTapped()
-  
-  func showEmail(with type: AppConfiguration.Help)
-  
-  func onRateTapped()
-  func onMoreAppsTapped()
-  func onWhatsNewTapped()
+    func present()
+    
+    func navigateToSettings()
+    
+    func showAppearance()
+    func showStartAppWith()
+    func grabDefaultEmail()
+    
+    func showScanCompression()
+    func showPageSize()
+    func showSortType()
+    func showSmartCategories()
+    
+    func onDefaultNameTapped()
+    
+    func onDistortionTapped()
+    func onCameraStabilizationTapped()
+    
+    func onPPTapped()
+    func onTermsTapped()
+    
+    func showEmail(with type: AppConfiguration.Help)
+    
+    func onRateTapped()
+    func onMoreAppsTapped()
+    func onWhatsNewTapped()
+    
+    func onCameraFlashTapped()
+    func onCameraFilterTapped()
+    func onDocumentDetectionTapped()
 }
 
 final class SettingsPresenter: NSObject, SettingsPresenterProtocol {
-  private weak var view: (SettingsViewControllerProtocol & UIViewController)!
-
-  init(view: SettingsViewControllerProtocol & UIViewController) {
-    self.view = view
-    super.init()
-    registerUpdatePDFNotifications()
-  }
-  
-  deinit {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  func present() {
-    view.prepare(with: .init(title: "Settings"))
-  }
-  
-  func showAppearance() {
-    let options = Appearance.allCases.compactMap { $0.name }
-    let selectedOption = UserDefaults.appearance.rawValue
-    let controller = SelectableBuilder().buildViewController(title: "Appearance", options: options, selectedOption: selectedOption)!
-    view.navigationController?.pushViewController(controller, animated: true)
-  }
-  
-  func showStartAppWith() {
-    let options = StartType.allCases.compactMap { $0.rawValue }
-    let selectedOption = UserDefaults.startType.rawValue
-    let controller = SelectableBuilder().buildViewController(title: "Start App with", options: options, selectedOption: selectedOption)!
-    view.navigationController?.pushViewController(controller, animated: true)
-  }
-  
-  func grabDefaultEmail() {
-    let text = UserDefaults.emailFromAccount.isEmpty ? nil : UserDefaults.emailFromAccount
-    view.presentAlertWithTextField(message: "Link your email address for seamless sharing of documents and folders", keyboardType: .emailAddress,
-                                   text: text, placeholder: "john.doe@example.com") { [weak self] result in
-      UserDefaults.emailFromAccount = result
-      self?.present()
-    }
-  }
-  
-  func showScanCompression() {
-    let options = ImageSize.allCases.compactMap { $0.name }
-    let selectedOption = UserDefaults.imageCompressionLevel.rawValue
-    let controller = SelectableBuilder().buildViewController(title: "Scan Compression", options: options, selectedOption: selectedOption)!
-    view.navigationController?.pushViewController(controller, animated: true)
-  }
-  
-  func showPageSize() {
-    let options = PageSize.allCases.compactMap { $0.name }
-    let selectedOption = UserDefaults.pageSize.rawValue
-    let controller = SelectableBuilder().buildViewController(title: "Default Page Size", options: options, selectedOption: selectedOption)!
-    view.navigationController?.pushViewController(controller, animated: true)
-  }
-  
-  func showSortType() {
-    let options = SortType.allCases.compactMap { $0.rawValue }
-    let selectedOption = UserDefaults.sortedFilesType.rawValue
-    let controller = SelectableBuilder().buildViewController(title: "Default Sort type", options: options, selectedOption: selectedOption)!
-    view.navigationController?.pushViewController(controller, animated: true)
-  }
-  
-  func showSmartCategories() {
-    let options = DocumentClasifierCategory.allCases.compactMap { $0.name }
-    let selectedOption = UserDefaults.documentClasifierCategory.name
-    let controller = SelectableBuilder().buildViewController(title: "Default Smart category", options: options, selectedOption: selectedOption)!
-    view.navigationController?.pushViewController(controller, animated: true)
-  }
-  
-  func onDistortionTapped() {
-    UserDefaults.isDistorsionEnabled.toggle()
-    present()
-  }
-  
-  func onCameraStabilizationTapped() {
-    UserDefaults.isCameraStabilizationEnabled.toggle()
-    present()
-  }
-  
-  func onPPTapped() {
-    presentSafari(with: AppConfiguration.Help.privacyPolicy.rawValue)
-  }
-  
-  func onTermsTapped() {
-    presentSafari(with: AppConfiguration.Help.terms.rawValue)
-  }
-  
-  func showEmail(with type: AppConfiguration.Help) {
-    switch type {
-    case .support:
-      onEmailTapped(recipients: [AppConfiguration.Help.support.rawValue],
-                    subject: "[TurboScan™] Support",
-                    body: "\n\nVersion: \(Bundle.appVersion)\nDevice: \(Bundle.iOSVersion)\nSystem: \(Bundle.deviceModel)")
-      
-    case .featureRequeast:
-      onEmailTapped(recipients: [AppConfiguration.Help.featureRequeast.rawValue],
-                    subject: "[TurboScan™] Feature request", body: "")
-      
-    case .tellAFriend:
-      view.share(["\(AppConfiguration.appStoreURL(with: AppConfiguration.AppStore.id.rawValue)) \n\(AppConfiguration.Help.tellAFriend.rawValue)"])
-      
-    default: break
-    }
-  }
-  
-  private func onEmailTapped(recipients: [String]?, subject: String, body: String) {
-    view.presentMail(with: recipients, subject: subject, body: body, delegate: self)
-  }
-  
-  func onRateTapped() {
-    if let url = URL(string: "itms-apps://itunes.apple.com/app/id\(AppConfiguration.AppStore.id.rawValue)?action=write-review") {
-      UIApplication.shared.open(url, options: [:], completionHandler: nil)
-    }
-  }
-  
-  func onWhatsNewTapped() {
-    let whatsNew = WhatsNew(title: "What's New", features: [
-      WhatsNew.Feature(image: WhatsNew.Feature.Image(systemName: "star.fill", foregroundColor: Color(UIColor.themeColor)),
-                        title: "Add to Starred",
-                        subtitle: "Quickly add and remove items to your favorites list."),
-
-      WhatsNew.Feature(image: WhatsNew.Feature.Image(systemName: "doc.text.magnifyingglass", foregroundColor: Color(UIColor.themeColor)),
-                        title: "Merge multiple PDFs",
-                        subtitle: "Combine multiple PDFs into a single file with ease."),
-
-      WhatsNew.Feature(image: WhatsNew.Feature.Image(systemName: "magnifyingglass.circle.fill", foregroundColor: Color(UIColor.themeColor)),
-                        title: "Full-Text search",
-                        subtitle: "Easily find any document by searching for specific text within your scans."),
-
-      WhatsNew.Feature(image: WhatsNew.Feature.Image(systemName: "doc.text.viewfinder", foregroundColor: Color(UIColor.themeColor)),
-                        title: "Text Vision",
-                        subtitle: "Convert your scans into editable text for easy sharing and copying.")
-    ], primaryAction: .init(title: "Continue", backgroundColor: Color(UIColor.themeColor), foregroundColor: Color(UIColor.bgColor)))
+    private weak var view: (SettingsViewControllerProtocol & UIViewController)!
     
-    let controller = WhatsNewViewController(whatsNew: whatsNew)
-    view.present(controller, animated: true)
-  }
-  
-  func onMoreAppsTapped() {
-    if let url = URL(string: AppConfiguration.AppStore.moreApps.rawValue) {
-      UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    init(view: SettingsViewControllerProtocol & UIViewController) {
+        self.view = view
+        super.init()
+        registerUpdatePDFNotifications()
     }
-  }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func present() {
+        view.prepare(with: .init(title: "Settings"))
+    }
+    
+    func navigateToSettings() {
+        let controller = SettingsBuilder().buildScannerViewController()!
+        view.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func showAppearance() {
+        let options = Appearance.allCases.compactMap { $0.name }
+        let selectedOption = UserDefaults.appearance.rawValue
+        let controller = SelectableBuilder().buildViewController(title: "Appearance", options: options, selectedOption: selectedOption)!
+        view.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func showStartAppWith() {
+        let options = StartType.allCases.compactMap { $0.rawValue }
+        let selectedOption = UserDefaults.startType.rawValue
+        let controller = SelectableBuilder().buildViewController(title: "Start App with", options: options, selectedOption: selectedOption)!
+        view.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func grabDefaultEmail() {
+        let text = UserDefaults.emailFromAccount.isEmpty ? nil : UserDefaults.emailFromAccount
+        view.presentAlertWithTextField(message: "Link your email address for seamless sharing of documents and folders", keyboardType: .emailAddress,
+                                       text: text, placeholder: "john.doe@example.com") { [weak self] result in
+            UserDefaults.emailFromAccount = result
+            self?.present()
+        }
+    }
+    
+    func showScanCompression() {
+        let options = ImageSize.allCases.compactMap { $0.name }
+        let selectedOption = UserDefaults.imageCompressionLevel.rawValue
+        let controller = SelectableBuilder().buildViewController(title: "Scan Compression", options: options, selectedOption: selectedOption)!
+        view.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func showPageSize() {
+        let options = PageSize.allCases.compactMap { $0.name }
+        let selectedOption = UserDefaults.pageSize.rawValue
+        let controller = SelectableBuilder().buildViewController(title: "Default Page Size", options: options, selectedOption: selectedOption)!
+        view.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func showSortType() {
+        let options = SortType.allCases.compactMap { $0.rawValue }
+        let selectedOption = UserDefaults.sortedFilesType.rawValue
+        let controller = SelectableBuilder().buildViewController(title: "Default Sort type", options: options, selectedOption: selectedOption)!
+        view.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func showSmartCategories() {
+        let options = DocumentClasifierCategory.allCases.compactMap { $0.name }
+        let selectedOption = UserDefaults.documentClasifierCategory.name
+        let controller = SelectableBuilder().buildViewController(title: "Default Smart category", options: options, selectedOption: selectedOption)!
+        view.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func onCameraFlashTapped() {
+        guard UIDevice.hasFlash() else { return }
+        let options = CameraFlashType.allCases.compactMap { $0.name }
+        let selectedOption = UserDefaults.cameraFlashType.name
+        let controller = SelectableBuilder().buildViewController(title: "Default Camera flash", options: options, selectedOption: selectedOption)!
+        view.navigationController?.pushViewController(controller, animated: true)
+    }
+    func onCameraFilterTapped() {
+        let options = CameraFilterType.allCases.compactMap { $0.name }
+        let selectedOption = UserDefaults.cameraFilterType.name
+        let controller = SelectableBuilder().buildViewController(title: "Default Camera filter", options: options, selectedOption: selectedOption)!
+        view.navigationController?.pushViewController(controller, animated: true)
+    }
+    func onDocumentDetectionTapped() {
+        let options = DocumentDetectionType.allCases.compactMap { $0.name }
+        let selectedOption = UserDefaults.documentDetectionType.name
+        let controller = SelectableBuilder().buildViewController(title: "Default Document detection", options: options, selectedOption: selectedOption)!
+        view.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func onDistortionTapped() {
+        UserDefaults.isDistorsionEnabled.toggle()
+        present()
+    }
+    
+    func onCameraStabilizationTapped() {
+        UserDefaults.isCameraStabilizationEnabled.toggle()
+        present()
+    }
+    
+    func onPPTapped() {
+        presentSafari(with: AppConfiguration.Help.privacyPolicy.rawValue)
+    }
+    
+    func onTermsTapped() {
+        presentSafari(with: AppConfiguration.Help.terms.rawValue)
+    }
+    
+    func showEmail(with type: AppConfiguration.Help) {
+        switch type {
+        case .support:
+            onEmailTapped(recipients: [AppConfiguration.Help.support.rawValue],
+                          subject: "[TurboScan™] Support",
+                          body: "\n\nVersion: \(Bundle.appVersion)\nDevice: \(Bundle.iOSVersion)\nSystem: \(Bundle.deviceModel)")
+            
+        case .featureRequeast:
+            onEmailTapped(recipients: [AppConfiguration.Help.featureRequeast.rawValue],
+                          subject: "[TurboScan™] Feature request", body: "")
+            
+        case .tellAFriend:
+            view.share(["\(AppConfiguration.appStoreURL(with: AppConfiguration.AppStore.id.rawValue)) \n\(AppConfiguration.Help.tellAFriend.rawValue)"])
+            
+        default: break
+        }
+    }
+    
+    private func onEmailTapped(recipients: [String]?, subject: String, body: String) {
+        view.presentMail(with: recipients, subject: subject, body: body, delegate: self)
+    }
+    
+    func onRateTapped() {
+        if let url = URL(string: "itms-apps://itunes.apple.com/app/id\(AppConfiguration.AppStore.id.rawValue)?action=write-review") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    func onWhatsNewTapped() {
+        let whatsNew = WhatsNew(title: "What's New", features: [
+            WhatsNew.Feature(image: WhatsNew.Feature.Image(systemName: "star.fill", foregroundColor: Color(UIColor.themeColor)),
+                             title: "Add to Starred",
+                             subtitle: "Quickly add and remove items to your favorites list."),
+            
+            WhatsNew.Feature(image: WhatsNew.Feature.Image(systemName: "doc.text.magnifyingglass", foregroundColor: Color(UIColor.themeColor)),
+                             title: "Merge multiple PDFs",
+                             subtitle: "Combine multiple PDFs into a single file with ease."),
+            
+            WhatsNew.Feature(image: WhatsNew.Feature.Image(systemName: "magnifyingglass.circle.fill", foregroundColor: Color(UIColor.themeColor)),
+                             title: "Full-Text search",
+                             subtitle: "Easily find any document by searching for specific text within your scans."),
+            
+            WhatsNew.Feature(image: WhatsNew.Feature.Image(systemName: "doc.text.viewfinder", foregroundColor: Color(UIColor.themeColor)),
+                             title: "Text Vision",
+                             subtitle: "Convert your scans into editable text for easy sharing and copying.")
+        ], primaryAction: .init(title: "Continue", backgroundColor: Color(UIColor.themeColor), foregroundColor: Color(UIColor.bgColor)))
+        
+        let controller = WhatsNewViewController(whatsNew: whatsNew)
+        view.present(controller, animated: true)
+    }
+    
+    func onMoreAppsTapped() {
+        if let url = URL(string: AppConfiguration.AppStore.moreApps.rawValue) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    func onDefaultNameTapped() {
+        let controller = DocNameBuilder().buildViewController()!
+        view.navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 extension SettingsPresenter {
-  private func registerUpdatePDFNotifications() {
-    // In another part of your code where you want to listen for the notification:
-    let notificationCenter = NotificationCenter.default
-    let queue = OperationQueue.main
-    notificationCenter.addObserver(forName: .selectableScreenDidSelectOption, object: nil, queue: queue) { [weak self] notification in
-      self?.present()
+    private func registerUpdatePDFNotifications() {
+        // In another part of your code where you want to listen for the notification:
+        let notificationCenter = NotificationCenter.default
+        let queue = OperationQueue.main
+        notificationCenter.addObserver(forName: .selectableScreenDidSelectOption, object: nil, queue: queue) { [weak self] notification in
+            self?.present()
+        }
     }
-  }
 }
 
 extension SettingsPresenter {
-  private func presentSafari(with url: String) {
-    let url = URL(string: url)!
-    let config = SFSafariViewController.Configuration()
-    config.entersReaderIfAvailable = true
-    let safariViewController = SFSafariViewController(url: url, configuration: config)
-    view.present(safariViewController, animated: true, completion: nil)
-  }
+    private func presentSafari(with url: String) {
+        let url = URL(string: url)!
+        let config = SFSafariViewController.Configuration()
+        config.entersReaderIfAvailable = true
+        let safariViewController = SFSafariViewController(url: url, configuration: config)
+        view.present(safariViewController, animated: true, completion: nil)
+    }
 }
 
 extension SettingsPresenter: MFMailComposeViewControllerDelegate {
-  // Handle the result of the email sending attempt
-  func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-    switch result {
-    case .cancelled:
-      debugPrint("Email cancelled")
-    case .saved:
-      debugPrint("Email saved")
-    case .sent:
-      debugPrint("Email sent")
-    case .failed:
-      debugPrint("Email send failed")
-    default:
-      break
+    // Handle the result of the email sending attempt
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        switch result {
+        case .cancelled:
+            debugPrint("Email cancelled")
+        case .saved:
+            debugPrint("Email saved")
+        case .sent:
+            debugPrint("Email sent")
+        case .failed:
+            debugPrint("Email send failed")
+        default:
+            break
+        }
+        
+        // Dismiss the mail composer
+        controller.dismiss(animated: true)
     }
-    
-    // Dismiss the mail composer
-    controller.dismiss(animated: true)
-  }
 }
 
 

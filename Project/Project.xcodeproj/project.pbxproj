@@ -21,6 +21,7 @@
 		1E1ABFB48BBEDDAC2690E857 /* OCRLanguagesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0582D25FE31D28D07E7181DC /* OCRLanguagesViewModel.swift */; };
 		2214EF3C771724A569E1F507 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0D9DFDBA6E06727F041BCE /* TabBarViewController.swift */; };
 		228663CB98815F0E5E21EB71 /* TextViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94877A18DF76F35E57C2F2DF /* TextViewController.storyboard */; };
+		26D3DA2739C148648F0E7B08 /* DocNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A48D0CC39324DF5312CE50 /* DocNameViewModel.swift */; };
 		28F92CF936FED313BEEB17ED /* SelectableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D387FFF91329F6E5885DEA /* SelectableViewModel.swift */; };
 		2CBC109A15A0FD5C4F19BBC0 /* SelectableBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF953E76991B79B6F2FEE3F /* SelectableBuilder.swift */; };
 		2DC2FB2C6CCCB1CE6C051A73 /* SmartCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E593A56A20BE8466D5214D /* SmartCategoryViewModel.swift */; };
@@ -46,6 +47,7 @@
 		74932B32ABF760A55C230ECA /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6E11A5A9ED945FDB079A2C0 /* SettingsPresenter.swift */; };
 		7E65C35A1F278D80C6694B5D /* VisionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099B7DA903CF88AFAEEE17BB /* VisionViewModel.swift */; };
 		8002428F653EF03FE8D04AC2 /* DemoVCBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46DBE202A945B677D1CB38A /* DemoVCBuilder.swift */; };
+		81BC14344B3CC30A2505083D /* DocNameViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 619060405C3008A5B645FC97 /* DocNameViewController.storyboard */; };
 		88174D093F47A0F07F0FD325 /* DocumentPreviewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301B8F2338E3D70B7BD92B5D /* DocumentPreviewPresenter.swift */; };
 		88DDF56386DFAF1A991DADD2 /* TextBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B193C653681FCE7622638098 /* TextBuilder.swift */; };
 		8C1898806DB4C32A37741987 /* AnnotatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD5326BD7249AB92E1C16C /* AnnotatePresenter.swift */; };
@@ -57,6 +59,7 @@
 		9609E0B12D915D47163E80B8 /* RearrangePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB81C1A507798BB7726B77D /* RearrangePresenter.swift */; };
 		992A9D8AEDBD222E7967F853 /* DemoVCPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0687C6C3B0A6B031239AC276 /* DemoVCPresenter.swift */; };
 		99485E4960DA70BF73AC1EBC /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9962636561D386669EFF987 /* EditViewController.swift */; };
+		9E8E4346A7FBBB670DBC2087 /* DocNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A94320971F8BD009C664DFF /* DocNameViewController.swift */; };
 		9F2FFB982C87217BBD6D3AF1 /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B4ED376633BBF5F393C653 /* TextViewController.swift */; };
 		A52706EF948FCE35F9E2042E /* DemoVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40BFC64EB755F91888B3C93 /* DemoVCViewModel.swift */; };
 		A98622ED9F1CC13DCED755D1 /* EditBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97FC47B41D620D737CB91C9 /* EditBuilder.swift */; };
@@ -73,7 +76,12 @@
 		D66442E0A46979A24882DB8D /* AnnotateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793CE2E45480F1F4A070D4AF /* AnnotateViewModel.swift */; };
 		DA581FB487615B092F7E89D6 /* VisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728E5BBBE417B48B8F796DA5 /* VisionViewController.swift */; };
 		DAAA361065F88F701B27EEB6 /* EditPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C55294E8DE5DFF094C92C7 /* EditPresenter.swift */; };
+		DD0038B4B87C95BB5B7195A1 /* DocNamePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B606B896D0F7C8A6F411524E /* DocNamePresenter.swift */; };
 		E9541C574F1B8F29B207031A /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02260D9216FE27E8FF9F5459 /* ListViewController.swift */; };
+		EB99118329FDCBA0005DFA99 /* DocumentDetectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB99118229FDCBA0005DFA99 /* DocumentDetectionType.swift */; };
+		EB99118529FDD499005DFA99 /* ScanningSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB99118429FDD499005DFA99 /* ScanningSettingsViewController.swift */; };
+		EB99118829FDDB19005DFA99 /* PHPhotoLibrary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB99118729FDDB19005DFA99 /* PHPhotoLibrary+Extensions.swift */; };
+		EB99118A29FDDB52005DFA99 /* DocumentScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB99118929FDDB52005DFA99 /* DocumentScannerController.swift */; };
 		EC0A01B929F2D0ED000317EE /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0A01B829F2D0ED000317EE /* ListTableViewCell.swift */; };
 		EC0A01BB29F2EFEC000317EE /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0A01BA29F2EFEC000317EE /* Array+Extensions.swift */; };
 		EC0A01BD29F2F483000317EE /* LocalFileManager+FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0A01BC29F2F483000317EE /* LocalFileManager+FileManager.swift */; };
@@ -173,6 +181,7 @@
 		F5EDC646A8484EAC7E82AC95 /* DocumentsViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1153FD92B12A4F0AEF86DB3D /* DocumentsViewController.storyboard */; };
 		FA49815854AF0EC02B62B111 /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12475590AC19E91A8EA541 /* DocumentsViewController.swift */; };
 		FB21AE64341454A3BA07AC43 /* VisionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C7C37970F656704424389 /* VisionBuilder.swift */; };
+		FD6A2FD0BBCB67D59345E8CC /* DocNameBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6877D9097D39CCDCE39E32 /* DocNameBuilder.swift */; };
 		FF892AB15B41F136D233E7DC /* SettingsViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CA0B962C5DEFB5DED5004E9 /* SettingsViewController.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -201,6 +210,7 @@
 		06F2E28571D7599BDA9F2132 /* OnboardingViewController.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; path = OnboardingViewController.storyboard; sourceTree = "<group>"; };
 		0822A3CFDACC5FD29BA8F606 /* AnnotateBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnnotateBuilder.swift; sourceTree = "<group>"; };
 		099B7DA903CF88AFAEEE17BB /* VisionViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VisionViewModel.swift; sourceTree = "<group>"; };
+		0A94320971F8BD009C664DFF /* DocNameViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DocNameViewController.swift; sourceTree = "<group>"; };
 		0E0D9DFDBA6E06727F041BCE /* TabBarViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		1153FD92B12A4F0AEF86DB3D /* DocumentsViewController.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; path = DocumentsViewController.storyboard; sourceTree = "<group>"; };
 		1F3CD568EA879AF2C12B70A2 /* SplashBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SplashBuilder.swift; sourceTree = "<group>"; };
@@ -221,7 +231,10 @@
 		5DBC584A4B5DA4DAF46847AE /* TabBarPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TabBarPresenter.swift; sourceTree = "<group>"; };
 		60FA2AAEB10338C696E0FB84 /* SplashPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SplashPresenter.swift; sourceTree = "<group>"; };
 		619024CDF1AE8A73288EC7AA /* EditViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
+		619060405C3008A5B645FC97 /* DocNameViewController.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; path = DocNameViewController.storyboard; sourceTree = "<group>"; };
 		661EA0A31B0BE34701403F01 /* DemoVCViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DemoVCViewController.swift; sourceTree = "<group>"; };
+		6D6877D9097D39CCDCE39E32 /* DocNameBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DocNameBuilder.swift; sourceTree = "<group>"; };
+		71A48D0CC39324DF5312CE50 /* DocNameViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DocNameViewModel.swift; sourceTree = "<group>"; };
 		728E5BBBE417B48B8F796DA5 /* VisionViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VisionViewController.swift; sourceTree = "<group>"; };
 		77A2D54D7D0D3202C05388B5 /* OCRLanguagesPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OCRLanguagesPresenter.swift; sourceTree = "<group>"; };
 		793CE2E45480F1F4A070D4AF /* AnnotateViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnnotateViewModel.swift; sourceTree = "<group>"; };
@@ -248,6 +261,7 @@
 		B193C653681FCE7622638098 /* TextBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextBuilder.swift; sourceTree = "<group>"; };
 		B3E593A56A20BE8466D5214D /* SmartCategoryViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SmartCategoryViewModel.swift; sourceTree = "<group>"; };
 		B48A4368FB3B70DEC34DBF82 /* SelectableViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SelectableViewController.swift; sourceTree = "<group>"; };
+		B606B896D0F7C8A6F411524E /* DocNamePresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DocNamePresenter.swift; sourceTree = "<group>"; };
 		BADD5326BD7249AB92E1C16C /* AnnotatePresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnnotatePresenter.swift; sourceTree = "<group>"; };
 		BC12475590AC19E91A8EA541 /* DocumentsViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DocumentsViewController.swift; sourceTree = "<group>"; };
 		BD9FEBFF44F4F61C844272BA /* OnboardingViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -262,6 +276,10 @@
 		E108C41E3526CA0190F4DEA7 /* SettingsViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		E97FC47B41D620D737CB91C9 /* EditBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EditBuilder.swift; sourceTree = "<group>"; };
 		E9962636561D386669EFF987 /* EditViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		EB99118229FDCBA0005DFA99 /* DocumentDetectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentDetectionType.swift; sourceTree = "<group>"; };
+		EB99118429FDD499005DFA99 /* ScanningSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningSettingsViewController.swift; sourceTree = "<group>"; };
+		EB99118729FDDB19005DFA99 /* PHPhotoLibrary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHPhotoLibrary+Extensions.swift"; sourceTree = "<group>"; };
+		EB99118929FDDB52005DFA99 /* DocumentScannerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentScannerController.swift; sourceTree = "<group>"; };
 		EC0A01B829F2D0ED000317EE /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		EC0A01BA29F2EFEC000317EE /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		EC0A01BC29F2F483000317EE /* LocalFileManager+FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalFileManager+FileManager.swift"; sourceTree = "<group>"; };
@@ -499,6 +517,7 @@
 				EC629DE829FBE7FE00CFC70E /* SettingsNavigationRow.swift */,
 				EC629DEA29FBEA3200CFC70E /* SettingsSwitchRow.swift */,
 				5A38D3C3DAE0340E7598D964 /* SettingsViewController.swift */,
+				EB99118629FDD5C6005DFA99 /* Scanning */,
 				5CA0B962C5DEFB5DED5004E9 /* SettingsViewController.storyboard */,
 			);
 			path = View;
@@ -554,6 +573,18 @@
 				1153FD92B12A4F0AEF86DB3D /* DocumentsViewController.storyboard */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		2C61B30D895D958501388343 /* DocName */ = {
+			isa = PBXGroup;
+			children = (
+				9F1E7E259610E22088FD8F47 /* Builder */,
+				F7684051B3BCBDA08460EB64 /* ViewModel */,
+				E795A95390AFBB4F45BE670A /* View */,
+				752657B360B504D25FF74261 /* Presenter */,
+			);
+			name = DocName;
+			path = DocName;
 			sourceTree = "<group>";
 		};
 		2CEC638FBDCD8B3BCEA2047F /* View */ = {
@@ -741,6 +772,7 @@
 				BA435DDB5E0908B65B028D6A /* Selectable */,
 				E04F2DEE482362BD80D9E804 /* OCRLanguages */,
 				0087DAFEFCA6F963E6E9913D /* SmartCategory */,
+				2C61B30D895D958501388343 /* DocName */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -770,6 +802,15 @@
 				B3E593A56A20BE8466D5214D /* SmartCategoryViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		752657B360B504D25FF74261 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				B606B896D0F7C8A6F411524E /* DocNamePresenter.swift */,
+			);
+			name = Presenter;
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 		761DE644739EE505BF4B84F3 /* Presenter */ = {
@@ -853,6 +894,15 @@
 				4463EF75808AD6A867C8EE5F /* Presenter */,
 			);
 			path = Vision;
+			sourceTree = "<group>";
+		};
+		9F1E7E259610E22088FD8F47 /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				6D6877D9097D39CCDCE39E32 /* DocNameBuilder.swift */,
+			);
+			name = Builder;
+			path = Builder;
 			sourceTree = "<group>";
 		};
 		A0E97438A4BDB026BC7CD9DF /* Rearrange */ = {
@@ -1069,6 +1119,24 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		E795A95390AFBB4F45BE670A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0A94320971F8BD009C664DFF /* DocNameViewController.swift */,
+				619060405C3008A5B645FC97 /* DocNameViewController.storyboard */,
+			);
+			name = View;
+			path = View;
+			sourceTree = "<group>";
+		};
+		EB99118629FDD5C6005DFA99 /* Scanning */ = {
+			isa = PBXGroup;
+			children = (
+				EB99118429FDD499005DFA99 /* ScanningSettingsViewController.swift */,
+			);
+			path = Scanning;
+			sourceTree = "<group>";
+		};
 		EC60DAA329EF308900065737 /* Scanner+Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -1157,6 +1225,7 @@
 			isa = PBXGroup;
 			children = (
 				ECD1B65129DF4FD2005B9EDF /* Document.swift */,
+				EB99118229FDCBA0005DFA99 /* DocumentDetectionType.swift */,
 				EC78B76E29FC821E005807E0 /* DocumentsType.swift */,
 				ECC4457C29FD2C4700C94ACF /* DocumentClasifierCategory.swift */,
 				ECC4457A29FD28CA00C94ACF /* OnboardingCategory.swift */,
@@ -1222,6 +1291,7 @@
 				EC78B76C29FC7BE9005807E0 /* UIWindow+Extensions.swift */,
 				ECF3F69A29E0B488005A3338 /* UIColor+Extensions.swift */,
 				EC0A01BA29F2EFEC000317EE /* Array+Extensions.swift */,
+				EB99118729FDDB19005DFA99 /* PHPhotoLibrary+Extensions.swift */,
 				ECF3F69C29E0B7DC005A3338 /* UIImage+Default.swift */,
 				ECDFCE4529E1E930008B6709 /* UIImage+System.swift */,
 				ECF3F69E29E0C7AE005A3338 /* UIImage+PDF.swift */,
@@ -1242,6 +1312,7 @@
 				ECD1B65929DF5538005B9EDF /* BaseNavigationController.swift */,
 				EC7FDC3E29FAC24A004091C7 /* BaseWindow.swift */,
 				EC78B76829FC6F01005807E0 /* FloatingStackView.swift */,
+				EB99118929FDDB52005DFA99 /* DocumentScannerController.swift */,
 				EC78B76A29FC717B005807E0 /* BaseFloatingTableViewController.swift */,
 				ECE4016629F03E8C00F4013B /* BorderLabel.swift */,
 				ECA038B329EAF110008CC3AE /* Reusable.swift */,
@@ -1287,6 +1358,15 @@
 				9C1CBF673BBBA034F0F24012 /* DemoVCViewController.storyboard */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		F7684051B3BCBDA08460EB64 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				71A48D0CC39324DF5312CE50 /* DocNameViewModel.swift */,
+			);
+			name = ViewModel;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1340,7 +1420,7 @@
 			);
 			mainGroup = ECD1B62F29DF4E07005B9EDF;
 			packageReferences = (
-				EC0BD62B29FB119100C84BF8 /* XCRemoteSwiftPackageReference "WhatsNewKit" */,
+				EC0BD62B29FB119100C84BF8 /* XCRemoteSwiftPackageReference "WhatsNewKit.git" */,
 			);
 			productRefGroup = ECD1B63929DF4E07005B9EDF /* Products */;
 			projectDirPath = "";
@@ -1372,6 +1452,7 @@
 				60392E59FE6EEBFF4B92952E /* EditViewController.storyboard in Resources */,
 				ECA3BFE329F3279E0097EF32 /* TurboScan™ Tutorial.pdf in Resources */,
 				126E978771D9A8102DFB32A6 /* ListViewController.storyboard in Resources */,
+				81BC14344B3CC30A2505083D /* DocNameViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1450,6 +1531,7 @@
 				EC6F935629EDC9FB00DA5B99 /* UIImage+Orientation.swift in Sources */,
 				ECD1B66629DF6969005B9EDF /* UIView+Extensions.swift in Sources */,
 				EC629DF129FBF8EA00CFC70E /* KeychainManager.swift in Sources */,
+				EB99118829FDDB19005DFA99 /* PHPhotoLibrary+Extensions.swift in Sources */,
 				EC2E665229E8AF69005D3312 /* FileManagerAction.swift in Sources */,
 				ECD1B66829DF6A1E005B9EDF /* LoadingViewController.swift in Sources */,
 				ECD1B65029DF4FCA005B9EDF /* LocalFileManager.swift in Sources */,
@@ -1463,6 +1545,7 @@
 				ECD1B65A29DF5538005B9EDF /* BaseNavigationController.swift in Sources */,
 				EC6F933929EDC9ED00DA5B99 /* VisionRectangleDetector.swift in Sources */,
 				ECD1B66229DF57B3005B9EDF /* URL+Extensions.swift in Sources */,
+				EB99118529FDD499005DFA99 /* ScanningSettingsViewController.swift in Sources */,
 				ECF3F69B29E0B488005A3338 /* UIColor+Extensions.swift in Sources */,
 				EC78B76F29FC821E005807E0 /* DocumentsType.swift in Sources */,
 				AC1547B427ED97F4E3E87E56 /* SplashViewController.swift in Sources */,
@@ -1476,6 +1559,7 @@
 				024CB2C819D8D3DC942EBAED /* DocumentsViewModel.swift in Sources */,
 				FA49815854AF0EC02B62B111 /* DocumentsViewController.swift in Sources */,
 				EC6F934E29EDC9FB00DA5B99 /* AVCaptureVideoOrientation+Utils.swift in Sources */,
+				EB99118A29FDDB52005DFA99 /* DocumentScannerController.swift in Sources */,
 				ECD1B66E29DF9282005B9EDF /* CenteredButton.swift in Sources */,
 				ECC4458229FD58D500C94ACF /* SmartCategoryCollectionViewCell.swift in Sources */,
 				EC6F935E29EDCA2A00DA5B99 /* ReviewViewController.swift in Sources */,
@@ -1550,6 +1634,7 @@
 				6073A41EC526E58CC70DB431 /* ListBuilder.swift in Sources */,
 				C8FB14DA154DBE3752492395 /* ListViewModel.swift in Sources */,
 				E9541C574F1B8F29B207031A /* ListViewController.swift in Sources */,
+				EB99118329FDCBA0005DFA99 /* DocumentDetectionType.swift in Sources */,
 				EC7FDC4329FB072A004091C7 /* AppConfiguration.swift in Sources */,
 				1B834D3DEB34270D671208B6 /* ListPresenter.swift in Sources */,
 				08E063832436B0780298F12F /* RearrangeBuilder.swift in Sources */,
@@ -1571,6 +1656,10 @@
 				2DC2FB2C6CCCB1CE6C051A73 /* SmartCategoryViewModel.swift in Sources */,
 				1139F804B4493D78FD997DB9 /* SmartCategoryViewController.swift in Sources */,
 				6D19A96905D27DEB2318E486 /* SmartCategoryPresenter.swift in Sources */,
+				FD6A2FD0BBCB67D59345E8CC /* DocNameBuilder.swift in Sources */,
+				26D3DA2739C148648F0E7B08 /* DocNameViewModel.swift in Sources */,
+				9E8E4346A7FBBB670DBC2087 /* DocNameViewController.swift in Sources */,
+				DD0038B4B87C95BB5B7195A1 /* DocNamePresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1720,6 +1809,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "$(PRODUCT_NAME) asks Photo Library permissions in order to import pictures and transform into searchable documents.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1753,6 +1843,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "$(PRODUCT_NAME) asks Photo Library permissions in order to import pictures and transform into searchable documents.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1792,7 +1883,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		EC0BD62B29FB119100C84BF8 /* XCRemoteSwiftPackageReference "WhatsNewKit" */ = {
+		EC0BD62B29FB119100C84BF8 /* XCRemoteSwiftPackageReference "WhatsNewKit.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SvenTiigi/WhatsNewKit.git";
 			requirement = {
@@ -1805,7 +1896,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		EC0BD62C29FB119100C84BF8 /* WhatsNewKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = EC0BD62B29FB119100C84BF8 /* XCRemoteSwiftPackageReference "WhatsNewKit" */;
+			package = EC0BD62B29FB119100C84BF8 /* XCRemoteSwiftPackageReference "WhatsNewKit.git" */;
 			productName = WhatsNewKit;
 		};
 /* End XCSwiftPackageProductDependency section */

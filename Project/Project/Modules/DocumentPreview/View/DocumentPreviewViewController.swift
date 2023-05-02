@@ -72,6 +72,14 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
     moveButton.setImage(folder, for: .normal)
     
     showCategoryButton.setTitle(UserDefaults.documentClasifierCategory.name, for: .normal)
+      
+      let notificationCenter = NotificationCenter.default
+      let queue = OperationQueue.main
+      
+      notificationCenter.addObserver(forName: .smartCategorySelected, object: nil, queue: queue) { [weak self] notification in
+          self?.showCategoryButton.setTitle(UserDefaults.documentClasifierCategory.name, for: .normal)
+      }
+      
     let showCategoryFont = UIFont.systemFont(ofSize: 8, weight: .medium)
     let showCategoryConfiguration = UIImage.SymbolConfiguration(font: showCategoryFont)
     let showCategoryImage = UIImage(systemName: "arrowtriangle.down.fill", withConfiguration: showCategoryConfiguration)

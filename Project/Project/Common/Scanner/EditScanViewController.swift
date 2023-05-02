@@ -53,7 +53,7 @@ final class EditScanViewController: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override public func viewDidLoad() {
+  override func viewDidLoad() {
     super.viewDidLoad()
     
     setupViews()
@@ -61,7 +61,7 @@ final class EditScanViewController: UIViewController {
     navigationItem.title = "Edit Scan"
     navigationItem.rightBarButtonItem = nextButton
     navigationItem.rightBarButtonItem?.tintColor = .themeColor
-    navigationController?.navigationBar.tintColor = UIColor.bgColor
+    navigationController?.navigationBar.tintColor = .themeColor
 
     if let firstVC = self.navigationController?.viewControllers.first, firstVC == self {
       navigationItem.leftBarButtonItem = cancelButton
@@ -76,13 +76,13 @@ final class EditScanViewController: UIViewController {
     view.addGestureRecognizer(touchDown)
   }
   
-  override public func viewDidLayoutSubviews() {
+  override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     adjustQuadViewConstraints()
     displayQuad()
   }
   
-  override public func viewWillDisappear(_ animated: Bool) {
+  override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
     // Work around for an iOS 11.2 bug where UIBarButtonItems don't get back to their normal state after being pressed.

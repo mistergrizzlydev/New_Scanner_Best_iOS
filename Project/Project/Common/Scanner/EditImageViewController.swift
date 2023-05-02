@@ -2,14 +2,14 @@ import AVFoundation
 import UIKit
 
 /// A protocol that your delegate object will get results of EditImageViewController.
-public protocol EditImageViewDelegate: AnyObject {
+protocol EditImageViewDelegate: AnyObject {
   /// A method that your delegate object must implement to get cropped image.
   func cropped(image: UIImage)
 }
 
 /// A view controller that manages edit image for scanning documents or pick image from photo library
 /// The `EditImageViewController` class is individual for rotate, crop image
-public final class EditImageViewController: UIViewController {
+final class EditImageViewController: UIViewController {
   
   /// The image the quadrilateral was detected on.
   private var image: UIImage
@@ -19,7 +19,7 @@ public final class EditImageViewController: UIViewController {
   private var zoomGestureController: ZoomGestureController!
   private var quadViewWidthConstraint = NSLayoutConstraint()
   private var quadViewHeightConstraint = NSLayoutConstraint()
-  public weak var delegate: EditImageViewDelegate?
+  weak var delegate: EditImageViewDelegate?
   
   private lazy var imageView: UIImageView = {
     let imageView = UIImageView()
@@ -44,18 +44,18 @@ public final class EditImageViewController: UIViewController {
   
   // MARK: - Life Cycle
   
-  public init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true, strokeColor: CGColor? = nil) {
+  init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true, strokeColor: CGColor? = nil) {
     self.image = rotateImage ? image.applyingPortraitOrientation() : image
     self.quad = quad ?? EditImageViewController.defaultQuad(allOfImage: image)
     self.strokeColor = strokeColor
     super.init(nibName: nil, bundle: nil)
   }
   
-  public required init?(coder aDecoder: NSCoder) {
+  required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  override public func viewDidLoad() {
+  override func viewDidLoad() {
     super.viewDidLoad()
     
     setupViews()
@@ -64,7 +64,7 @@ public final class EditImageViewController: UIViewController {
     addLongGesture(of: zoomGestureController)
   }
   
-  override public func viewDidLayoutSubviews() {
+  override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     adjustQuadViewConstraints()
     displayQuad()
@@ -107,7 +107,7 @@ public final class EditImageViewController: UIViewController {
   
   // MARK: - Actions
   /// This function allow user can crop image follow quad. the image will send back by delegate function
-  public func cropImage() {
+  func cropImage() {
     guard let quad = quadView.quad, let ciImage = CIImage(image: image) else {
       return
     }
@@ -133,7 +133,7 @@ public final class EditImageViewController: UIViewController {
   }
   
   /// This function allow user to rotate image by 90 degree each and will reload image on image view.
-  public func rotateImage() {
+  func rotateImage() {
     let rotationAngle = Measurement<UnitAngle>(value: 90, unit: .degrees)
     reloadImage(withAngle: rotationAngle)
   }

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB99119229FF21B7005DFA99 /* TextFieldTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB99118D29FF21B7005DFA99 /* TextFieldTag.swift */; };
+		EB99119329FF21B7005DFA99 /* BackspaceDetectingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB99118E29FF21B7005DFA99 /* BackspaceDetectingTextField.swift */; };
+		EB99119429FF21B7005DFA99 /* TextFieldTagsField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB99118F29FF21B7005DFA99 /* TextFieldTagsField.swift */; };
+		EB99119529FF21B7005DFA99 /* TextFieldTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB99119029FF21B7005DFA99 /* TextFieldTagView.swift */; };
+		EB99119629FF21B7005DFA99 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB99119129FF21B7005DFA99 /* Constants.swift */; };
 		EC3BF97529E33A9D00F20F2D /* Sandwich.docc in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF97429E33A9D00F20F2D /* Sandwich.docc */; };
 		EC3BF97B29E33A9D00F20F2D /* Sandwich.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3BF97029E33A9D00F20F2D /* Sandwich.framework */; };
 		EC3BF98029E33A9D00F20F2D /* SandwichTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3BF97F29E33A9D00F20F2D /* SandwichTests.swift */; };
@@ -34,6 +39,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB99118D29FF21B7005DFA99 /* TextFieldTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTag.swift; sourceTree = "<group>"; };
+		EB99118E29FF21B7005DFA99 /* BackspaceDetectingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackspaceDetectingTextField.swift; sourceTree = "<group>"; };
+		EB99118F29FF21B7005DFA99 /* TextFieldTagsField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTagsField.swift; sourceTree = "<group>"; };
+		EB99119029FF21B7005DFA99 /* TextFieldTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTagView.swift; sourceTree = "<group>"; };
+		EB99119129FF21B7005DFA99 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EC3BF97029E33A9D00F20F2D /* Sandwich.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Sandwich.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC3BF97329E33A9D00F20F2D /* Sandwich.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sandwich.h; sourceTree = "<group>"; };
 		EC3BF97429E33A9D00F20F2D /* Sandwich.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Sandwich.docc; sourceTree = "<group>"; };
@@ -70,6 +80,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB99118C29FF21A4005DFA99 /* Tags */ = {
+			isa = PBXGroup;
+			children = (
+				EB99118E29FF21B7005DFA99 /* BackspaceDetectingTextField.swift */,
+				EB99119129FF21B7005DFA99 /* Constants.swift */,
+				EB99118D29FF21B7005DFA99 /* TextFieldTag.swift */,
+				EB99118F29FF21B7005DFA99 /* TextFieldTagsField.swift */,
+				EB99119029FF21B7005DFA99 /* TextFieldTagView.swift */,
+			);
+			path = Tags;
+			sourceTree = "<group>";
+		};
 		EC3BF96629E33A9D00F20F2D = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +113,7 @@
 		EC3BF97229E33A9D00F20F2D /* Sandwich */ = {
 			isa = PBXGroup;
 			children = (
+				EB99118C29FF21A4005DFA99 /* Tags */,
 				EC3BF97329E33A9D00F20F2D /* Sandwich.h */,
 				EC3BF98A29E33B1000F20F2D /* SandwichPDF.swift */,
 				EC3BF99229E33C2100F20F2D /* LatinLanguage.swift */,
@@ -245,12 +268,17 @@
 				EC3BF99329E33C2100F20F2D /* LatinLanguage.swift in Sources */,
 				EC3BF98D29E33B3000F20F2D /* PDFSandwichMaker.swift in Sources */,
 				EC3BF99F29E33EC900F20F2D /* VNImageRequestHandler+Extensions.swift in Sources */,
+				EB99119229FF21B7005DFA99 /* TextFieldTag.swift in Sources */,
+				EB99119629FF21B7005DFA99 /* Constants.swift in Sources */,
 				EC3BF98F29E33B3700F20F2D /* UIImage+Filters.swift in Sources */,
+				EB99119429FF21B7005DFA99 /* TextFieldTagsField.swift in Sources */,
 				EC3BF98B29E33B1000F20F2D /* SandwichPDF.swift in Sources */,
+				EB99119329FF21B7005DFA99 /* BackspaceDetectingTextField.swift in Sources */,
 				EC3BF97529E33A9D00F20F2D /* Sandwich.docc in Sources */,
 				EC966CBD29ED876100BA67B5 /* DocumentClassifier.swift in Sources */,
 				EC3BF99129E33B5500F20F2D /* CompressionLevel.swift in Sources */,
 				EC3BF99529E33C3700F20F2D /* ImageFilter.swift in Sources */,
+				EB99119529FF21B7005DFA99 /* TextFieldTagView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,21 +29,21 @@ import Security
 //
 //  /**
 //   Get a series of secrets that can be decrypted by the server key. The returned data is:
-//   1. the ephemeral public key used for decrypting
+//   1. the ephemeral key used for decrypting
 //   2. the AES encryption key
 //   3. the HMAC signature key
 //   4. the IV for AES encryption
-//   - Parameter serverKey: X9.63  formatted P-256 public key for the server
+//   - Parameter serverKey: X9.63  formatted P-256 key for the server
 //   - Throws: Errors from Security framework, or `SecurityError.PublicKeyCopyError`
-//   if function failed to derive public key from the ephemeral private key
+//   if function failed to derive key from the ephemeral private key
 //   - Returns:
-//   - publicKey: exported public P-256 key (compressed form)
+//   - publicKey: exported P-256 key (compressed form)
 //   - aesKey: ephemeral 16-byte AES-128 key
 //   - macKey: ephemeral 16-byte key for HMAC
 //   - iv: ephemeral 16-byte AES-128 IV
 //   */
 //  private static func getEphemeralSecrets(_ serverKey: Data) throws -> (publicKey: Data, aesKey: Data, macKey: Data) {
-//    // Server public key
+//    // Server key
 //    var err: Unmanaged<CFError>?
 //    let serverKeyOptions: [CFString: Any] = [
 //      kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
@@ -67,7 +67,7 @@ import Security
 //      throw SecurityError.PublicKeyCopyError
 //    }
 //
-//    // Exported ephemeral public key for sending/MACing later (compressed format, per ANSI X9.62)
+//    // Exported ephemeral key for sending/MACing later (compressed format, per ANSI X9.62)
 //    let exportPublicKey = try ephemeralPublicKey.CopyCompressedECPublicKey()
 //
 //    // COMPUTE SHARED SECRET
@@ -171,7 +171,7 @@ import Security
 //    ciphertext.withUnsafeBytes { CCHmacUpdate(&hmacContext, $0.baseAddress, ciphertext.count) }
 //    macValue.withUnsafeMutableBytes { CCHmacFinal(&hmacContext, $0.bindMemory(to: UInt8.self).baseAddress) }
 //
-//    // Build the final payload: ephemeral public key || nonce || encrypted data || HMAC
+//    // Build the final payload: ephemeral key || nonce || encrypted data || HMAC
 //    var finalData = Data(capacity: exportPublicKey.count + ciphertext.count + 18)
 //    finalData.append(exportPublicKey)
 //    finalData.append(nonce)
@@ -181,7 +181,7 @@ import Security
 //    return finalData
 //  }
 //
-//  public static func encrypt(dataToEncrypt: Data) throws -> String {
+//  static func encrypt(dataToEncrypt: Data) throws -> String {
 //    guard let publicKey = publicKey else {
 //      throw SecurityError.PublicKeyCopyError
 //    }
@@ -199,7 +199,7 @@ import Security
 //  }
 //
 //  /**
-//   Copy the compressed elliptic-curve public key representation as defined in
+//   Copy the compressed elliptic-curve key representation as defined in
 //   section 4.3.6 of ANSI X9.62.
 //
 //   - Throws:
@@ -208,7 +208,7 @@ import Security
 //   - `SecKeyError.InvalidUncompressedRepresentationError`: if parsing the uncompressed representation
 //   of the key failed (from `SecKeyCopyExternalRepresentation()`)
 //
-//   - Returns: Data with 1 + key size bytes, representing the public key
+//   - Returns: Data with 1 + key size bytes, representing the key
 //   */
 //  func CopyCompressedECPublicKey() throws -> Data {
 //    // Validate the key is of EC type
@@ -230,7 +230,7 @@ import Security
 //    guard uncompressed[0] == 4 else {
 //      throw SecKeyError.InvalidUncompressedRepresentationError
 //    }
-//    // Uncompressed public key will be 1 + keysize * 2, private has K appended to public
+//    // Uncompressed key will be 1 + keysize * 2, private has K appended to public
 //    guard uncompressed.count >= 1 + keySize * 2 else {
 //      throw SecKeyError.InvalidUncompressedRepresentationError
 //    }

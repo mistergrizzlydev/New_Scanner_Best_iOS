@@ -2,7 +2,9 @@ import UIKit
 import MessageUI
 
 extension UIViewController {
-  func presentMail(with recipients: [String]? = nil, subject: String, body: String, isHTML: Bool = false, delegate: MFMailComposeViewControllerDelegate? = nil) {
+  func presentMail(with recipients: [String]? = nil,
+                   subject: String, body: String, isHTML: Bool = false,
+                   delegate: MFMailComposeViewControllerDelegate? = nil) {
     // Check if the user's device can send email
     guard MFMailComposeViewController.canSendMail() else {
       print("This device can't send email")
@@ -15,6 +17,7 @@ extension UIViewController {
     
     // Set the recipient, subject, and body of the email
     mailComposer.setToRecipients(recipients)
+    mailComposer.setPreferredSendingEmailAddress(UserDefaults.emailFromAccount)
     mailComposer.setSubject(subject)
     mailComposer.setMessageBody(body, isHTML: isHTML)
     

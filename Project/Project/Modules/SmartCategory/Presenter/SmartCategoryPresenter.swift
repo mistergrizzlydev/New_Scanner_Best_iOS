@@ -20,6 +20,11 @@ final class SmartCategoryPresenter: SmartCategoryPresenterProtocol {
   func didSelectOnCategory(at index: Int) {
     let selectedCategory = DocumentClasifierCategory.allCases.compactMap { SmartCategoryViewModel(category: $0)}[index]
     UserDefaults.documentClasifierCategory = selectedCategory.category
-    present()
+      NotificationCenter.default.post(name: .smartCategorySelected, object: nil)
+      view.dismiss(animated: true)
   }
+}
+
+extension Notification.Name {
+  static let smartCategorySelected = Notification.Name("SmartCategorySelected")
 }

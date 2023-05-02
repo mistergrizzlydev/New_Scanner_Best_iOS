@@ -108,7 +108,6 @@ class DocumentClassifier {
     } catch {
       fatalError("Failed to perform the Core ML request: \(error)")
     }
-    
   }
 }
 

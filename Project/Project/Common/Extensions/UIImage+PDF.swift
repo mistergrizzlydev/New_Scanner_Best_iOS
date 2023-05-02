@@ -24,14 +24,15 @@ extension UIImage {
  // Save the PDF data to a file or upload it to a server
  */
 extension Array where Element == UIImage {
-  func toPDF() -> Data? {
-    let pdfDocument = PDFDocument()
-    for image in self {
-      let pdfPage = PDFPage(image: image)
-      pdfDocument.insert(pdfPage!, at: pdfDocument.pageCount)
+    var toPDF: Data? {
+        let pdfDocument = PDFDocument()
+        for image in self {
+            if let pdfPage = PDFPage(image: image) {
+                pdfDocument.insert(pdfPage, at: pdfDocument.pageCount)
+            }
+        }
+        return pdfDocument.dataRepresentation()
     }
-    return pdfDocument.dataRepresentation()
-  }
 }
 
 extension PDFPage {

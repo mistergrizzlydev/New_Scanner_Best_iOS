@@ -24,7 +24,8 @@ final class ListPresenter: ListPresenterProtocol {
   private let rootURL: URL
   private let filesToMove: [URL]
   private var url: URL?
-  
+    private var whereToMoveURL: URL?
+    
   init(view: ListViewControllerProtocol & UIViewController,
        coordinator: Coordinator,
        localFileManager: LocalFileManager,
@@ -57,7 +58,8 @@ final class ListPresenter: ListPresenterProtocol {
   func presentNext(from url: URL) {
     switch type {
     case .main:
-      break
+        self.whereToMoveURL = url
+        
     case .detail(let fileURL):
       self.url = url
       let folders = localFileManager.contentsOfDirectory(url: url, sortBy: .name)?.compactMap { $0.url }.filter { $0.hasDirectoryPath } ?? []
@@ -70,7 +72,29 @@ final class ListPresenter: ListPresenterProtocol {
   func move(at indexPath: IndexPath?) {
     switch type {
     case .main:
-      break
+        guard let indexPath = indexPath, let whereToMoveURL = whereToMoveURL else { return }
+        print(indexPath)
+        
+//        let toURL = self.url?.appendingPathComponent(fileURL.lastPathComponent) ?? filesToMove[indexPath.row].appendingPathComponent(fileURL.lastPathComponent)
+//        NotificationCenter.default.post(name: .newFileURL, object: nil, userInfo: ["new_file_url": toURL])
+//        do {
+//          try localFileManager.moveFile(from: fileURL, to: toURL)
+//        } catch {
+//          view.showDrop(message: error.localizedDescription, icon: .systemAlert())
+//        }
+//        view.dismiss(animated: true)
+        
+        
+        for move in filesToMove {
+            let newMoveURL = whereToMoveURL.appendingPathComponent(move.lastPathComponent)
+            do {
+              try localFileManager.moveFile(from: move, to: newMoveURL)
+            } catch {
+              view.showDrop(message: error.localizedDescription, icon: .systemAlert())
+            }
+        }
+        NotificationCenter.default.post(name: .moveFolderOrFile, object: nil)
+        view.dismiss(animated: true)
     case .detail(let fileURL):
       if let indexPath = indexPath {
         let toURL = self.url?.appendingPathComponent(fileURL.lastPathComponent) ?? filesToMove[indexPath.row].appendingPathComponent(fileURL.lastPathComponent)
@@ -98,5 +122,6 @@ final class ListPresenter: ListPresenterProtocol {
 
 extension Notification.Name {
     static let newFileURL = Notification.Name(rawValue: "com.example.app.newFileURL")
+    static let moveFolderOrFile = Notification.Name(rawValue: "com.example.app.moveFolderOrFile")
 }
 
