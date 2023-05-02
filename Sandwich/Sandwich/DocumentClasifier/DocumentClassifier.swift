@@ -16,7 +16,7 @@ public enum DocumentClassifierMLResult {
   case handwritten(confidence: Double)
   case unknown(confidence: Double)
   
-  init?(classificationObservation: VNClassificationObservation) {
+  public init?(classificationObservation: VNClassificationObservation) {
     switch classificationObservation.identifier.lowercased() {
     case "invoice", "invoice or bill".lowercased():
       self = .invoice(confidence: Double(classificationObservation.confidence))
@@ -38,6 +38,58 @@ public enum DocumentClassifierMLResult {
       self = .letter(confidence: Double(classificationObservation.confidence))
     case "Business Card".lowercased():
       self = .businessCard(confidence: Double(classificationObservation.confidence))
+    default:
+      return nil
+    }
+  }
+  
+  public var intValue: Int {
+    switch self {
+    case .receipt(_):
+      return 0
+    case .invoice(_):
+      return 1
+    case .form(_):
+      return 2
+    case .letter(_):
+      return 3
+    case .id(_):
+      return 4
+    case .businessCard(_):
+      return 5
+    case .news(_):
+      return 6
+    case .music(_):
+      return 7
+    case .handwritten(_):
+      return 8
+    case .unknown(_):
+      return 9
+    }
+  }
+  
+  public init?(tag: Int) {
+    switch tag {
+    case 0:
+      self = .receipt(confidence: 100)
+    case 1:
+      self = .invoice(confidence: 100)
+    case 2:
+      self = .form(confidence: 100)
+    case 3:
+      self = .letter(confidence: 100)
+    case 4:
+      self = .id(confidence: 100)
+    case 5:
+      self = .businessCard(confidence: 100)
+    case 6:
+      self = .news(confidence: 100)
+    case 7:
+      self = .music(confidence: 100)
+    case 8:
+      self = .handwritten(confidence: 100)
+    case 9:
+      self = .unknown(confidence: 100)
     default:
       return nil
     }
@@ -78,7 +130,8 @@ public enum DocumentClassifierMLResult {
 class DocumentClassifier {
   static func check(with image: UIImage, completion: @escaping (DocumentClassifierMLResult?, Error?) -> Void) {
     // Load the model
-    guard let modelURL = Bundle.main.url(forResource: "document_classifier_v2", withExtension: "mlmodelc") else {
+    guard let modelURL = Bundle(for: DocumentClassifier.self).url(forResource: "doc_classifier_v5_fp16", withExtension: "mlmodelc") else {
+            //Bundle.main.url(forResource: "doc_classifier_v5_fp16", withExtension: "mlmodelc") else {
       return completion(nil, "Failed to load the model".toError)
     }
     guard let model = try? VNCoreMLModel(for: MLModel(contentsOf: modelURL)) else {

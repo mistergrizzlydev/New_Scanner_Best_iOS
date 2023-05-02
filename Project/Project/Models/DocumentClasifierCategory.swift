@@ -1,7 +1,7 @@
 import Foundation
 
 enum DocumentClasifierCategory: Int {
-  case receipt
+  case receipt = 0
   case invoice
   case form
   case letter

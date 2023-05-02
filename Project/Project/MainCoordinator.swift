@@ -25,7 +25,7 @@ protocol Coordinator {
   
   func presentPrint(with printingItem: Any?, jobName: String, showsNumberOfCopies: Bool, showsPaperOrientation: Bool)
   
-  func presentDocumentScanner(in controller: UIViewController?, delegate: VNDocumentCameraViewControllerDelegate?, completion: ((Bool) -> Void)?)
+  func presentDocumentScanner(in controller: UIViewController?, animated: Bool, delegate: VNDocumentCameraViewControllerDelegate?, completion: ((Bool) -> Void)?)
   func presentImagePicker(in controller: UIViewController?, delegate: PhotosUI.PHPickerViewControllerDelegate?, completion: ((Bool) -> Void)?)
 }
 
@@ -138,7 +138,7 @@ final class MainCoordinator: NSObject, Coordinator {
     printController.present(animated: true)
   }
   
-  func presentDocumentScanner(in controller: UIViewController?, delegate: VNDocumentCameraViewControllerDelegate? = nil, completion: ((Bool) -> Void)? = nil) {
+  func presentDocumentScanner(in controller: UIViewController?, animated: Bool = true, delegate: VNDocumentCameraViewControllerDelegate? = nil, completion: ((Bool) -> Void)? = nil) {
     guard VNDocumentCameraViewController.isSupported else {
       // Document scanning is not supported on this device
       completion?(false)
@@ -147,7 +147,7 @@ final class MainCoordinator: NSObject, Coordinator {
     
       let documentScannerViewController = DocumentScannerController()
       documentScannerViewController.delegate = delegate
-      controller?.present(documentScannerViewController, animated: true, completion: {
+      controller?.present(documentScannerViewController, animated: animated, completion: {
           documentScannerViewController.pressButtons()
           documentScannerViewController.addHintView()
           documentScannerViewController.showLabels()

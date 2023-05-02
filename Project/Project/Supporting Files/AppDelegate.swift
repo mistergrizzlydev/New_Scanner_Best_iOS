@@ -12,6 +12,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       // User has not purchased the pro version
     }
     
+    UserDefaults.wasStartTypeLaunched = false
+    
     let biometricType = UIDevice.current.biometricType
     let biometricTypeName = biometricType.name
 

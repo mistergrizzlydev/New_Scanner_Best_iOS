@@ -106,7 +106,7 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
     self.toolbarItems = toolbarItems
         
     cameraButtonTapped = { [weak self] in
-      self?.presenter.presentCamera()
+      self?.presenter.presentCamera(animated: true)
     }
     
     galleryButtonTapped = { [weak self] in

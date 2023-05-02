@@ -12,7 +12,7 @@ protocol DocumentsPresenterProtocol {
   
   func createNewFolder()
   
-  func presentCamera()
+  func presentCamera(animated: Bool)
   func presentPhotoLibrary()
   
   func onDetailsTapped(_ viewModel: DocumentsViewModel)
@@ -66,6 +66,15 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
         } else {
           view.prepare(with: viewModels, title: folder.name)
         }
+      }
+      
+//      if UserDefaults.startType == .camera, VNDocumentCameraViewController.isSupported {
+//        presentCamera(animated: false)
+//      }
+      
+      if UserDefaults.startType == .camera, !UserDefaults.wasStartTypeLaunched {
+        presentPhotoLibrary()
+        UserDefaults.wasStartTypeLaunched = true
       }
     case .starred:
       let documents = localFileManager.contentsOfDirectory(url: folder.url, sortBy: UserDefaults.sortedFilesType)?.filter { $0.isFileStarred() }
@@ -345,8 +354,8 @@ extension DocumentsPresenter {
 }
 
 extension DocumentsPresenter {
-  func presentCamera() {
-    coordinator.presentDocumentScanner(in: view, delegate: self) { success in
+  func presentCamera(animated: Bool = true) {
+    coordinator.presentDocumentScanner(in: view, animated: animated, delegate: self) { success in
       print(success)
     }
   }

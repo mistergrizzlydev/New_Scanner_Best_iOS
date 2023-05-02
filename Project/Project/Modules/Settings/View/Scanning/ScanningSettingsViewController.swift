@@ -47,9 +47,9 @@ final class ScanningSettingsViewController: QuickTableViewController, SettingsVi
                               icon: .image(UIImage(systemName: "rectangle.on.rectangle.square.fill", withConfiguration: imageConfig)!),
                               action: showDefaultPageSizeTapped()),
                 
-                NavigationRow(text: "Default Smart category", detailText: .subtitle(UserDefaults.documentClasifierCategory.name),
-                              icon: .image(UIImage(systemName: "eye.square.fill", withConfiguration: imageConfig)!),
-                              action: showDefaultDocumentCategoryTapped()),
+//                NavigationRow(text: "Default Smart category", detailText: .subtitle(UserDefaults.documentClasifierCategory.name),
+//                              icon: .image(UIImage(systemName: "eye.square.fill", withConfiguration: imageConfig)!),
+//                              action: showDefaultDocumentCategoryTapped()),
                 
                 NavigationRow(text: "Default sort type", detailText: .subtitle(UserDefaults.sortedFilesType.rawValue),
                               icon: .image(UserDefaults.sortedFilesType.settingsImage), action: showDefaultSortTypeTapped()),

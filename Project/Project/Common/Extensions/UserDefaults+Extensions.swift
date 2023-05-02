@@ -93,6 +93,16 @@ extension UserDefaults {
     }
   }
   
+  static var wasStartTypeLaunched: Bool {
+    get {
+      return standard.bool(forKey: "e8ee97be-93a7-485d-a9b2-c89e6046133e")
+    }
+    set {
+      standard.set(newValue, forKey: "e8ee97be-93a7-485d-a9b2-c89e6046133e")
+      standard.synchronize()
+    }
+  }
+  
   static var documentClasifierCategory: DocumentClasifierCategory {
     get {
       let result = standard.integer(forKey: "ee77d129-389a-4f8f-a8b8-150c973c2127")
@@ -102,6 +112,18 @@ extension UserDefaults {
       standard.set(newValue.rawValue, forKey: "ee77d129-389a-4f8f-a8b8-150c973c2127")
       standard.synchronize()
     }
+  }
+  
+  static func setSmartCategory(_ category: DocumentClasifierCategory, name: String) {
+    print("setSmartCategory ", name)
+    standard.set(category.rawValue, forKey: name)
+    standard.synchronize()
+  }
+  
+  static func getSmartCategory(name: String) -> DocumentClasifierCategory? {
+    print("getSmartCategory ", name)
+    let result = standard.integer(forKey: name)
+    return DocumentClasifierCategory(rawValue: result)
   }
   
   static var isOCREnabled: Bool {

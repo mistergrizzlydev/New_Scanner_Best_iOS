@@ -100,6 +100,38 @@ extension PDFDocument {
   }
 }
 
+
+extension PDFView {
+  func firstPageImage() -> UIImage? {
+    guard document?.pageCount != 0 else {
+      return nil
+    }
+      
+    if let firstPage = document?.page(at: 0) {
+      let pageSize = firstPage.bounds(for: .mediaBox).size
+      if let cgImage = firstPage.thumbnail(of: pageSize, for: .mediaBox).cgImage {
+        return UIImage(cgImage: cgImage)
+      }
+    }
+    
+//    guard let page = self.document?.pageCount//page(at: 0) else {
+//      return nil
+//    }
+//
+//    let pageSize = page.bounds(for: .mediaBox)
+//    let renderer = UIGraphicsImageRenderer(size: pageSize)
+//    let image = renderer.image { context in
+//      context.cgContext.interpolationQuality = .high
+//      page.draw(with: .mediaBox, to: context.format.bounds)
+//    }
+//
+//    return image
+    
+    return nil
+  }
+}
+
+
 extension PDFDocument {
   func reSave() {
     // Save the rearranged PDF document

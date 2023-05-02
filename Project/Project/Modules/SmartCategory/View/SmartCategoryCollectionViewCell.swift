@@ -20,7 +20,8 @@ final class SmartCategoryCollectionViewCell: UICollectionViewCell {
     nameLabel.text = viewModel.category.name
     imageView.image = UIImage(systemName: viewModel.category.image)
     
-    updateAppearance(based: viewModel.category == UserDefaults.documentClasifierCategory)
+//    updateAppearance(based: viewModel.category == UserDefaults.documentClasifierCategory)
+    updateAppearance(based: viewModel.category == UserDefaults.getSmartCategory(name: viewModel.key) ?? UserDefaults.documentClasifierCategory)
   }
 
   private func updateAppearance(based isSelected: Bool) {

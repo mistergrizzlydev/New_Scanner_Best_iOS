@@ -2,13 +2,13 @@ import UIKit
 import Swinject
 
 protocol SmartCategoryBuilderProtocol {
-  func buildViewController() -> SmartCategoryViewController!
+  func buildViewController(file: File) -> SmartCategoryViewController!
 }
 
 class SmartCategoryBuilder: SmartCategoryBuilderProtocol {
   let container = Container()
 
-  func buildViewController() -> SmartCategoryViewController! {
+  func buildViewController(file: File) -> SmartCategoryViewController! {
     container.register(SmartCategoryViewController.self) { _ in
       SmartCategoryBuilder.instantiateViewController()
 
@@ -17,7 +17,7 @@ class SmartCategoryBuilder: SmartCategoryBuilderProtocol {
     }
 
     container.register(SmartCategoryPresenter.self) { c in
-      SmartCategoryPresenter(view: c.resolve(SmartCategoryViewController.self)!)
+      SmartCategoryPresenter(view: c.resolve(SmartCategoryViewController.self)!, file: file)
     }
 
     return container.resolve(SmartCategoryViewController.self)!
