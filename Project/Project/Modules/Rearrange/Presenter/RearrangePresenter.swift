@@ -74,11 +74,73 @@ extension PDFDocument {
     return images
   }
 }
+//extension PDFDocument {
+//  func getImages(size: CGSize = CGSize(width: 150, height: 250), completion: @escaping ([Int: UIImage]) -> Void) {
+//    var images = [Int: UIImage]()
+//    let queue = DispatchQueue(label: "pdfToImageQueue", qos: .userInitiated, attributes: .concurrent)
+//    let group = DispatchGroup()
+//
+//    for pageNumber in 0..<self.pageCount {
+//      group.enter()
+//      queue.async {
+//        guard let page = self.page(at: pageNumber) else {
+//          group.leave()
+//          return
+//        }
+//        guard let cgImage = page.thumbnail(of: size, for: .artBox).cgImage else { return } // artBox // mediaBox
+//        let image = UIImage(cgImage: cgImage)
+//        images[pageNumber] = image
+//        group.leave()
+//      }
+//    }
+//
+//    group.notify(queue: DispatchQueue.main) {
+//      completion(images)
+//    }
+//  }
+//}
+
+//extension PDFDocument {
+//  func getImages(size: CGSize = CGSize(width: 150, height: 250), completion: @escaping ([Int: UIImage]) -> Void) {
+//    let images = NSMutableDictionary()
+//    let queue = DispatchQueue(label: "pdfToImageQueue", qos: .userInitiated, attributes: .concurrent)
+//    let group = DispatchGroup()
+//    let lock = DispatchSemaphore(value: 1)
+//
+//    for pageNumber in 0..<self.pageCount {
+//      group.enter()
+//      queue.async {
+//        guard let page = self.page(at: pageNumber) else {
+//          group.leave()
+//          return
+//        }
+//        guard let cgImage = page.thumbnail(of: size, for: .artBox).cgImage else { return } // artBox // mediaBox
+//        let image = UIImage(cgImage: cgImage)
+//        lock.wait()
+//        images[NSNumber(value: pageNumber)] = image
+//        lock.signal()
+//        group.leave()
+//      }
+//    }
+//
+//    group.notify(queue: DispatchQueue.main) {
+//      var result = [Int: UIImage]()
+//      for (pageNumber, image) in images {
+//        if let pageNumber = pageNumber as? Int, let image = image as? UIImage, image != NSNull() {
+//          result[pageNumber] = image
+//        }
+//      }
+//      completion(result)
+//    }
+//  }
+//}
+
 extension PDFDocument {
   func getImages(size: CGSize = CGSize(width: 150, height: 250), completion: @escaping ([Int: UIImage]) -> Void) {
-    var images = [Int: UIImage]()
-    let queue = DispatchQueue(label: "pdfToImageQueue", qos: .userInitiated, attributes: .concurrent)
+    let images = NSMutableDictionary()
+    let queue = DispatchQueue(label: "pdfToImageQueue", qos: .userInitiated)
     let group = DispatchGroup()
+    let serialQueue = DispatchQueue(label: "serialQueue")
     
     for pageNumber in 0..<self.pageCount {
       group.enter()
@@ -89,16 +151,27 @@ extension PDFDocument {
         }
         guard let cgImage = page.thumbnail(of: size, for: .artBox).cgImage else { return } // artBox // mediaBox
         let image = UIImage(cgImage: cgImage)
-        images[pageNumber] = image
-        group.leave()
+        serialQueue.async {
+          images[NSNumber(value: pageNumber)] = image
+          group.leave()
+        }
       }
     }
     
     group.notify(queue: DispatchQueue.main) {
-      completion(images)
+      var result = [Int: UIImage]()
+      for (pageNumber, image) in images {
+        if let pageNumber = pageNumber as? Int, let image = image as? UIImage, image != NSNull() {
+          result[pageNumber] = image
+        }
+      }
+      completion(result)
     }
   }
 }
+
+
+
 
 
 extension PDFView {

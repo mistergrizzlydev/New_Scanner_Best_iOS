@@ -53,20 +53,31 @@ final class OCRLanguagesViewController: QuickTableViewController, OCRLanguagesVi
       }
       
       tableContents = [
-        Section(title: "", rows: [
-          SwitchRow(text: "Auto Text Recognition", detailText: .subtitle("Example subtitle"),
-                    switchValue: viewModel.isOn, icon: .image(UIImage(systemName: "star.square.fill")!),
-                    action: didToggleSwitch()),
+        Section(title: "Recognizes text in these languages", rows: [
+          SwitchRow(text: "Auto Text Recognition", switchValue: viewModel.isOn, icon: .image(UIImage(systemName: "star.square.fill")!),
+                    customization: { cell, rowStyle in
+                      cell.imageView?.tintColor = .themeColor
+                      
+                      if let stch = cell.accessoryView as? UISwitch {
+                        stch.onTintColor = .themeGreen
+                      }
+          }, action: didToggleSwitch())
         ], footer: "Recognizes text in your scans, allows to create PDF text and makes content searchable."),
         
         Section(title: "Recognizes text in these languages", rows: rows)
       ]
     } else {
       tableContents = [
-        Section(title: "Recognizes text in these languages", rows: [
-          SwitchRow(text: "Auto Text Recognition", detailText: .subtitle("Example subtitle"),
-                    switchValue: viewModel.isOn, icon: .image(UIImage(systemName: "star.square.fill")!),
-                    action: didToggleSwitch())
+        Section(title: "", rows: [
+        SwitchRow(text: "Auto Text Recognition", detailText: .subtitle("Auto Text Recognition OFF"),
+                  switchValue: viewModel.isOn, icon: .image(UIImage(systemName: "star.square.fill")!),
+                  customization: { cell, rowStyle in
+                    cell.imageView?.tintColor = .themeColor
+                    
+                    if let stch = cell.accessoryView as? UISwitch {
+                      stch.onTintColor = .themeGreen
+                    }
+        }, action: didToggleSwitch())
         ], footer: "Recognizes text in your scans, allows to create PDF text and makes content searchable.")
       ]
     }

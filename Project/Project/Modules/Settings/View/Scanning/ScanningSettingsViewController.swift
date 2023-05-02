@@ -59,11 +59,22 @@ final class ScanningSettingsViewController: QuickTableViewController, SettingsVi
                 
                 SwitchRow(text: "Distortion Correction", detailText: DetailText.none,
                           switchValue: UserDefaults.isDistorsionEnabled, icon: .image(UIImage(systemName: "square.stack.3d.down.right.fill", withConfiguration: imageConfig)!),
-                          action: didToggleDisortionCorrectionSwitch()),
+                          customization: { cell, rowStyle in
+                            cell.imageView?.tintColor = .themeColor
+                            
+                            if let stch = cell.accessoryView as? UISwitch {
+                              stch.onTintColor = .themeGreen
+                            }
+                }, action: didToggleDisortionCorrectionSwitch()),
                 
                 SwitchRow(text: "Camera Stabilization", detailText: DetailText.none,
-                          switchValue: UserDefaults.isCameraStabilizationEnabled, icon: .image(UIImage(systemName: "dot.square.fill", withConfiguration: imageConfig)!),
-                          action: didToggleCameraStabilizationSwitch())
+                          switchValue: UserDefaults.isCameraStabilizationEnabled, icon: .image(UIImage(systemName: "dot.square.fill", withConfiguration: imageConfig)!), customization: { cell, rowStyle in
+                            cell.imageView?.tintColor = .themeColor
+                            
+                            if let stch = cell.accessoryView as? UISwitch {
+                              stch.onTintColor = .themeGreen
+                            }
+                          }, action: didToggleCameraStabilizationSwitch())
                 
             ], footer: "")
         ]
