@@ -68,14 +68,15 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
         }
       }
       
-//      if UserDefaults.startType == .camera, VNDocumentCameraViewController.isSupported {
-//        presentCamera(animated: false)
-//      }
-      
-      if UserDefaults.startType == .camera, !UserDefaults.wasStartTypeLaunched {
-        presentPhotoLibrary()
-        UserDefaults.wasStartTypeLaunched = true
+      if UserDefaults.startType == .camera, VNDocumentCameraViewController.isSupported, !UserDefaults.wasStartTypeLaunched  {
+        presentCamera(animated: false)
       }
+      
+//      For testing
+//      if UserDefaults.startType == .camera, !UserDefaults.wasStartTypeLaunched {
+//        presentPhotoLibrary()
+//        UserDefaults.wasStartTypeLaunched = true
+//      }
     case .starred:
       let documents = localFileManager.contentsOfDirectory(url: folder.url, sortBy: UserDefaults.sortedFilesType)?.filter { $0.isFileStarred() }
       if let viewModels = documents?.compactMap({ DocumentsViewModel(file: $0) }) {
