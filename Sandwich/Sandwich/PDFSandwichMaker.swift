@@ -18,7 +18,7 @@ final class PDFSandwichMaker {
       do {
         try pdfData.write(to: url, options: .atomic)
       } catch {
-        print("Error: \(error)")
+        debugPrint("Error: \(error)")
       }
       
       DispatchQueue.main.async { completion(false) }
@@ -71,7 +71,7 @@ final class PDFSandwichMaker {
         textRecognitionRequest.usesLanguageCorrection = true
       } catch {
         //                completion(nil, error)
-        print(error.localizedDescription)
+        debugPrint(error.localizedDescription)
         // do we need here return? I don't think so
       }
       
@@ -207,7 +207,7 @@ final class PDFSandwichMaker {
         try pdfData.write(to: url, options: .atomic)
         DispatchQueue.main.async { completion(true) }
       } catch {
-        print("Error: \(error)")
+        debugPrint("Error: \(error)")
         DispatchQueue.main.async { completion(false) }
       }
     }
@@ -323,7 +323,7 @@ final class PDFSandwichMaker {
           textRecognitionRequest.recognitionLanguages = allLanguages
           textRecognitionRequest.usesLanguageCorrection = true
         } catch {
-          print(error.localizedDescription)
+          debugPrint(error.localizedDescription)
         }
         
         try? requestHandler.perform([textRecognitionRequest])

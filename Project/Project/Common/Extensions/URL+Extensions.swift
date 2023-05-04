@@ -24,9 +24,7 @@ extension URL {
 
 extension URL {
   var isDirectory: Bool {
-    var isDir: ObjCBool = false
-    FileManager.default.fileExists(atPath: path, isDirectory: &isDir)
-    return isDir.boolValue
+    hasDirectoryPath
   }
 }
 
@@ -41,7 +39,7 @@ extension URL {
 
 extension URL {
   func getSize() -> String? {
-    if hasDirectoryPath {
+    if isDirectory {
       guard let enumerator = FileManager.default.enumerator(at: self, includingPropertiesForKeys: [.totalFileAllocatedSizeKey], options: [.skipsHiddenFiles]) else {
         return nil
       }

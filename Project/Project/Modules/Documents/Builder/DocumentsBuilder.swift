@@ -5,7 +5,7 @@ protocol DocumentsBuilderProtocol {
   func buildViewController(folder: Folder, type: DocumentsType) -> DocumentsViewController!
 }
 
-class DocumentsBuilder: DocumentsBuilderProtocol {
+final class DocumentsBuilder: DocumentsBuilderProtocol {
   private let container = Container(parent: AppContainer.shared.container)
   
   func buildViewController(folder: Folder, type: DocumentsType) -> DocumentsViewController! {

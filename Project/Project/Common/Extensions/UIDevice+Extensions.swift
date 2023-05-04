@@ -49,10 +49,10 @@ extension UIDevice {
 }
 
 extension UIDevice {
-    static func hasFlash() -> Bool {
-        if let device = AVCaptureDevice.default(for: .video) {
-            return device.hasTorch
-        }
-        return false
+  static func hasFlash() -> Bool {
+    if let device = AVCaptureDevice.default(for: .video) {
+      return device.hasTorch
     }
+    return false
+  }
 }

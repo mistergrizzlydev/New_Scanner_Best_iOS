@@ -19,10 +19,10 @@ extension UserDefaults {
 extension UserDefaults {
   static var isOnboarded: Bool {
     get {
-      return standard.bool(forKey: "9467185c-ba35-402f-a4fa-b3eee9b01c46")
+      return standard.bool(forKey: "9467185c-ba35-402f-a4fa-b3eee9b01c461")
     }
     set {
-      standard.set(newValue, forKey: "9467185c-ba35-402f-a4fa-b3eee9b01c46")
+      standard.set(newValue, forKey: "9467185c-ba35-402f-a4fa-b3eee9b01c461")
       standard.synchronize()
     }
   }
@@ -115,13 +115,13 @@ extension UserDefaults {
   }
   
   static func setSmartCategory(_ category: DocumentClasifierCategory, name: String) {
-    print("setSmartCategory ", name)
+    debugPrint("setSmartCategory ", name)
     standard.set(category.rawValue, forKey: name)
     standard.synchronize()
   }
   
   static func getSmartCategory(name: String) -> DocumentClasifierCategory? {
-    print("getSmartCategory ", name)
+    debugPrint("getSmartCategory ", name)
     let result = standard.integer(forKey: name)
     return DocumentClasifierCategory(rawValue: result)
   }

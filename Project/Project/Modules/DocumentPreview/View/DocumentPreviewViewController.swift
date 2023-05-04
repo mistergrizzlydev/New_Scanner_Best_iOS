@@ -202,7 +202,7 @@ final class DocumentPreviewViewController: UIViewController, DocumentPreviewView
         // Fallback on earlier versions
       }
       
-      print("isSandwichPDF ", pdfView.isSandwichPDF)
+      debugPrint("isSandwichPDF ", pdfView.isSandwichPDF)
     }
     
     pdfView.delegate = self

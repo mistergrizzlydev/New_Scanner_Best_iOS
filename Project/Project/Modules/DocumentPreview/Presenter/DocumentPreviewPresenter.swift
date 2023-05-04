@@ -61,7 +61,7 @@ extension DocumentPreviewPresenter: UIDocumentPickerDelegate {
   }
   
   func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-    print("didPickDocumentsAt", urls)
+    debugPrint("didPickDocumentsAt", urls)
   }
 }
 
@@ -87,7 +87,7 @@ extension DocumentPreviewPresenter {
 extension DocumentPreviewPresenter {
   func presentMove() {
     let rootURL = localFileManager.getDocumentsURL()
-    let filesToMove = localFileManager.contentsOfDirectory(url: rootURL, sortBy: UserDefaults.sortedFilesType)?.compactMap { $0.url }.filter { $0.hasDirectoryPath } ?? []
+    let filesToMove = localFileManager.contentsOfDirectory(url: rootURL, sortBy: UserDefaults.sortedFilesType)?.compactMap { $0.url }.filter { $0.isDirectory } ?? []
     
     guard !filesToMove.isEmpty else { return }
     

@@ -7,7 +7,7 @@ extension UIViewController {
                    delegate: MFMailComposeViewControllerDelegate? = nil) {
     // Check if the user's device can send email
     guard MFMailComposeViewController.canSendMail() else {
-      print("This device can't send email")
+      debugPrint("This device can't send email")
       return
     }
     

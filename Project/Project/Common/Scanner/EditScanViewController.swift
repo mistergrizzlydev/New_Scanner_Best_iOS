@@ -62,7 +62,7 @@ final class EditScanViewController: UIViewController {
     navigationItem.rightBarButtonItem = nextButton
     navigationItem.rightBarButtonItem?.tintColor = .themeColor
     navigationController?.navigationBar.tintColor = .themeColor
-
+    
     if let firstVC = self.navigationController?.viewControllers.first, firstVC == self {
       navigationItem.leftBarButtonItem = cancelButton
     } else {

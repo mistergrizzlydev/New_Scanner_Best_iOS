@@ -152,7 +152,7 @@ class DocumentClassifier {
         return completion(nil, "Failed to get a prediction from the Core ML model".toError)
       }
       // Print the predicted class label and probability score
-      print("Class label: \(topPrediction.identifier), probability: \(topPrediction.confidence)")
+      debugPrint("Class label: \(topPrediction.identifier), probability: \(topPrediction.confidence)")
       
       completion(DocumentClassifierMLResult(classificationObservation: topPrediction), nil)
     }

@@ -60,12 +60,12 @@ extension UIColor {
     
     return color
   }
-    
-    class var themeLigthGray: UIColor {
-      guard let color = UIColor(named: Color.themeLigthGray.rawValue) else {
-        fatalError("Cannot find \(Color.themeLigthGray.rawValue) in Colors.xcassets file. Please add it back.")
-      }
-      
-      return color
+  
+  class var themeLigthGray: UIColor {
+    guard let color = UIColor(named: Color.themeLigthGray.rawValue) else {
+      fatalError("Cannot find \(Color.themeLigthGray.rawValue) in Colors.xcassets file. Please add it back.")
     }
+    
+    return color
+  }
 }

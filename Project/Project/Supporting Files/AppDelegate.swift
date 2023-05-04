@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let biometricType = UIDevice.current.biometricType
     let biometricTypeName = biometricType.name
 
-    print("Device has \(biometricTypeName)")
+    debugPrint("Device has \(biometricTypeName)")
 
     return true
   }

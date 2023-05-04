@@ -171,9 +171,9 @@ extension FileManager {
       suffixNumber = lastCharacterInt + 1
       
       if name.last == " " {
-        validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.hasDirectoryPath)
+        validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.isDirectory)
       } else {
-        validatedName = constructValidatedName(name: "\(name) ", suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.hasDirectoryPath)
+        validatedName = constructValidatedName(name: "\(name) ", suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.isDirectory)
       }
       
       var newURL = url
@@ -182,7 +182,7 @@ extension FileManager {
       repeat {
         validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber,
                                                pathExtension: pathExtension,
-                                               isDirectory: url.hasDirectoryPath)
+                                               isDirectory: url.isDirectory)
         newURL = url.deletingLastPathComponent().appendingPathComponent(validatedName)
         
         suffixNumber += 1
@@ -195,9 +195,9 @@ extension FileManager {
       suffixNumber += 1
       
       if name.last == " " {
-        validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.hasDirectoryPath)
+        validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.isDirectory)
       } else {
-        validatedName = constructValidatedName(name: "\(name) ", suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.hasDirectoryPath)
+        validatedName = constructValidatedName(name: "\(name) ", suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.isDirectory)
       }
       
       var newURL = url
@@ -206,7 +206,7 @@ extension FileManager {
       repeat {
         validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber,
                                                pathExtension: pathExtension,
-                                               isDirectory: url.hasDirectoryPath)
+                                               isDirectory: url.isDirectory)
         newURL = url.deletingLastPathComponent().appendingPathComponent(validatedName)
         
         suffixNumber += 1
@@ -277,7 +277,7 @@ extension LocalFileManager {
       do {
         _ = try fileManager.mergeFolders(urls: urls, to: url.appendingPathComponent(validatedName))
       } catch {
-        print("error: ", error.localizedDescription)
+        debugPrint("error: ", error.localizedDescription)
       }
     }
   }
@@ -318,7 +318,7 @@ extension LocalFileManager {
 
 extension FileManager {
   private func validateFolderNameWorkingMixed(at url: URL) -> String {
-    if url.hasDirectoryPath {
+    if url.isDirectory {
       let fileName = url.lastPathComponent
       var validatedName = ""
       var suffixNumber = 1
@@ -409,13 +409,13 @@ extension FileManager {
       suffixNumber = lastCharacterInt + 1
       
       if name.last == " " {
-        if url.hasDirectoryPath {
+        if url.isDirectory {
           validatedName = "\(name)\(suffixNumber)"
         } else {
           validatedName = "\(name)\(suffixNumber).\(pathExtension)"
         }
       } else {
-        if url.hasDirectoryPath {
+        if url.isDirectory {
           validatedName = "\(name) \(suffixNumber)"
         } else {
           validatedName = "\(name) \(suffixNumber).\(pathExtension)"
@@ -430,13 +430,13 @@ extension FileManager {
         suffixNumber += 1
         
         if name.last == " " {
-          if url.hasDirectoryPath {
+          if url.isDirectory {
             validatedName = "\(name)\(suffixNumber)"
           } else {
             validatedName = "\(name)\(suffixNumber).\(pathExtension)"
           }
         } else {
-          if url.hasDirectoryPath {
+          if url.isDirectory {
             validatedName = "\(name) \(suffixNumber)"
           } else {
             validatedName = "\(name) \(suffixNumber).\(pathExtension)"

@@ -181,10 +181,8 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
   
   func onRenameTapped(_ viewModel: DocumentsViewModel) {
     // Handle rename action
-    print("Rename action tapped")
-    
+    debugPrint("Rename action tapped")
     present()
-    
     view.presentAlertWithTextField(title: "Rename File",
                                    message: "Enter a new name for the file:",
                                    placeholder: viewModel.file.name) { text in
@@ -372,13 +370,13 @@ extension DocumentsPresenter {
 extension DocumentsPresenter {
   func presentCamera(animated: Bool = true) {
     coordinator.presentDocumentScanner(in: view, animated: animated, delegate: self) { success in
-      print(success)
+      debugPrint(success)
     }
   }
   
   func presentPhotoLibrary() {
     coordinator.presentImagePicker(in: view, delegate: self) { success in
-      print(success)
+      debugPrint(success)
       
       if success {
         
@@ -427,14 +425,14 @@ extension DocumentsPresenter: VNDocumentCameraViewControllerDelegate {
 
 extension DocumentsPresenter: PHPickerViewControllerDelegate {
   func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-    print(results.count, results)
+    debugPrint(results.count, results)
     
     results.loadImages { [weak self] (images, error) in
       guard let self = self else { return }
       if let error = error {
         self.view.showDrop(message: "Error loading images: \(error.localizedDescription)", icon: .systemAlert())
       } else if let images = images {
-        print(images.count, results.count)
+        debugPrint(images.count, results.count)
         let url = self.folder.url.appendingPathComponent(self.folder.url.generateFileName)
         SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
                               toSandwichPDFatURL: url, isTextRecognition: UserDefaults.isOCREnabled,

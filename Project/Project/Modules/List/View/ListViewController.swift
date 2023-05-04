@@ -22,7 +22,7 @@ final class ListViewController: UITableViewController, ListViewControllerProtoco
     super.viewWillDisappear(animated)
     selectedIndexPath = nil
   }
-
+  
   private func setupViews() {
     // Setup views
     navigationItem.title = "Move to:"

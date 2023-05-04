@@ -51,11 +51,10 @@ final class TextViewController: UIViewController, TextViewControllerProtocol {
   func prepare(with viewModel: TextViewModel) {
     self.viewModel = viewModel
     pdfView.document = PDFDocument(url: viewModel.file.url)
-    let personalKey = "K6THam-YqqTcU-WTWSde-qaayNa-cDqMLc-gLH"
     navigationItem.title = viewModel.file.name
     title = viewModel.file.name
-
-    SandwichPDF.extractImagesFromPDFView(key: personalKey, pdfView: pdfView) { [weak self] success in
+    
+    SandwichPDF.extractImagesFromPDFView(key: AppConfiguration.OCR.personalKey, pdfView: pdfView) { [weak self] success in
       if success {
         self?.pdfView.document = PDFDocument(url: viewModel.file.url)
         self?.showSuccess()
@@ -80,29 +79,5 @@ final class TextViewController: UIViewController, TextViewControllerProtocol {
       pdfView.isHidden = true
       textView.isHidden = false
     }
-  }
-}
-
-extension PDFView {
-  func getText() -> String? {
-    guard let pdfDocument = document else {
-        return nil
-    }
-
-    var text = ""
-
-    for pageIndex in 0..<pdfDocument.pageCount {
-        guard let page = pdfDocument.page(at: pageIndex) else {
-            continue
-        }
-        
-        guard let pageContent = page.string else {
-            continue
-        }
-        
-        text += pageContent
-    }
-
-    return text
   }
 }

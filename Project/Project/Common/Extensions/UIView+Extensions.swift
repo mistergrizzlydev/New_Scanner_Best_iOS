@@ -13,3 +13,20 @@ extension UIView {
     }, completion: nil)
   }
 }
+
+extension UIView {
+  func allSubviews() -> [UIView] {
+    var subviews = [UIView]()
+    iterateThroughAllSubviews { subview in
+      subviews.append(subview)
+    }
+    return subviews
+  }
+  
+  private func iterateThroughAllSubviews(_ body: (UIView) -> Void) {
+    body(self)
+    subviews.forEach {
+      $0.iterateThroughAllSubviews(body)
+    }
+  }
+}

@@ -8,6 +8,7 @@ import PDFKit
  let pdfPage = pdfDocument.page(at: 0)!
  let extractedImage = pdfPage.toImage()!
  */
+/*
 extension UIImage {
   func toPDF() -> Data? {
     let pdfDocument = PDFDocument()
@@ -175,8 +176,8 @@ extension UIImage {
 
     for observation in observations {
         guard let topCandidate = observation.topCandidates(1).first else { continue }
-        print("Detected text: \(topCandidate.string)")
-        print("Bounding box: \(observation.boundingBox)")
+ debugPrint("Detected text: \(topCandidate.string)")
+ debugPrint("Bounding box: \(observation.boundingBox)")
     }
     
     return createSearchablePDF(from: self, with: observations)
@@ -231,6 +232,8 @@ private func createSearchablePDF(from image: UIImage, with observations: [VNReco
     // Return the completed PDF document
     return pdfDocument
 }
+*/
+// added
 
 /*
 import UIKit
@@ -674,7 +677,7 @@ class PDFManager {
 //    }
 //}
 
-
+/*
 extension UIImage {
   var pdf: PDFDocument? {
     let pdfDocument = PDFDocument()
@@ -1372,3 +1375,4 @@ class PDFCreator: NSObject {
 //enum ImageExtractionError: Error {
 //    case imageExtractionFailed
 //}
+*/

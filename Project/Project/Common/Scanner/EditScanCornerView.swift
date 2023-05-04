@@ -63,5 +63,4 @@ final class EditScanCornerView: UIView {
     image = nil
     setNeedsDisplay()
   }
-  
 }

@@ -140,12 +140,6 @@ final class LocalFileManagerDefault: LocalFileManager {
     }
     
     return documents
-//    switch sortType {
-//    case .date: return documents.sortByDate()
-//    case .name: return documents.sortByName()
-//    case .size: return documents.sortBySize()
-//    case .foldersOnTop: return documents.sortedFoldersOnTop()
-//    }
   }
   
   func createFile(withName name: String, contents: Data) -> Bool {
@@ -154,7 +148,7 @@ final class LocalFileManagerDefault: LocalFileManager {
       try contents.write(to: fileURL)
       return true
     } catch {
-      print("Failed to create file: \(error)")
+      debugPrint("Failed to create file: \(error)")
       return false
     }
   }
@@ -170,8 +164,8 @@ final class LocalFileManagerDefault: LocalFileManager {
   }
   
   func moveFile(from sourceURL: URL, to destinationURL: URL) throws {
-      let fileManager = FileManager.default
-      try fileManager.moveItem(at: sourceURL, to: destinationURL)
+    let fileManager = FileManager.default
+    try fileManager.moveItem(at: sourceURL, to: destinationURL)
   }
 }
 
@@ -223,22 +217,22 @@ extension LocalFileManagerDefault {
 }
 
 extension UIPasteboard {
-    static func copyContentsOfFolderToClipboard(at url: URL) {
-        let pasteboard = UIPasteboard.general
-        pasteboard.url = url
-        
-//        var fileURLs: [URL] = []
-//        do {
-//            fileURLs = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
-//        } catch {
-//            print("Error: \(error.localizedDescription)")
-//            return
-//        }
-//
-//        pasteboard.items
-      
-      print("aaa", pasteboard.items, pasteboard.url)
-    }
+  static func copyContentsOfFolderToClipboard(at url: URL) {
+    let pasteboard = UIPasteboard.general
+    pasteboard.url = url
+    
+    //        var fileURLs: [URL] = []
+    //        do {
+    //            fileURLs = try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
+    //        } catch {
+    //            print("Error: \(error.localizedDescription)")
+    //            return
+    //        }
+    //
+    //        pasteboard.items
+    
+    debugPrint("aaa", pasteboard.items, pasteboard.url)
+  }
 }
 
 extension LocalFileManager {

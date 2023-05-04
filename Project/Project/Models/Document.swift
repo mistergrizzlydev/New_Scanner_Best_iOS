@@ -66,7 +66,7 @@ extension Document {
   }
   
   var type: DocumentType {
-    url.hasDirectoryPath ? .folder : .file
+    url.isDirectory ? .folder : .file
   }
   
   var fileExtension: String? {
@@ -92,10 +92,10 @@ extension Document {
     let starredURL = url.deletingLastPathComponent().appendingPathComponent(starredName)
     do {
       try FileManager.default.moveItem(at: url, to: starredURL)
-      print("Starred file ", url.path)
+      debugPrint("Starred file ", url.path)
     } catch {
       // Error handling code
-      print(error.localizedDescription, "starFile")
+      debugPrint(error.localizedDescription, "starFile")
     }
   }
   
@@ -104,10 +104,10 @@ extension Document {
     let unstarredURL = url.deletingLastPathComponent().appendingPathComponent(unstarredName)
     do {
       try FileManager.default.moveItem(at: url, to: unstarredURL)
-      print("unstarFile ", url.path, fileAttributes)
+      debugPrint("unstarFile ", url.path, fileAttributes)
     } catch {
       // Error handling code
-      print(error.localizedDescription, "unstarFile")
+      debugPrint(error.localizedDescription, "unstarFile")
     }
   }
   

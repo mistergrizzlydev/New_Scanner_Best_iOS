@@ -5,7 +5,7 @@ protocol SelectableBuilderProtocol {
   func buildViewController(title: String, options: [String], selectedOption: String) -> SelectableViewController!
 }
 
-class SelectableBuilder: SelectableBuilderProtocol {
+final class SelectableBuilder: SelectableBuilderProtocol {
   let container = Container()
 
   func buildViewController(title: String, options: [String], selectedOption: String) -> SelectableViewController! {

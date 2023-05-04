@@ -48,7 +48,7 @@ final class SmartCategoryViewController: UICollectionViewController, SmartCatego
     button.addTarget(self, action: #selector(showPopover(_:)), for: .touchUpInside)
     let barItem = UIBarButtonItem(customView: button)
     
-//    navigationItem.setRightBarButton(barItem, animated: true)
+    //    navigationItem.setRightBarButton(barItem, animated: true)
   }
   
   func prepare(with viewModels: [SmartCategoryViewModel]) {

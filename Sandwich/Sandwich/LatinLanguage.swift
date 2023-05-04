@@ -141,7 +141,7 @@ public enum LatinLanguage: Int, CaseIterable, Comparable {
 //  }
 }
 
-extension String {
+private extension String {
   func languageToEmoji(languageCode: String) -> String? {
     let base: UInt32 = 127397
     var scalarView = String.UnicodeScalarView()
@@ -157,7 +157,7 @@ extension String {
   }
 }
 
-extension String {
+private extension String {
   func image() -> UIImage? {
     let size = CGSize(width: 44, height: 44)
     let rect = CGRect(origin: CGPoint(), size: size)

@@ -3,9 +3,9 @@ import Foundation
 import UIKit
 
 extension CIImage {
-    /// Applies an AdaptiveThresholding filter to the image, which enhances the image and makes it completely gray scale
-    func applyingAdaptiveThreshold() -> UIImage? {
-        guard let colorKernel = CIColorKernel(source:
+  /// Applies an AdaptiveThresholding filter to the image, which enhances the image and makes it completely gray scale
+  func applyingAdaptiveThreshold() -> UIImage? {
+    guard let colorKernel = CIColorKernel(source:
             """
             kernel vec4 color(__sample pixel, float inputEdgeO, float inputEdge1)
             {
@@ -14,19 +14,19 @@ extension CIImage {
                 return vec4(threshold, threshold, threshold, 1.0);
             }
             """
-            ) else { return nil }
-
-        let firstInputEdge = 0.25
-        let secondInputEdge = 0.75
-
-        let arguments: [Any] = [self, firstInputEdge, secondInputEdge]
-
-        guard let enhancedCIImage = colorKernel.apply(extent: self.extent, arguments: arguments) else { return nil }
-
-        if let cgImage = CIContext(options: nil).createCGImage(enhancedCIImage, from: enhancedCIImage.extent) {
-            return UIImage(cgImage: cgImage)
-        } else {
-            return UIImage(ciImage: enhancedCIImage, scale: 1.0, orientation: .up)
-        }
+    ) else { return nil }
+    
+    let firstInputEdge = 0.25
+    let secondInputEdge = 0.75
+    
+    let arguments: [Any] = [self, firstInputEdge, secondInputEdge]
+    
+    guard let enhancedCIImage = colorKernel.apply(extent: self.extent, arguments: arguments) else { return nil }
+    
+    if let cgImage = CIContext(options: nil).createCGImage(enhancedCIImage, from: enhancedCIImage.extent) {
+      return UIImage(cgImage: cgImage)
+    } else {
+      return UIImage(ciImage: enhancedCIImage, scale: 1.0, orientation: .up)
     }
+  }
 }

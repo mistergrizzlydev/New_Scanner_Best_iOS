@@ -4,7 +4,7 @@ import Drops
 extension UIViewController {
   func showDrop(message: String, icon: UIImage? = nil, duration: TimeInterval = 3.0) {
     let action = Drop.Action(icon: icon) {
-      print("Drop tapped")
+      debugPrint("Drop tapped")
       Drops.hideCurrent()
     }
     let drop = Drop(title: message, action: action, position: .top, duration: 1.3)

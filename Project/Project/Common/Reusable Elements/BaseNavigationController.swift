@@ -14,11 +14,11 @@ class BaseNavigationController: UINavigationController {
     navigationBar.titleTextAttributes = [.foregroundColor: UIColor.red]
     
     // Set the appearance of the navigation bar when it is scrolled to the top
-//      let scrollEdgeAppearance = UINavigationBarAppearance()
-//      scrollEdgeAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-//      scrollEdgeAppearance.backgroundColor = UIColor.blue
-//      navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
-
+    //      let scrollEdgeAppearance = UINavigationBarAppearance()
+    //      scrollEdgeAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+    //      scrollEdgeAppearance.backgroundColor = UIColor.blue
+    //      navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+    
     if #available(iOS 13.0, *) {
       let navBarAppearance = UINavigationBarAppearance()
       navBarAppearance.largeTitleTextAttributes = [
@@ -61,12 +61,10 @@ class BaseNavigationController: UINavigationController {
     //
     
     // Set the background color for all toolbars
-//    UIToolbar.appearance().backgroundColor = .red
-
+    //    UIToolbar.appearance().backgroundColor = .red
+    
     // Set the tint color for all toolbar items
     UIToolbar.appearance().tintColor = .themeColor
-    
-    tabBarController?.delegate = self
   }
   
   override func pushViewController(_ viewController: UIViewController, animated: Bool) {
@@ -80,17 +78,5 @@ class BaseNavigationController: UINavigationController {
     
     // Call the super method to push the view controller onto the stack
     super.pushViewController(viewController, animated: animated)
-  }
-}
-
-extension BaseNavigationController: UITabBarControllerDelegate {
-  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-      // Check if the selected view controller is the one you are interested in
-//      if tabBarController.selectedItem == tabBarController.tabBar.items?[2] {
-//          // Do something specific to that tab bar item
-//          print("Tab bar item 2 was pressed")
-//      }
-    
-    print(viewController.classForCoder)
   }
 }

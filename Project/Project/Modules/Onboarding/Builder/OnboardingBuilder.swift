@@ -5,7 +5,7 @@ protocol OnboardingBuilderProtocol {
   func buildViewController() -> OnboardingViewController!
 }
 
-class OnboardingBuilder: OnboardingBuilderProtocol {
+final class OnboardingBuilder: OnboardingBuilderProtocol {
   private let container = Container(parent: AppContainer.shared.container)
   
   func buildViewController() -> OnboardingViewController! {

@@ -9,7 +9,7 @@ extension PDFView {
     self.autoScales = autoScales
     usePageViewController(true, withViewOptions: [UIPageViewController.OptionsKey.interPageSpacing: 10])
     
-   subviews.forEach { subview in
+    subviews.forEach { subview in
       if let scrollView = subview.subviews.first as? UIScrollView {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
@@ -47,19 +47,63 @@ extension PDFView {
 
 extension PDFView {
   func refresh() {
-//    guard let documentURL = document?.documentURL else { return }
-//    document?.write(to: documentURL, withOptions: [:])
     document?.reSave()
-    
     // Refresh the PDF view to show the updated document
     displayMode = displayMode
   }
 }
 
-extension PDFPage {
-  func removeAllAnnotations() {
-    for annotation in annotations {
-      removeAnnotation(annotation)
+extension PDFView {
+  func getText() -> String? {
+    guard let pdfDocument = document else {
+      return nil
     }
+    
+    var text = ""
+    
+    for pageIndex in 0..<pdfDocument.pageCount {
+      guard let page = pdfDocument.page(at: pageIndex) else {
+        continue
+      }
+      
+      guard let pageContent = page.string else {
+        continue
+      }
+      
+      text += pageContent
+    }
+    
+    return text
+  }
+}
+
+
+extension PDFView {
+  func firstPageImage() -> UIImage? {
+    guard document?.pageCount != 0 else {
+      return nil
+    }
+      
+    if let firstPage = document?.page(at: 0) {
+      let pageSize = firstPage.bounds(for: .mediaBox).size
+      if let cgImage = firstPage.thumbnail(of: pageSize, for: .mediaBox).cgImage {
+        return UIImage(cgImage: cgImage)
+      }
+    }
+    
+//    guard let page = self.document?.pageCount//page(at: 0) else {
+//      return nil
+//    }
+//
+//    let pageSize = page.bounds(for: .mediaBox)
+//    let renderer = UIGraphicsImageRenderer(size: pageSize)
+//    let image = renderer.image { context in
+//      context.cgContext.interpolationQuality = .high
+//      page.draw(with: .mediaBox, to: context.format.bounds)
+//    }
+//
+//    return image
+    
+    return nil
   }
 }

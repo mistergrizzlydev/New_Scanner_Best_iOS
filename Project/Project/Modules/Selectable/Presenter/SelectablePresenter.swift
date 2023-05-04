@@ -49,23 +49,19 @@ final class SelectablePresenter: SelectablePresenterProtocol {
     if let smartCategory = DocumentClasifierCategory(classification: selectedOption) {
       UserDefaults.documentClasifierCategory = smartCategory
     }
-      
-      if let cameraFlashType = CameraFlashType(rawValue: indexPath.row) {
-        UserDefaults.cameraFlashType = cameraFlashType
-      }
-      
-      if let cameraFilterType = CameraFilterType(rawValue: indexPath.row) {
-        UserDefaults.cameraFilterType = cameraFilterType
-      }
-      
-      if let documentDetectionType = DocumentDetectionType(rawValue: indexPath.row) {
-        UserDefaults.documentDetectionType = documentDetectionType
-      }
+    
+    if let cameraFlashType = CameraFlashType(rawValue: indexPath.row) {
+      UserDefaults.cameraFlashType = cameraFlashType
+    }
+    
+    if let cameraFilterType = CameraFilterType(rawValue: indexPath.row) {
+      UserDefaults.cameraFilterType = cameraFilterType
+    }
+    
+    if let documentDetectionType = DocumentDetectionType(rawValue: indexPath.row) {
+      UserDefaults.documentDetectionType = documentDetectionType
+    }
     
     NotificationCenter.default.post(name: .selectableScreenDidSelectOption, object: nil)
   }
-}
-
-extension Notification.Name {
-  static let selectableScreenDidSelectOption = Notification.Name("SelectableScreenDidSelectOption")
 }
