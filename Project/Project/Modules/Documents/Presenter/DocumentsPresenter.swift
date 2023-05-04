@@ -28,6 +28,8 @@ protocol DocumentsPresenterProtocol {
   
   func checkMergeButton(for viewModels: [DocumentsViewModel]?)
   func merge(viewModels: [DocumentsViewModel]?)
+  
+  func didSearch(for text: String, in scope: SearchScope) -> [DocumentsViewModel]
 }
 
 final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
@@ -115,6 +117,19 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
       coordinator.navigateToDocuments(from: view, type: type, folder: viewModel.file as! Folder)
     case .file:
       coordinator.navigateToDocumentPreview(from: view.navigationController, file: viewModel.file as! File)
+    }
+  }
+  
+  func didSearch(for text: String, in scope: SearchScope) -> [DocumentsViewModel] {
+    let documents = localFileManager.searchInDirectory(url: folder.url, searchFor: text)
+
+    switch scope {
+    case .all:
+      return documents.compactMap({ DocumentsViewModel(file: $0) })
+    case .folders:
+      return documents.compactMap({ DocumentsViewModel(file: $0) }).filter { $0.file.type == .folder }
+    case .files:
+      return documents.compactMap({ DocumentsViewModel(file: $0) }).filter { $0.file.type == .file }
     }
   }
   

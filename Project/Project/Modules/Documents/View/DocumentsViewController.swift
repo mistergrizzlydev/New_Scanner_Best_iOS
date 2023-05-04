@@ -15,6 +15,8 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
   
   var presenter: DocumentsPresenterProtocol!
   private var viewModels: [DocumentsViewModel] = []
+  private var filteredViewModels: [DocumentsViewModel] = []
+  
   private var isAllSelected = false
   
   private var menuButton: UIBarButtonItem?
@@ -55,10 +57,10 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
   }
   
   func endEditing() {
-      if let button = navigationItem.rightBarButtonItems?.first(where: { $0.title?.lowercased() == "done" }){
-          _ = button.target?.perform(button.action, with: button)
-      }
-      tableView.setEditing(false, animated: true)
+    if let button = navigationItem.rightBarButtonItems?.first(where: { $0.title?.lowercased() == "done" }){
+      _ = button.target?.perform(button.action, with: button)
+    }
+    tableView.setEditing(false, animated: true)
   }
   
   private func setupViews() {
@@ -93,7 +95,7 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
       let sortFileType = SortType(rawValue: action.title) ?? .date
       self?.sortedFilesType = sortFileType
       self?.presenter.on(sortBy: sortFileType)
-      }
+    }
     }
     let section1 = UIMenu(title: "Create a new folder", options: .displayInline, children: [menuItem1])
     let section2 = UIMenu(title: "Sort by:", options: .displayInline, children: section2Actions)
@@ -104,7 +106,7 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
     //    hidesBottomBarWhenPushed = true
     let toolbarItems = FileManagerToolbarAction.toolbarItems(target: self, action: #selector(toolbarButtonTapped(_:)))
     self.toolbarItems = toolbarItems
-        
+    
     cameraButtonTapped = { [weak self] in
       self?.presenter.presentCamera(animated: true)
     }
@@ -135,7 +137,7 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
     case .move:
       self.presenter.presentMove(selectedViewModels: selectedViewModels, viewModels: viewModels)
     case .delete:
-        presenter.onDeleteTapped(selectedViewModels)
+      presenter.onDeleteTapped(selectedViewModels)
     }
   }
   
@@ -158,28 +160,62 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
     }
   }
   
+  private var searchController: UISearchController?
+  
   private func setupSearchBar() {
-    // Create the search controller
-    let searchController = UISearchController(searchResultsController: nil)
-    searchController.searchResultsUpdater = self
-    searchController.obscuresBackgroundDuringPresentation = false
-    searchController.searchBar.placeholder = "Search"
-    searchController.searchBar.scopeButtonTitles = ["All", "Folders", "Files"]
-    searchController.searchBar.showsScopeBar = false
-    searchController.searchBar.delegate = self
+    /*
+     // Create the search controller
+     let searchController = UISearchController(searchResultsController: nil)
+     searchController.searchResultsUpdater = self
+     searchController.obscuresBackgroundDuringPresentation = false
+     searchController.searchBar.placeholder = "Search"
+     searchController.searchBar.scopeButtonTitles = ["All", "Folders", "Files"]
+     searchController.searchBar.showsScopeBar = false
+     searchController.searchBar.delegate = self
+     
+     // Add the search controller to the navigation item
+     navigationItem.searchController = searchController
+     navigationItem.hidesSearchBarWhenScrolling = false
+     navigationItem.searchController?.obscuresBackgroundDuringPresentation = false
+     navigationItem.hidesSearchBarWhenScrolling = false
+     
+     // Customize the search bar's appearance
+     //    searchController.searchBar.backgroundColor = .red
+     searchController.searchBar.tintColor = .black
+     searchController.searchBar.barTintColor = .black
+     searchController.searchBar.isTranslucent = false
+     searchController.searchBar.searchTextField.textColor = .black
+     */
+    
+    // Set up the search controller
+    searchController = UISearchController(searchResultsController: nil)
+    searchController!.searchResultsUpdater = self
+    searchController!.obscuresBackgroundDuringPresentation = false
+    searchController!.searchBar.placeholder = "Search"
+    
+    // Set up the scopes
+    searchController!.searchBar.scopeButtonTitles = SearchScope.allCases.compactMap { $0.rawValue }
+    searchController!.searchBar.showsScopeBar = false
+    searchController!.searchBar.delegate = self
     
     // Add the search controller to the navigation item
     navigationItem.searchController = searchController
     navigationItem.hidesSearchBarWhenScrolling = false
-    navigationItem.searchController?.obscuresBackgroundDuringPresentation = false
-    navigationItem.hidesSearchBarWhenScrolling = false
-    
-    // Customize the search bar's appearance
-    //    searchController.searchBar.backgroundColor = .red
-    searchController.searchBar.tintColor = .black
-    searchController.searchBar.barTintColor = .black
-    searchController.searchBar.isTranslucent = false
-    searchController.searchBar.searchTextField.textColor = .black
+  }
+  
+  private var wasSearchBarCancelButtonClicked = false
+  
+  private func isFiltering() -> Bool {
+    if wasSearchBarCancelButtonClicked {
+      return false
+    } else {
+      guard let searchController = searchController else { return false }
+      return searchController.isActive && !searchBarIsEmpty()
+    }
+  }
+  
+  private func searchBarIsEmpty() -> Bool {
+    return searchController?.searchBar.text?.isEmpty ?? true
   }
   
   func prepare(with viewModels: [DocumentsViewModel], title: String) {
@@ -196,13 +232,13 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
 
 extension DocumentsViewController {
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    viewModels.count
+    isFiltering() ? filteredViewModels.count : viewModels.count
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: DocumentsTableViewCell.reuseIdentifier,
                                                    for: indexPath) as? DocumentsTableViewCell else { return UITableViewCell() }
-    let viewModel = viewModels[indexPath.row]
+    let viewModel = isFiltering() ? filteredViewModels[indexPath.row] : viewModels[indexPath.row]
     cell.configure(with: viewModel)
     return cell
   }
@@ -215,7 +251,7 @@ extension DocumentsViewController {
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if tableView.isEditing {
-      let selectedViewModels = tableView.indexPathsForSelectedRows?.compactMap { viewModels[$0.row] }
+      let selectedViewModels = tableView.indexPathsForSelectedRows?.compactMap { isFiltering() ? filteredViewModels[$0.row] : viewModels[$0.row] }
       presenter.checkMergeButton(for: selectedViewModels)
     } else {
       tableView.deselectRow(at: indexPath, animated: true)
@@ -225,7 +261,7 @@ extension DocumentsViewController {
   
   override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
     if tableView.isEditing {
-      let selectedViewModels = tableView.indexPathsForSelectedRows?.compactMap { viewModels[$0.row] }
+      let selectedViewModels = tableView.indexPathsForSelectedRows?.compactMap { isFiltering() ? filteredViewModels[$0.row] : viewModels[$0.row] }
       presenter.checkMergeButton(for: selectedViewModels)
     }
   }
@@ -239,8 +275,37 @@ extension DocumentsViewController: UISearchResultsUpdating {
 
 extension DocumentsViewController: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    wasSearchBarCancelButtonClicked = false
     // Show the scope bar when the user enters some text
     searchBar.showsScopeBar = !searchText.isEmpty
+    
+    navigationController?.navigationBar.sizeToFit()
+    navigationItem.largeTitleDisplayMode = .always
+    
+    guard let text = searchBar.text else { return }
+    if text.isEmpty {
+      filteredViewModels = []
+      tableView.reloadData()
+    } else {
+      filterContentForSearchText(text, scope: SearchScope(index: searchBar.selectedScopeButtonIndex))
+    }
+  }
+  
+  func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+    guard let text = searchBar.text, !text.isEmpty else { return }
+    filterContentForSearchText(text, scope: SearchScope(index: searchBar.selectedScopeButtonIndex))
+  }
+  
+  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    searchBar.showsScopeBar = false
+    wasSearchBarCancelButtonClicked = true
+    filteredViewModels = []
+    tableView.reloadData()
+  }
+  
+  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    view.endEditing(true)
+    tableView.reloadData()
     
     navigationController?.navigationBar.sizeToFit()
     navigationItem.largeTitleDisplayMode = .always
@@ -249,6 +314,11 @@ extension DocumentsViewController: UISearchBarDelegate {
   func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
     // Hide the scope bar when the search bar is dismissed
     searchBar.showsScopeBar = false
+  }
+  
+  private func filterContentForSearchText(_ searchText: String, scope: SearchScope) {
+    filteredViewModels = presenter.didSearch(for: searchText, in: scope)
+    tableView.reloadData()
   }
 }
 
@@ -266,7 +336,7 @@ extension DocumentsViewController: UIContextMenuInteractionDelegate {
   func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
     guard !tableView.isEditing, let cell = interaction.view as? DocumentsTableViewCell, let indexPath = tableView.indexPath(for: cell) else { return nil }
     
-    let viewModel = viewModels[indexPath.row]
+    let viewModel = isFiltering() ? filteredViewModels[indexPath.row] : viewModels[indexPath.row]
     
     let actions = FileManagerAction.allCases(file: viewModel.file).compactMap { FileManagerAction.createAction(from: $0, viewModel: viewModel) { [weak self] action in
       switch action.title {
@@ -324,7 +394,7 @@ extension DocumentsViewController {
   
   override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     editButtonItem.isEnabled = false
-    let viewModel = viewModels[indexPath.row]
+    let viewModel = isFiltering() ? filteredViewModels[indexPath.row] : viewModels[indexPath.row]
     let unstarTitle = FileManagerAction.star.title(file: viewModel.file)
     let deleteTitle = FileManagerAction.delete.title(file: viewModel.file)
     

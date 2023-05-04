@@ -34,6 +34,16 @@ extension UIImage {
   }
 }
 
+extension URL {
+  var toImage: UIImage? {
+    if pathExtension == "jpg", let data = try? Data(contentsOf: self) {
+      return UIImage(data: data)
+    }
+    
+    return nil
+  }
+}
+
 extension LocalFileManagerDefault {
   func getCreateAndGetThumbnail(fileManager: FileManager = FileManager.default,
                                 for url: URL, thumbnailsFolderName: String,

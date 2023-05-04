@@ -21,6 +21,7 @@ protocol LocalFileManager: AnyObject {
   func duplicateFiles(_ urls: [URL]) throws
   
   func deletePencilKitFiles(at url: URL) throws
+  func searchInDirectory(url: URL, searchFor name: String) -> [Document]
 }
 
 final class LocalFileManagerDefault: LocalFileManager {
@@ -93,9 +94,16 @@ final class LocalFileManagerDefault: LocalFileManager {
         let folder = Folder(url: url)
         documents.append(folder)
       } else if url.fileType == .pdf {
-        let thumbnail = getCreateAndGetThumbnail(for: url, thumbnailsFolderName: Constants.thumbnailsFolder)
-        let file = File(url: url, image: thumbnail.image, thumbnailURL: thumbnail.url)
-        documents.append(file)
+        let thumbnailName = url.deletingPathExtension().appendingPathExtension("jpg").lastPathComponent
+        let thumbnailURL = thumbnailsFolderURL.appendingPathComponent(thumbnailName)
+        if fileManager.fileExists(atPath: thumbnailURL.path) {
+          let file = File(url: url, image: thumbnailURL.toImage, thumbnailURL: thumbnailURL)
+          documents.append(file)
+        } else {
+          let thumbnail = getCreateAndGetThumbnail(for: url, thumbnailsFolderName: Constants.thumbnailsFolder)
+          let file = File(url: url, image: thumbnail.image, thumbnailURL: thumbnail.url)
+          documents.append(file)
+        }
       }
     }
     
@@ -105,6 +113,39 @@ final class LocalFileManagerDefault: LocalFileManager {
     case .size: return documents.sortBySize()
     case .foldersOnTop: return documents.sortedFoldersOnTop()
     }
+  }
+  
+  func searchInDirectory(url: URL, searchFor name: String) -> [Document] {
+    let fileManager = FileManager.default
+    let contents = fileManager.search(in: url, for: name)
+    
+    var documents = [Document]()
+    
+    for url in contents {
+      if !url.isCachePencilKitFile, url.isDirectory {
+        let folder = Folder(url: url)
+        documents.append(folder)
+      } else if url.fileType == .pdf {
+        let thumbnailName = url.deletingPathExtension().appendingPathExtension("jpg").lastPathComponent
+        let thumbnailURL = thumbnailsFolderURL.appendingPathComponent(thumbnailName)
+        if fileManager.fileExists(atPath: thumbnailURL.path) {
+          let file = File(url: url, image: thumbnailURL.toImage, thumbnailURL: thumbnailURL)
+          documents.append(file)
+        } else {
+          let thumbnail = getCreateAndGetThumbnail(for: url, thumbnailsFolderName: Constants.thumbnailsFolder)
+          let file = File(url: url, image: thumbnail.image, thumbnailURL: thumbnail.url)
+          documents.append(file)
+        }
+      }
+    }
+    
+    return documents
+//    switch sortType {
+//    case .date: return documents.sortByDate()
+//    case .name: return documents.sortByName()
+//    case .size: return documents.sortBySize()
+//    case .foldersOnTop: return documents.sortedFoldersOnTop()
+//    }
   }
   
   func createFile(withName name: String, contents: Data) -> Bool {

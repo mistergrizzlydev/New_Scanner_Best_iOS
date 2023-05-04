@@ -136,6 +136,7 @@
 		EC7FDC4329FB072A004091C7 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7FDC4229FB072A004091C7 /* AppConfiguration.swift */; };
 		EC7FDC4529FB0985004091C7 /* UIViewController+Mail.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7FDC4429FB0985004091C7 /* UIViewController+Mail.swift */; };
 		EC8083C329EB2ED10003A050 /* PDFView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8083C229EB2ED10003A050 /* PDFView+Extensions.swift */; };
+		EC8E53172A041A8300A5166D /* SearchScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8E53162A041A8300A5166D /* SearchScope.swift */; };
 		EC966CBB29ED84AE00BA67B5 /* DocumentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC966CBA29ED84AE00BA67B5 /* DocumentCategory.swift */; };
 		ECA038B429EAF110008CC3AE /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA038B329EAF110008CC3AE /* Reusable.swift */; };
 		ECA3BFE329F3279E0097EF32 /* TurboScan™ Tutorial.pdf in Resources */ = {isa = PBXBuildFile; fileRef = ECA3BFE229F3279D0097EF32 /* TurboScan™ Tutorial.pdf */; };
@@ -332,6 +333,7 @@
 		EC7FDC4229FB072A004091C7 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		EC7FDC4429FB0985004091C7 /* UIViewController+Mail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Mail.swift"; sourceTree = "<group>"; };
 		EC8083C229EB2ED10003A050 /* PDFView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PDFView+Extensions.swift"; sourceTree = "<group>"; };
+		EC8E53162A041A8300A5166D /* SearchScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScope.swift; sourceTree = "<group>"; };
 		EC966CBA29ED84AE00BA67B5 /* DocumentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCategory.swift; sourceTree = "<group>"; };
 		ECA038B329EAF110008CC3AE /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		ECA3BFE229F3279D0097EF32 /* TurboScan™ Tutorial.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "TurboScan™ Tutorial.pdf"; sourceTree = "<group>"; };
@@ -583,7 +585,6 @@
 				E795A95390AFBB4F45BE670A /* View */,
 				752657B360B504D25FF74261 /* Presenter */,
 			);
-			name = DocName;
 			path = DocName;
 			sourceTree = "<group>";
 		};
@@ -809,7 +810,6 @@
 			children = (
 				B606B896D0F7C8A6F411524E /* DocNamePresenter.swift */,
 			);
-			name = Presenter;
 			path = Presenter;
 			sourceTree = "<group>";
 		};
@@ -901,7 +901,6 @@
 			children = (
 				6D6877D9097D39CCDCE39E32 /* DocNameBuilder.swift */,
 			);
-			name = Builder;
 			path = Builder;
 			sourceTree = "<group>";
 		};
@@ -1125,7 +1124,6 @@
 				0A94320971F8BD009C664DFF /* DocNameViewController.swift */,
 				619060405C3008A5B645FC97 /* DocNameViewController.storyboard */,
 			);
-			name = View;
 			path = View;
 			sourceTree = "<group>";
 		};
@@ -1225,16 +1223,17 @@
 			isa = PBXGroup;
 			children = (
 				ECD1B65129DF4FD2005B9EDF /* Document.swift */,
+				ECD1B65229DF4FD2005B9EDF /* File.swift */,
+				ECD1B65329DF4FD3005B9EDF /* Folder.swift */,
 				EB99118229FDCBA0005DFA99 /* DocumentDetectionType.swift */,
 				EC78B76E29FC821E005807E0 /* DocumentsType.swift */,
+				EC8E53162A041A8300A5166D /* SearchScope.swift */,
 				ECC4457C29FD2C4700C94ACF /* DocumentClasifierCategory.swift */,
 				ECC4457A29FD28CA00C94ACF /* OnboardingCategory.swift */,
 				ECF3F69229E06B9F005A3338 /* SortType.swift */,
 				EC7FDC4029FAFFDD004091C7 /* PageSize.swift */,
 				EC629DF229FC1D8F00CFC70E /* StartType.swift */,
 				EC966CBA29ED84AE00BA67B5 /* DocumentCategory.swift */,
-				ECD1B65229DF4FD2005B9EDF /* File.swift */,
-				ECD1B65329DF4FD3005B9EDF /* Folder.swift */,
 				ECF3F69429E07C0A005A3338 /* SortComparator.swift */,
 				EC2E664F29E8AF3A005D3312 /* FileManagerToolbarAction.swift */,
 				EC2E665129E8AF69005D3312 /* FileManagerAction.swift */,
@@ -1365,7 +1364,6 @@
 			children = (
 				71A48D0CC39324DF5312CE50 /* DocNameViewModel.swift */,
 			);
-			name = ViewModel;
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
@@ -1420,7 +1418,7 @@
 			);
 			mainGroup = ECD1B62F29DF4E07005B9EDF;
 			packageReferences = (
-				EC0BD62B29FB119100C84BF8 /* XCRemoteSwiftPackageReference "WhatsNewKit.git" */,
+				EC0BD62B29FB119100C84BF8 /* XCRemoteSwiftPackageReference "WhatsNewKit" */,
 			);
 			productRefGroup = ECD1B63929DF4E07005B9EDF /* Products */;
 			projectDirPath = "";
@@ -1545,6 +1543,7 @@
 				ECD1B65A29DF5538005B9EDF /* BaseNavigationController.swift in Sources */,
 				EC6F933929EDC9ED00DA5B99 /* VisionRectangleDetector.swift in Sources */,
 				ECD1B66229DF57B3005B9EDF /* URL+Extensions.swift in Sources */,
+				EC8E53172A041A8300A5166D /* SearchScope.swift in Sources */,
 				EB99118529FDD499005DFA99 /* ScanningSettingsViewController.swift in Sources */,
 				ECF3F69B29E0B488005A3338 /* UIColor+Extensions.swift in Sources */,
 				EC78B76F29FC821E005807E0 /* DocumentsType.swift in Sources */,
@@ -1883,7 +1882,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		EC0BD62B29FB119100C84BF8 /* XCRemoteSwiftPackageReference "WhatsNewKit.git" */ = {
+		EC0BD62B29FB119100C84BF8 /* XCRemoteSwiftPackageReference "WhatsNewKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SvenTiigi/WhatsNewKit.git";
 			requirement = {
@@ -1896,7 +1895,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		EC0BD62C29FB119100C84BF8 /* WhatsNewKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = EC0BD62B29FB119100C84BF8 /* XCRemoteSwiftPackageReference "WhatsNewKit.git" */;
+			package = EC0BD62B29FB119100C84BF8 /* XCRemoteSwiftPackageReference "WhatsNewKit" */;
 			productName = WhatsNewKit;
 		};
 /* End XCSwiftPackageProductDependency section */

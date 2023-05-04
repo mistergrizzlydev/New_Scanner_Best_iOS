@@ -449,3 +449,21 @@ extension FileManager {
     return validatedName
   }
 }
+
+extension FileManager {
+  func search(in url: URL, for name: String) -> [URL] {
+    var results = [URL]()
+    
+    guard let enumerator = enumerator(at: url, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsPackageDescendants]) else {
+      return results
+    }
+    
+    while let fileURL = enumerator.nextObject() as? URL {
+      if fileURL.lastPathComponent.lowercased().contains(name.lowercased()) {
+        results.append(fileURL)
+      }
+    }
+    
+    return results
+  }
+}

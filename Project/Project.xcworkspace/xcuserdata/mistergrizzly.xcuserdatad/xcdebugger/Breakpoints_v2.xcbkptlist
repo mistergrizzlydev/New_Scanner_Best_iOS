@@ -7,128 +7,112 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C1E79E53-9570-48EC-A9CF-092259ED07C1"
+            uuid = "4A4B5B4A-E93A-4A39-963F-8D555C531031"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Project/Modules/Documents/Presenter/DocumentsPresenter.swift"
+            filePath = "Project/Modules/Documents/View/DocumentsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "present()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C1E79E53-9570-48EC-A9CF-092259ED07C1 - e87ef42be87f9395"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Project.DocumentsPresenter.present() -&gt; ()"
-                  moduleName = "Project"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mistergrizzly/Desktop/Scanner_App/New_Scanner_Best_iOS/Project/Project/Modules/Documents/Presenter/DocumentsPresenter.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "81"
-                  endingLineNumber = "81"
-                  offsetFromSymbolStart = "2097">
-               </Location>
-               <Location
-                  uuid = "C1E79E53-9570-48EC-A9CF-092259ED07C1 - e87ef42be87f9395"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Project.DocumentsPresenter.present() -&gt; ()"
-                  moduleName = "Project"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mistergrizzly/Desktop/Scanner_App/New_Scanner_Best_iOS/Project/Project/Modules/Documents/Presenter/DocumentsPresenter.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "81"
-                  endingLineNumber = "81"
-                  offsetFromSymbolStart = "2384">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C8AB2A2D-995F-41FB-B3A3-8BAC8302D976"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Project/Modules/OCRLanguages/View/OCRLanguagesViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "setupCells(with:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C8AB2A2D-995F-41FB-B3A3-8BAC8302D976 - 55422d0e10957347"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (__C.UITableViewCell, QuickTableViewController.Row &amp; QuickTableViewController.RowStyle) -&gt; () in Project.OCRLanguagesViewController.setupCells(with: Project.OCRLanguagesViewModel) -&gt; ()"
-                  moduleName = "Project"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mistergrizzly/Desktop/Scanner_App/New_Scanner_Best_iOS/Project/Project/Modules/OCRLanguages/View/OCRLanguagesViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "61"
-                  endingLineNumber = "61"
-                  offsetFromSymbolStart = "223">
-               </Location>
-               <Location
-                  uuid = "C8AB2A2D-995F-41FB-B3A3-8BAC8302D976 - 55422d0e10957347"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (__C.UITableViewCell, QuickTableViewController.Row &amp; QuickTableViewController.RowStyle) -&gt; () in Project.OCRLanguagesViewController.setupCells(with: Project.OCRLanguagesViewModel) -&gt; ()"
-                  moduleName = "Project"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mistergrizzly/Desktop/Scanner_App/New_Scanner_Best_iOS/Project/Project/Modules/OCRLanguages/View/OCRLanguagesViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "61"
-                  endingLineNumber = "61"
-                  offsetFromSymbolStart = "420">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4ABB8BDC-6BAF-4B81-ACC3-FBB5EB308D9D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Project/Modules/OCRLanguages/View/OCRLanguagesViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "setupCells(with:)"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
+            landmarkName = "searchBar(_:textDidChange:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "AB8CE26E-7259-4ED2-840C-58B482DC55C8"
+            uuid = "7C1FF4BF-B6C2-4811-A416-70EC74A32E29"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Modules/Documents/View/DocumentsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "302"
+            endingLineNumber = "302"
+            landmarkName = "searchBarCancelButtonClicked(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B0056E50-AA44-4B77-AB1B-86ADBA894335"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Project/Modules/Rearrange/Presenter/RearrangePresenter.swift"
+            filePath = "Project/Modules/Documents/View/DocumentsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "getImages(size:completion:)"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
+            landmarkName = "tableView(_:numberOfRowsInSection:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "162C9E8A-8202-48CD-8523-4CD23A4EDBF8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Modules/Documents/View/DocumentsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
+            landmarkName = "isFiltering()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C835DCCC-D293-450E-8B06-61265A98CB6A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Modules/Documents/View/DocumentsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
+            landmarkName = "isFiltering()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "202C8280-1069-4851-839D-C3A406C0A5F6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Modules/Documents/View/DocumentsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
+            landmarkName = "searchBarIsEmpty()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BB6B0A39-C3D5-412C-997F-D2FBACE8C47F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Modules/Documents/View/DocumentsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
+            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
