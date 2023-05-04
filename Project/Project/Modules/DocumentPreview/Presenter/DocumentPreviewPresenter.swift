@@ -1,17 +1,26 @@
 import UIKit
+import PhotosUI
 import MobileCoreServices
 import UniformTypeIdentifiers
 import QuickLook
+import VisionKit
+import Sandwich
 
 protocol DocumentPreviewPresenterProtocol {
   func present()
   func onSignatureTapped()
   func onShareTapped()
   
+  func onImportFileFromGallery()
   func onImportFileFromDocuments()
+  func onImportFileFromCamera()
+  
+  func onEditTapped(with image: UIImage?, pageIndex: Int)
+  
   func printDocument()
   func presentMove()
   func delete()
+  
   func rearrange(with pdfDocument: PDFDoc?)
 }
 
@@ -20,6 +29,7 @@ final class DocumentPreviewPresenter: NSObject, DocumentPreviewPresenterProtocol
   private let file: File
   private let coordinator: Coordinator
   private let localFileManager: LocalFileManager
+  private var pageIndex: Int = 0
   
   init(view: DocumentPreviewViewControllerProtocol & UIViewController,
        file: File, coordinator: Coordinator,
@@ -51,17 +61,26 @@ final class DocumentPreviewPresenter: NSObject, DocumentPreviewPresenterProtocol
   }
   
   func onImportFileFromDocuments() {
-    coordinator.presentDocumentPickerViewController(controller: view, delegate: self)
-  }
-}
-
-extension DocumentPreviewPresenter: UIDocumentPickerDelegate {
-  func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-    present()
+    coordinator.presentDocumentPickerViewController(controller: view, delegate: self, allowsMultipleSelection: false)
   }
   
-  func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-    debugPrint("didPickDocumentsAt", urls)
+  func onImportFileFromGallery() {
+    coordinator.presentImagePicker(in: view, delegate: self) { success in
+      debugPrint(success)
+    }
+  }
+  
+  func onImportFileFromCamera() {
+    coordinator.presentDocumentScanner(in: view, animated: true, delegate: self) { success in
+      debugPrint(success)
+    }
+  }
+  
+  func onEditTapped(with image: UIImage?, pageIndex: Int) {
+    self.pageIndex = pageIndex
+    guard let image = image else { return }
+    let scannerViewController = ImageScannerController(image: image, delegate: self)
+    view.present(scannerViewController, animated: false)
   }
 }
 
@@ -181,5 +200,104 @@ extension DocumentPreviewPresenter {
     } catch {
       debugPrint(error.localizedDescription)
     }
+  }
+}
+
+extension DocumentPreviewPresenter: PHPickerViewControllerDelegate {
+  func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+    debugPrint(results.count, results)
+    
+    picker.dismiss(animated: true)
+    view.showLoadingView(title: "Inserting new pages")
+    results.loadImages { [weak self] (images, error) in
+      guard let self = self else { return }
+      if let error = error {
+        self.view.showDrop(message: "Error loading images: \(error.localizedDescription)", icon: .systemAlert())
+      } else if let images = images {
+        debugPrint(images.count, results.count)
+        let tempPDFURL = URL.generateTempPDFURL()
+        
+        SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
+                              toSandwichPDFatURL: tempPDFURL, isTextRecognition: UserDefaults.isOCREnabled,
+                              quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
+          self?.file.url.appendPDF(from: tempPDFURL)
+          self?.present()
+          self?.view.dismissLoadingView()
+        }
+      }
+    }
+  }
+}
+
+extension DocumentPreviewPresenter: VNDocumentCameraViewControllerDelegate {
+  func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
+    // Handle the scanned document
+    var images: [UIImage] = []
+    
+    for pageIndex in 0..<scan.pageCount {
+      let image = scan.imageOfPage(at: pageIndex)
+      images.append(image)
+    }
+    controller.dismiss(animated: true)
+    
+    view.showLoadingView(title: "Inserting new pages")
+    
+    let tempPDFURL = URL.generateTempPDFURL()
+    
+    SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
+                          toSandwichPDFatURL: tempPDFURL, isTextRecognition: UserDefaults.isOCREnabled,
+                          quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
+      self?.file.url.appendPDF(from: tempPDFURL)
+      self?.present()
+      self?.view.dismissLoadingView()
+    }
+  }
+  
+  func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
+    controller.dismiss(animated: true, completion: nil)
+  }
+  
+  func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
+    controller.dismiss(animated: true)
+  }
+}
+
+extension DocumentPreviewPresenter: UIDocumentPickerDelegate {
+  func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+    present()
+  }
+  
+  func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+    debugPrint("didPickDocumentsAt", urls)
+    guard let url = urls.first else { return }
+    
+    file.url.appendPDF(from: url)
+    present()
+  }
+}
+
+extension DocumentPreviewPresenter: ImageScannerControllerDelegate {
+  func imageScannerController(_ scanner: ImageScannerController, didFailWithError error: Error) {
+    view.presentAlert(message: error.localizedDescription, alerts: [UIAlertAction(title: "Ok", style: .default)])
+  }
+  
+  func imageScannerController(_ scanner: ImageScannerController, didFinishScanningWithResults results: ImageScannerResults) {
+    scanner.dismiss(animated: false)
+    let image = results.enhancedImage ?? results.croppedScan.image
+    
+    view.showLoadingView(title: "Updating PDF file")
+    let tempPDFURL = URL.generateTempPDFURL()
+    
+    SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: [image],
+                          toSandwichPDFatURL: tempPDFURL, isTextRecognition: UserDefaults.isOCREnabled,
+                          quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
+      self?.file.url.appendPDF(from: tempPDFURL, andRefreshAtPage: self?.pageIndex ?? 0 )
+      self?.present()
+      self?.view.dismissLoadingView()
+    }
+  }
+  
+  func imageScannerControllerDidCancel(_ scanner: ImageScannerController) {
+    scanner.dismiss(animated: false)
   }
 }

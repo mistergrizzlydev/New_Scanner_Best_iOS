@@ -64,3 +64,39 @@ extension PDFDocument {
     return images
   }
 }
+
+extension PDFDocument {
+  var isSandwichPDF: Bool {
+    for i in 0..<pageCount {
+      guard let page = page(at: i), let pageRef = page.pageRef else {
+        continue
+      }
+      
+      guard let allowsCopying = pageRef.document?.allowsCopying else {
+        continue
+      }
+      
+      if allowsCopying {
+        return true
+      }
+    }
+    
+    return false
+  }
+}
+
+extension PDFDocument {
+  func append(_ url: URL) throws {
+    guard let pdfURL = self.documentURL, let pdfDocument = PDFDocument(url: url) else {
+      throw NSError(domain: NSURLErrorDomain, code: NSURLErrorBadURL, userInfo: [NSLocalizedDescriptionKey: "Invalid PDF URL"])
+    }
+    
+    for pageIndex in 0..<pdfDocument.pageCount {
+      if let page = pdfDocument.page(at: pageIndex) {
+        self.insert(page, at: self.pageCount)
+      }
+    }
+    
+    try dataRepresentation()?.write(to: pdfURL)
+  }
+}

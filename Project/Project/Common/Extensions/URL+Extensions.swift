@@ -1,4 +1,5 @@
 import Foundation
+import PDFKit
 
 enum FileType: String {
   case jpg
@@ -12,6 +13,44 @@ enum FileType: String {
       return
     }
     self = type
+  }
+}
+
+extension URL {
+  func appendPDF(from newDocURL: URL) {
+    guard pathExtension == FileType.pdf.rawValue, newDocURL.pathExtension == FileType.pdf.rawValue else { return }
+    guard let originalDocument = PDFDocument(url: self), let documentToAppend = PDFDocument(url: newDocURL), !originalDocument.isLocked else { return }  // handle locked
+    
+    for pageIndex in 0..<documentToAppend.pageCount {
+      if let page = documentToAppend.page(at: pageIndex) {
+        originalDocument.insert(page, at: originalDocument.pageCount) // end
+      }
+    }
+    
+    do {
+      let data = originalDocument.dataRepresentation()
+      try data?.write(to: self)
+    } catch {
+      return
+    }
+  }
+  
+  func appendPDF(from newDocURL: URL, andRefreshAtPage pageIndex: Int) {
+    guard pathExtension == FileType.pdf.rawValue, newDocURL.pathExtension == FileType.pdf.rawValue else { return }
+    guard let originalDocument = PDFDocument(url: self), let documentToAppend = PDFDocument(url: newDocURL), !originalDocument.isLocked else { return } // handle locked
+    
+    let newPageIndex = pageIndex - 1
+    if let page = documentToAppend.page(at: 0), newPageIndex >= 0 {
+      originalDocument.removePage(at: newPageIndex)
+      originalDocument.insert(page, at: newPageIndex) // from the specific spacent
+    }
+    
+    do {
+      let data = originalDocument.dataRepresentation()
+      try data?.write(to: self)
+    } catch {
+      return
+    }
   }
 }
 
@@ -74,5 +113,14 @@ extension URL {
         return nil
       }
     }
+  }
+}
+
+extension URL {
+  static func generateTempPDFURL() -> URL {
+    let uuid = UUID().uuidString
+    let tmpDirectory = NSTemporaryDirectory() as NSString
+    let filePath = tmpDirectory.appendingPathComponent("\(uuid).pdf")
+    return URL(fileURLWithPath: filePath)
   }
 }

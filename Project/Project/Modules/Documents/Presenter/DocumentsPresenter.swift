@@ -403,14 +403,18 @@ extension DocumentsPresenter: VNDocumentCameraViewControllerDelegate {
       let image = scan.imageOfPage(at: pageIndex)
       images.append(image)
     }
+    controller.dismiss(animated: true, completion: nil)
+    
+    view.showLoadingView(title: "Creating new document from images")
     let url = folder.url.appendingPathComponent(folder.url.generateFileName)
     
     // add here doc clasifier for naming...
     SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
                           toSandwichPDFatURL: url, isTextRecognition: UserDefaults.isOCREnabled,
-                          quality: UserDefaults.imageCompressionLevel.compressionLevel()) { error in
-      self.present()
-      controller.dismiss(animated: true, completion: nil)
+                          quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
+      self?.present()
+      self?.view.dismissLoadingView()
+//      controller.dismiss(animated: true, completion: nil) // trying
     }
   }
   
@@ -426,6 +430,9 @@ extension DocumentsPresenter: VNDocumentCameraViewControllerDelegate {
 extension DocumentsPresenter: PHPickerViewControllerDelegate {
   func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
     debugPrint(results.count, results)
+    picker.dismiss(animated: true)
+    
+    view.showLoadingView(title: "Creating new document from images")
     
     results.loadImages { [weak self] (images, error) in
       guard let self = self else { return }
@@ -436,9 +443,9 @@ extension DocumentsPresenter: PHPickerViewControllerDelegate {
         let url = self.folder.url.appendingPathComponent(self.folder.url.generateFileName)
         SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
                               toSandwichPDFatURL: url, isTextRecognition: UserDefaults.isOCREnabled,
-                              quality: UserDefaults.imageCompressionLevel.compressionLevel()) { error in
-          self.present()
-          picker.dismiss(animated: true)
+                              quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
+          self?.present()
+          self?.view.dismissLoadingView()
         }
       }
     }

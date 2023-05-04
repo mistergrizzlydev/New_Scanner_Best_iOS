@@ -14,14 +14,12 @@ extension UIViewController {
   
   func showLoadingView(title: String? = nil) {
     if loadingViewController == nil {
-      let loadingViewController = LoadingViewController()
+      let loadingViewController = LoadingViewController(titleText: title ?? "")
       loadingViewController.modalPresentationStyle = .overCurrentContext
       self.loadingViewController = loadingViewController
     }
-    loadingViewController?.setTitle(title)
     loadingViewController?.show()
     present(loadingViewController!, animated: false)
-    
   }
   
   func dismissLoadingView(after delay: TimeInterval = 0.0, completion: (() -> Void)? = nil) {

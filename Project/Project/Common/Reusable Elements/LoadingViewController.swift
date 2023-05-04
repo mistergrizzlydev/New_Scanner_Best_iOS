@@ -1,16 +1,23 @@
 import UIKit
 
 final class LoadingViewController: UIViewController {
-  
   private let activityIndicatorView = UIActivityIndicatorView(style: .large)
   private let label = UILabel()
   private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
   
-  var titleText: String?
+  private var titleText: String
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    
+  init(titleText: String = "Loading...") {
+    self.titleText = titleText
+    super.init(nibName: nil, bundle: nil)
+    setup()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func setup() {
     // Configure the blur effect view
     blurEffectView.frame = view.bounds
     blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -18,15 +25,16 @@ final class LoadingViewController: UIViewController {
     // Configure the activity indicator view
     activityIndicatorView.center = view.center
     activityIndicatorView.hidesWhenStopped = true
-    activityIndicatorView.tintColor = .red
+    activityIndicatorView.tintColor = .labelColor
     activityIndicatorView.hidesWhenStopped = true
+    activityIndicatorView.color = .labelColor
     
     // Configure the label
-    label.textColor = .black
+    label.textColor = .labelColor
     label.textAlignment = .center
     label.font = UIFont.systemFont(ofSize: 16)
     label.numberOfLines = 0
-    label.text = "Loading..."
+    label.text = titleText
     label.sizeToFit()
     label.center = CGPoint(x: view.center.x, y: view.center.y + 40)
     
@@ -34,20 +42,6 @@ final class LoadingViewController: UIViewController {
     view.addSubview(blurEffectView)
     view.addSubview(activityIndicatorView)
     view.addSubview(label)
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    if let titleText = titleText {
-      self.title = titleText
-    }
-  }
-  
-  func setTitle(_ title: String?) {
-    self.titleText = title
-    if isViewLoaded {
-      self.title = title
-    }
   }
   
   func show(animated: Bool = true) {

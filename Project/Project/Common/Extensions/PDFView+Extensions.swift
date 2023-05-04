@@ -107,3 +107,22 @@ extension PDFView {
     return nil
   }
 }
+
+extension PDFView {
+  //        guard let document = document else { return false }
+  // document?.page(at: 0)?.pageRef?.getBoxRect(.cropBox) to extract image
+  /*
+   ▿ Optional<CGRect>
+   ▿ some : (0.0, 0.0, 1190.0, 1684.0)
+   ▿ origin : (0.0, 0.0)
+   - x : 0.0
+   - y : 0.0
+   ▿ size : (1190.0, 1684.0)
+   - width : 1190.0
+   - height : 1684.0
+   */
+  
+  var isSandwichPDF: Bool {
+    document?.isSandwichPDF ?? false
+  }
+}

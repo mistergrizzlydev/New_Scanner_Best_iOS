@@ -21,7 +21,7 @@ protocol Coordinator {
   
   func presentShare(controller: UIViewController?, items: [Any])
   
-  func presentDocumentPickerViewController(controller: UIViewController?, delegate: UIDocumentPickerDelegate?)
+  func presentDocumentPickerViewController(controller: UIViewController?, delegate: UIDocumentPickerDelegate?, allowsMultipleSelection: Bool)
   
   func presentPrint(with printingItem: Any?, jobName: String, showsNumberOfCopies: Bool, showsPaperOrientation: Bool)
   
@@ -118,9 +118,9 @@ final class MainCoordinator: NSObject, Coordinator {
     controller?.share(items)
   }
   
-  func presentDocumentPickerViewController(controller: UIViewController?, delegate: UIDocumentPickerDelegate?) {
+  func presentDocumentPickerViewController(controller: UIViewController?, delegate: UIDocumentPickerDelegate?, allowsMultipleSelection: Bool = true) {
     let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf])
-    documentPicker.allowsMultipleSelection = true
+    documentPicker.allowsMultipleSelection = allowsMultipleSelection
     documentPicker.delegate = delegate
     documentPicker.modalPresentationStyle = .fullScreen
     controller?.present(documentPicker, animated: true, completion: nil)

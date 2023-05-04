@@ -19,10 +19,10 @@ extension UserDefaults {
 extension UserDefaults {
   static var isOnboarded: Bool {
     get {
-      return standard.bool(forKey: "9467185c-ba35-402f-a4fa-b3eee9b01c461")
+      return standard.bool(forKey: "9467185c-ba35-402f-a4fa-b3eee9b01c46")
     }
     set {
-      standard.set(newValue, forKey: "9467185c-ba35-402f-a4fa-b3eee9b01c461")
+      standard.set(newValue, forKey: "9467185c-ba35-402f-a4fa-b3eee9b01c46")
       standard.synchronize()
     }
   }
