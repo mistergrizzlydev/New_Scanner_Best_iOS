@@ -26,7 +26,7 @@ protocol SettingsPresenterProtocol {
   func onPPTapped()
   func onTermsTapped()
   
-  func showEmail(with type: AppConfiguration.Help)
+  func showEmail(with type: AppConfiguration.Help, from view: UIView?)
   
   func onRateTapped()
   func onMoreAppsTapped()
@@ -148,7 +148,7 @@ final class SettingsPresenter: NSObject, SettingsPresenterProtocol {
     presentSafari(with: AppConfiguration.Help.terms.rawValue)
   }
   
-  func showEmail(with type: AppConfiguration.Help) {
+  func showEmail(with type: AppConfiguration.Help, from view: UIView?) {
     switch type {
     case .support:
       onEmailTapped(recipients: [AppConfiguration.Help.support.rawValue],
@@ -160,7 +160,8 @@ final class SettingsPresenter: NSObject, SettingsPresenterProtocol {
                     subject: "[TurboScan™] Feature request", body: "")
       
     case .tellAFriend:
-      view.share(["\(AppConfiguration.appStoreURL(with: AppConfiguration.AppStore.id.rawValue)) \n\(AppConfiguration.Help.tellAFriend.rawValue)"])
+      self.view.share(["\(AppConfiguration.appStoreURL(with: AppConfiguration.AppStore.id.rawValue)) \n\(AppConfiguration.Help.tellAFriend.rawValue)"],
+                      sourceView: view, sourceRect: self.view.view.frame)
       
     default: break
     }

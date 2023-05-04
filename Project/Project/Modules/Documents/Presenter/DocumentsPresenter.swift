@@ -187,7 +187,7 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
     view.presentAlertWithTextField(title: "Rename File",
                                    message: "Enter a new name for the file:",
                                    placeholder: viewModel.file.name) { text in
-      
+      // TODO: - finish it
     }
   }
   

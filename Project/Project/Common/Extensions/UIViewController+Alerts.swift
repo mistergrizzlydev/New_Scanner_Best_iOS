@@ -36,6 +36,11 @@ extension UIViewController {
       activityVC.popoverPresentationController?.barButtonItem = barButtonItem
     }
     
+    if let popoverController = activityVC.popoverPresentationController {
+      popoverController.sourceView = sourceView // Set the source view for iPad
+      popoverController.barButtonItem = barButtonItem // Set the source view for iPad
+    }
+    
     present(activityVC, animated: true)
   }
 }

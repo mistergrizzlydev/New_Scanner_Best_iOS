@@ -260,19 +260,20 @@ extension SettingsViewController {
   
   private func onSupportTapped() -> (Row) -> Void {
     return { [weak self] row in
-      self?.presenter.showEmail(with: .support)
+      self?.presenter.showEmail(with: .support, from: row as? UITableViewCell)
     }
   }
   
   private func onFeatureRequestTapped() -> (Row) -> Void {
     return { [weak self] row in
-      self?.presenter.showEmail(with: .featureRequeast)
+      self?.presenter.showEmail(with: .featureRequeast, from: row as? UITableViewCell)
     }
   }
   
   private func onTellAFriendTapped() -> (Row) -> Void {
     return { [weak self] row in
-      self?.presenter.showEmail(with: .tellAFriend)
+      let btlv = self?.view.allSubviews().first(where: { $0 is UITableView }) as? UITableView
+      self?.presenter.showEmail(with: .tellAFriend, from: (row as? SettingsNavigationRow<UITableViewCell>)?.cell)
     }
   }
   

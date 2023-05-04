@@ -13,10 +13,10 @@ final class SettingsSection: Section {
 
 /// A class that represents a row that triggers certain navigation when selected.
 final class SettingsNavigationRow<T: UITableViewCell>: NavigationRowCompatible, Equatable {
-  
   // MARK: - Initializer
   
   #if os(iOS)
+  let cell: T
   
   /// Designated initializer on iOS. Returns a `NavigationRow` with a text and a detail text.
   /// The icon, customization, action and accessory button action closures are optional.
@@ -29,6 +29,7 @@ final class SettingsNavigationRow<T: UITableViewCell>: NavigationRowCompatible, 
     action: ((Row) -> Void)? = nil,
     accessoryButtonAction: ((Row) -> Void)? = nil
   ) {
+    self.cell = T()
     self.text = text
     self.detailText = detailText
     self.icon = icon
