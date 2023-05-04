@@ -24,7 +24,7 @@ final class ScanningSettingsViewController: QuickTableViewController, SettingsVi
   
   private func setupViews() {
     let imageConfig = UIImage.SymbolConfiguration(pointSize: 23, weight: .regular)
-    
+
     tableContents = [
       Section(title: "", rows: [
         NavigationRow(text: "Default Document detection", detailText: .subtitle(UserDefaults.documentDetectionType.name),

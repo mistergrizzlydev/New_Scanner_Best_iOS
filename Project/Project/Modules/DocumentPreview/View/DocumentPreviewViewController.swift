@@ -203,7 +203,7 @@ extension DocumentPreviewViewController {
   }
   
   @objc private func onShareTapped(_ sender: UIBarButtonItem) {
-    presenter.onShareTapped()
+    presenter.onShareTapped(sender)
   }
   
   @objc private func onEditTapped(_ sender: UIBarButtonItem) {

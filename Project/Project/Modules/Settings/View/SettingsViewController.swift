@@ -38,6 +38,7 @@ final class SettingsViewController: QuickTableViewController, SettingsViewContro
     let profileImage = UIImage(systemName: "person.circle.fill", withConfiguration: profileImageConfig)
     
     let isPro = true
+    let email = UserDefaults.emailFromAccount.isEmpty ? "" : "(\(UserDefaults.emailFromAccount))"
     let securityIcon = UIDevice.current.biometricType == .faceID ? "faceid" : "touchid"
     tableContents = [
       SettingsSection(title: "", rows: [
@@ -71,7 +72,7 @@ final class SettingsViewController: QuickTableViewController, SettingsViewContro
                               icon: .image(UIImage(systemName: "flag.square.fill", withConfiguration: imageConfig)!),
                               isPro: isPro, action: showStartWith()),
         
-        SettingsNavigationRow(text: "Email from account", detailText: .subtitle("(\(UserDefaults.emailFromAccount))"),
+        SettingsNavigationRow(text: "Email from account", detailText: .subtitle(email),
                               icon: .image(UIImage(systemName: "person.crop.square.filled.and.at.rectangle.fill", withConfiguration: imageConfig)!), isPro: isPro,
                               accessoryButtonAction: showGrabDefaulEmailAlert()),
       ].filter { $0.isPro }, footer: nil, // "Switch between light, dark, or system appearance modes. Change the appearance of the app to match your style preferences!"

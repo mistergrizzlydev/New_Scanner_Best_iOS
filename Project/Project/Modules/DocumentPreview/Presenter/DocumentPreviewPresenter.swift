@@ -9,7 +9,7 @@ import Sandwich
 protocol DocumentPreviewPresenterProtocol {
   func present()
   func onSignatureTapped()
-  func onShareTapped()
+  func onShareTapped(_ sender: UIBarButtonItem)
   
   func onImportFileFromGallery()
   func onImportFileFromDocuments()
@@ -56,8 +56,8 @@ final class DocumentPreviewPresenter: NSObject, DocumentPreviewPresenterProtocol
     coordinator.navigateToAnnotation(controller: view, file: file, delegate: nil)
   }
   
-  func onShareTapped() {
-    coordinator.presentShare(controller: view, items: [file.url])
+  func onShareTapped(_ sender: UIBarButtonItem) {
+    coordinator.presentShare(controller: view, items: [file.url], barButtonItem: sender, sourceView: nil)
   }
   
   func onImportFileFromDocuments() {

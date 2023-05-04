@@ -8,7 +8,7 @@ extension UIViewController {
       Drops.hideCurrent()
     }
     let drop = Drop(title: message, action: action, position: .top, duration: 1.3)
-    
+  
     Drops.show(drop)
   }
   
@@ -18,7 +18,10 @@ extension UIViewController {
 }
 
 extension UIViewController {
-  func share(_ items: [Any], excludedActivityTypes: [UIActivity.ActivityType]? = nil) {
+  func share(_ items: [Any], excludedActivityTypes: [UIActivity.ActivityType]? = nil,
+             barButtonItem: UIBarButtonItem? = nil,
+             sourceView: UIView? = nil,
+             sourceRect: CGRect? = nil) {
     let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
     
     // Set excluded activity types if specified
@@ -28,9 +31,9 @@ extension UIViewController {
     
     // Set popover presentation controller properties for iPad
     if UIDevice.current.userInterfaceIdiom == .pad {
-      activityVC.popoverPresentationController?.sourceView = self.view
-      activityVC.popoverPresentationController?.sourceRect = self.view.bounds
-      activityVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+      activityVC.popoverPresentationController?.sourceView = sourceView ?? self.view
+      activityVC.popoverPresentationController?.sourceRect = sourceRect ?? self.view.bounds
+      activityVC.popoverPresentationController?.barButtonItem = barButtonItem
     }
     
     present(activityVC, animated: true)

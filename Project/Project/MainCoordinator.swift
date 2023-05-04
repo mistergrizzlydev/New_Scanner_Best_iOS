@@ -19,7 +19,7 @@ protocol Coordinator {
   func navigateToAnnotation(navigation: UINavigationController?, file: File, delegate: QLPreviewControllerDelegate?)
   func navigateToAnnotation(controller: UIViewController?, file: File, delegate: QLPreviewControllerDelegate?)
   
-  func presentShare(controller: UIViewController?, items: [Any])
+  func presentShare(controller: UIViewController?, items: [Any], barButtonItem: UIBarButtonItem?, sourceView: UIView?)
   
   func presentDocumentPickerViewController(controller: UIViewController?, delegate: UIDocumentPickerDelegate?, allowsMultipleSelection: Bool)
   
@@ -114,8 +114,8 @@ final class MainCoordinator: NSObject, Coordinator {
     controller?.present(annotate, animated: true)
   }
   
-  func presentShare(controller: UIViewController?, items: [Any]) {
-    controller?.share(items)
+  func presentShare(controller: UIViewController?, items: [Any], barButtonItem: UIBarButtonItem?, sourceView: UIView?) {
+    controller?.share(items, barButtonItem: barButtonItem, sourceView: sourceView)
   }
   
   func presentDocumentPickerViewController(controller: UIViewController?, delegate: UIDocumentPickerDelegate?, allowsMultipleSelection: Bool = true) {

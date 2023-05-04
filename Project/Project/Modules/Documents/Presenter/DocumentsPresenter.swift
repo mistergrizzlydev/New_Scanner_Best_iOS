@@ -16,9 +16,10 @@ protocol DocumentsPresenterProtocol {
   func presentPhotoLibrary()
   
   func onDetailsTapped(_ viewModel: DocumentsViewModel)
-  func onShareTapped(_ viewModels: [DocumentsViewModel])
+  func onShareTapped(_ viewModels: [DocumentsViewModel], item: UIBarButtonItem?, sourceView: UIView?)
   func onStarredTapped(_ viewModel: DocumentsViewModel)
   func onCopyTapped(_ viewModel: DocumentsViewModel)
+  
   func onRenameTapped(_ viewModel: DocumentsViewModel)
   func onDeleteTapped(_ viewModels: [DocumentsViewModel])
   
@@ -133,9 +134,9 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
     }
   }
   
-  func onShareTapped(_ viewModels: [DocumentsViewModel]) {
+  func onShareTapped(_ viewModels: [DocumentsViewModel], item: UIBarButtonItem?, sourceView: UIView?) {
     let urls = viewModels.map { $0.file.url }
-    coordinator.presentShare(controller: view, items: urls)
+    coordinator.presentShare(controller: view, items: urls, barButtonItem: item, sourceView: sourceView)
   }
   
   func onDetailsTapped(_ viewModel: DocumentsViewModel) {

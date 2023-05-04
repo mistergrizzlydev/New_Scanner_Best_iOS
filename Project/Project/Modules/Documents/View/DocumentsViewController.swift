@@ -129,7 +129,7 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
     guard let action = FileManagerToolbarAction(rawValue: sender.tag), let selectedViewModels = selectedViewModels else { return }
     switch action {
     case .share:
-      presenter.onShareTapped(selectedViewModels)
+      presenter.onShareTapped(selectedViewModels, item: getToolbarItem(type: .share), sourceView: nil)
     case .merge:
       presenter.merge(viewModels: selectedViewModels)
     case .duplicate:
@@ -163,30 +163,6 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
   private var searchController: UISearchController?
   
   private func setupSearchBar() {
-    /*
-     // Create the search controller
-     let searchController = UISearchController(searchResultsController: nil)
-     searchController.searchResultsUpdater = self
-     searchController.obscuresBackgroundDuringPresentation = false
-     searchController.searchBar.placeholder = "Search"
-     searchController.searchBar.scopeButtonTitles = ["All", "Folders", "Files"]
-     searchController.searchBar.showsScopeBar = false
-     searchController.searchBar.delegate = self
-     
-     // Add the search controller to the navigation item
-     navigationItem.searchController = searchController
-     navigationItem.hidesSearchBarWhenScrolling = false
-     navigationItem.searchController?.obscuresBackgroundDuringPresentation = false
-     navigationItem.hidesSearchBarWhenScrolling = false
-     
-     // Customize the search bar's appearance
-     //    searchController.searchBar.backgroundColor = .red
-     searchController.searchBar.tintColor = .black
-     searchController.searchBar.barTintColor = .black
-     searchController.searchBar.isTranslucent = false
-     searchController.searchBar.searchTextField.textColor = .black
-     */
-    
     // Set up the search controller
     searchController = UISearchController(searchResultsController: nil)
     searchController!.searchResultsUpdater = self
@@ -349,7 +325,7 @@ extension DocumentsViewController: UIContextMenuInteractionDelegate {
       case FileManagerAction.star.title(file: viewModel.file):
         self?.presenter.onStarredTapped(viewModel)
       case FileManagerAction.share.title(file: viewModel.file):
-        self?.presenter.onShareTapped([viewModel])
+        self?.presenter.onShareTapped([viewModel], item: nil, sourceView: cell)
       case FileManagerAction.properties.title(file: viewModel.file):
         self?.presenter.onDetailsTapped(viewModel)
       default:
@@ -422,5 +398,9 @@ extension DocumentsViewController {
 extension DocumentsViewController {
   func display(toolbarButtonAction type: FileManagerToolbarAction, isEnabled: Bool) {
     toolbarItems?.first(where: { $0.tag == type.rawValue })?.isEnabled = isEnabled
+  }
+  
+  func getToolbarItem(type: FileManagerToolbarAction) -> UIBarButtonItem? {
+    toolbarItems?.first(where: { $0.tag == type.rawValue })
   }
 }

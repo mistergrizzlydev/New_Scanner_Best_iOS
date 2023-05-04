@@ -508,8 +508,8 @@
 			children = (
 				EC629DE829FBE7FE00CFC70E /* SettingsNavigationRow.swift */,
 				EC629DEA29FBEA3200CFC70E /* SettingsSwitchRow.swift */,
-				5A38D3C3DAE0340E7598D964 /* SettingsViewController.swift */,
 				EB99118629FDD5C6005DFA99 /* Scanning */,
+				5A38D3C3DAE0340E7598D964 /* SettingsViewController.swift */,
 				5CA0B962C5DEFB5DED5004E9 /* SettingsViewController.storyboard */,
 			);
 			path = View;
