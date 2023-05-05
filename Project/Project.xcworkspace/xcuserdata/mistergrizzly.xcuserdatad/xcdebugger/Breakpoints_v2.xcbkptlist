@@ -7,17 +7,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1BEF9A1E-4344-489A-8177-26CAE4B35E24"
+            uuid = "D6919ABA-5D0C-4DC9-876A-D6A9E04224B7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Common/Reusable Elements/BaseFloatingTableViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5C8C279D-661E-4CD8-BABE-3CE1B0F21D25"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Project/Modules/Documents/Presenter/DocumentsPresenter.swift"
+            filePath = "Project/Common/Reusable Elements/BaseFloatingTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "465"
-            endingLineNumber = "465"
-            landmarkName = "picker(_:didFinishPicking:)"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "showHideFloatingStackView(isHidden:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5C8C279D-661E-4CD8-BABE-3CE1B0F21D25 - 465fb4e63896b914"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Project.BaseFloatingTableViewController.showHideFloatingStackView(isHidden: Swift.Bool) -&gt; ()"
+                  moduleName = "Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mistergrizzly/Desktop/Scanner_App/New_Scanner_Best_iOS/Project/Project/Common/Reusable%20Elements/BaseFloatingTableViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "69"
+                  endingLineNumber = "69"
+                  offsetFromSymbolStart = "42">
+               </Location>
+               <Location
+                  uuid = "5C8C279D-661E-4CD8-BABE-3CE1B0F21D25 - f496a26bd886b111"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in Project.BaseFloatingTableViewController.showHideFloatingStackView(isHidden: Swift.Bool) -&gt; ()"
+                  moduleName = "Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mistergrizzly/Desktop/Scanner_App/New_Scanner_Best_iOS/Project/Project/Common/Reusable%20Elements/BaseFloatingTableViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "69"
+                  endingLineNumber = "69"
+                  offsetFromSymbolStart = "106">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -2,37 +2,45 @@ import UIKit
 
 class BaseFloatingTableViewController: UITableViewController {
   private let stackView = FloatingStackView()
-  private var floatingView: UIView?
+  private var floatingView: UIView? {
+    UIWindow.key?.allSubviews().first(where: { $0.accessibilityIdentifier == "floatingView" })
+  }
   
   var cameraButtonTapped: (() -> Void)?
   var galleryButtonTapped: (() -> Void)?
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
+  private func addFloatingView() {
     let buttonSize: CGFloat = 44
     
+    if let allSubviews = UIWindow.key?.allSubviews().filter({ $0.accessibilityIdentifier == "floatingView" }) {
+      for view in allSubviews {
+        view.removeFromSuperview()
+      }
+    }
+    
     if let view = UIWindow.key {
-      floatingView = UIView(frame: .zero)
-      floatingView?.translatesAutoresizingMaskIntoConstraints = false
-      view.addSubview(floatingView!)
+      let floatingView = UIView(frame: .zero)
+      floatingView.accessibilityIdentifier = "floatingView"
+      floatingView.translatesAutoresizingMaskIntoConstraints = false
+      view.addSubview(floatingView)
       
-      floatingView?.layer.cornerRadius = 18.0
-      floatingView?.layer.applySketchShadow()
+      floatingView.layer.cornerRadius = 18.0
+      floatingView.layer.applySketchShadow()
       
       NSLayoutConstraint.activate([
-        floatingView!.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -12),
-        floatingView!.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64),
-        floatingView!.heightAnchor.constraint(equalToConstant: buttonSize)
+        floatingView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+        floatingView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -68),
+        floatingView.heightAnchor.constraint(equalToConstant: buttonSize)
       ])
       
       stackView.translatesAutoresizingMaskIntoConstraints = false
-      floatingView?.addSubview(stackView)
+      floatingView.addSubview(stackView)
       
       NSLayoutConstraint.activate([
-        stackView.trailingAnchor.constraint(equalTo: floatingView!.trailingAnchor),
-        stackView.bottomAnchor.constraint(equalTo: floatingView!.bottomAnchor),
-        stackView.topAnchor.constraint(equalTo: floatingView!.topAnchor),
-        stackView.leadingAnchor.constraint(equalTo: floatingView!.leadingAnchor)
+        stackView.trailingAnchor.constraint(equalTo: floatingView.trailingAnchor),
+        stackView.bottomAnchor.constraint(equalTo: floatingView.bottomAnchor),
+        stackView.topAnchor.constraint(equalTo: floatingView.topAnchor),
+        stackView.leadingAnchor.constraint(equalTo: floatingView.leadingAnchor)
       ])
     }
     
@@ -46,14 +54,14 @@ class BaseFloatingTableViewController: UITableViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    addFloatingView()
     stackView.isHidden = false
     floatingView?.isHidden = false
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    stackView.isHidden = true
-    floatingView?.isHidden = true
+    floatingView?.removeFromSuperview()
   }
 }
 

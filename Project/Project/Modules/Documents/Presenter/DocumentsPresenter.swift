@@ -421,7 +421,7 @@ extension DocumentsPresenter: VNDocumentCameraViewControllerDelegate {
     }
     
     controller.dismiss(animated: true) { [weak self] in
-      guard let self = self else { return }
+      guard let self = self, !images.isEmpty else { return }
       self.view.showLoadingView(title: "Creating new document from images")
       
       let generateFileName = Locale.current.fileNameFromSelectedTags(self.folder.url)
@@ -453,13 +453,14 @@ extension DocumentsPresenter: PHPickerViewControllerDelegate {
     debugPrint(results.count, results)
     picker.dismiss(animated: true) { [weak self] in
       guard let self = self else { return }
-      self.view.showLoadingView(title: "Creating new document from images")
       
       results.loadImages { [weak self] (images, error) in
-        guard let self = self else { return }
+        guard let self = self, images?.isEmpty == false else { return }
         if let error = error {
           self.view.showDrop(message: "Error loading images: \(error.localizedDescription)", icon: .systemAlert())
         } else if let images = images {
+          self.view.showLoadingView(title: "Creating new document from images")
+
           debugPrint(images.count, results.count)
           let generateFileName = Locale.current.fileNameFromSelectedTags(self.folder.url)
           
@@ -476,17 +477,6 @@ extension DocumentsPresenter: PHPickerViewControllerDelegate {
     }
   }
 }
-
-/*
- // "★"
- var name: String
- switch self.type {
- case .starred:
-   name = folderName.isEmpty ? "★ New Folder" : "★ \(folderName)"
- case .myScans:
-   name = folderName.isEmpty ? "New Folder" : folderName
- }
- */
 
 // MARK: - UIDocumentPickerDelegate
 

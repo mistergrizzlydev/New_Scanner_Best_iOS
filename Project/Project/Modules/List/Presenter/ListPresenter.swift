@@ -72,14 +72,24 @@ final class ListPresenter: ListPresenterProtocol {
   func move(at indexPath: IndexPath?) {
     switch type {
     case .main:
-      guard let _ = indexPath, let whereToMoveURL = whereToMoveURL else { return }
-      
-      for move in filesToMove {
-        let newMoveURL = whereToMoveURL.appendingPathComponent(move.lastPathComponent)
-        do {
-          try localFileManager.moveFile(from: move, to: newMoveURL)
-        } catch {
-          view.showDrop(message: error.localizedDescription, icon: .systemAlert())
+      if let _ = indexPath, let whereToMoveURL = whereToMoveURL {
+        
+        for move in filesToMove {
+          let newMoveURL = whereToMoveURL.appendingPathComponent(move.lastPathComponent)
+          do {
+            try localFileManager.moveFile(from: move, to: newMoveURL)
+          } catch {
+            view.showDrop(message: error.localizedDescription, icon: .systemAlert())
+          }
+        }
+      } else {
+        for move in filesToMove {
+          let newMoveURL = rootURL.appendingPathComponent(move.lastPathComponent)
+          do {
+            try localFileManager.moveFile(from: move, to: newMoveURL)
+          } catch {
+            view.showDrop(message: error.localizedDescription, icon: .systemAlert())
+          }
         }
       }
       NotificationCenter.default.post(name: .moveFolderOrFile, object: nil)

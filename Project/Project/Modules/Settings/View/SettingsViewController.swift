@@ -38,13 +38,13 @@ final class SettingsViewController: QuickTableViewController, SettingsViewContro
     let profileImage = UIImage(systemName: "person.circle.fill", withConfiguration: profileImageConfig)
     
     let isPro = true
-    let email = UserDefaults.emailFromAccount.isEmpty ? "" : "(\(UserDefaults.emailFromAccount))"
+    let email = UserDefaults.emailFromAccount.isEmpty ? "Not set yet" : "(\(UserDefaults.emailFromAccount))"
     let securityIcon = UIDevice.current.biometricType == .faceID ? "faceid" : "touchid"
     tableContents = [
-      SettingsSection(title: "", rows: [
-        SettingsNavigationRow(text: "TurboScan™ Ultra", detailText: .none, icon: .image(UIImage(systemName: "star.square.fill", withConfiguration: imageConfig)!),
-                              isPro: AppManager.isProVersion, action: showOnPlusTapped()),
-      ].filter { $0.isPro }, footer: "Get more out of your scanner app with our Plus version! Upgrade now to enjoy advanced features and more options.", isPro: AppManager.isProVersion),
+//      SettingsSection(title: "", rows: [
+//        SettingsNavigationRow(text: "TurboScan™ Ultra", detailText: .none, icon: .image(UIImage(systemName: "star.square.fill", withConfiguration: imageConfig)!),
+//                              isPro: AppManager.isProVersion, action: showOnPlusTapped()),
+//      ].filter { $0.isPro }, footer: "Get more out of your scanner app with our Plus version! Upgrade now to enjoy advanced features and more options.", isPro: AppManager.isProVersion),
       
       SettingsSection(title: "", rows: [
         SettingsNavigationRow(text: UserDefaults.onboardingCategory.settingsCategory, detailText: .subtitle(UserDefaults.onboardingCategory.settingsName),
@@ -234,12 +234,12 @@ extension SettingsViewController {
 }
 
 extension SettingsViewController {
-  private func showOnPlusTapped() -> (Row) -> Void {
-    return { [weak self] row in
-      
-    }
-  }
-  
+//  private func showOnPlusTapped() -> (Row) -> Void {
+//    return { [weak self] row in
+//
+//    }
+//  }
+//
   private func onRateTapped() -> (Row) -> Void {
     return { [weak self] row in
       self?.presenter.onRateTapped()

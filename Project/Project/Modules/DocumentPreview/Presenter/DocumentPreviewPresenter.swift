@@ -207,22 +207,25 @@ extension DocumentPreviewPresenter: PHPickerViewControllerDelegate {
   func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
     debugPrint(results.count, results)
     
-    picker.dismiss(animated: true)
-    view.showLoadingView(title: "Inserting new pages")
-    results.loadImages { [weak self] (images, error) in
+    picker.dismiss(animated: true) { [weak self] in
       guard let self = self else { return }
-      if let error = error {
-        self.view.showDrop(message: "Error loading images: \(error.localizedDescription)", icon: .systemAlert())
-      } else if let images = images {
-        debugPrint(images.count, results.count)
-        let tempPDFURL = URL.generateTempPDFURL()
-        
-        SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
-                              toSandwichPDFatURL: tempPDFURL, isTextRecognition: UserDefaults.isOCREnabled,
-                              quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
-          self?.file.url.appendPDF(from: tempPDFURL)
-          self?.present()
-          self?.view.dismissLoadingView()
+      results.loadImages { [weak self] (images, error) in
+        guard let self = self, images?.isEmpty == false else { return }
+        if let error = error {
+          self.view.showDrop(message: "Error loading images: \(error.localizedDescription)", icon: .systemAlert())
+        } else if let images = images {
+          self.view.showLoadingView(title: "Inserting new pages")
+          
+          debugPrint(images.count, results.count)
+          let tempPDFURL = URL.generateTempPDFURL()
+          
+          SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
+                                toSandwichPDFatURL: tempPDFURL, isTextRecognition: UserDefaults.isOCREnabled,
+                                quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
+            self?.file.url.appendPDF(from: tempPDFURL)
+            self?.present()
+            self?.view.dismissLoadingView()
+          }
         }
       }
     }
@@ -231,25 +234,25 @@ extension DocumentPreviewPresenter: PHPickerViewControllerDelegate {
 
 extension DocumentPreviewPresenter: VNDocumentCameraViewControllerDelegate {
   func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-    // Handle the scanned document
     var images: [UIImage] = []
     
     for pageIndex in 0..<scan.pageCount {
       let image = scan.imageOfPage(at: pageIndex)
       images.append(image)
     }
-    controller.dismiss(animated: true)
-    
-    view.showLoadingView(title: "Inserting new pages")
-    
-    let tempPDFURL = URL.generateTempPDFURL()
-    
-    SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
-                          toSandwichPDFatURL: tempPDFURL, isTextRecognition: UserDefaults.isOCREnabled,
-                          quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
-      self?.file.url.appendPDF(from: tempPDFURL)
-      self?.present()
-      self?.view.dismissLoadingView()
+    controller.dismiss(animated: true) { [weak self] in
+      guard let self = self, !images.isEmpty else { return }
+      self.view.showLoadingView(title: "Inserting new pages")
+      
+      let tempPDFURL = URL.generateTempPDFURL()
+      
+      SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
+                            toSandwichPDFatURL: tempPDFURL, isTextRecognition: UserDefaults.isOCREnabled,
+                            quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
+        self?.file.url.appendPDF(from: tempPDFURL)
+        self?.present()
+        self?.view.dismissLoadingView()
+      }
     }
   }
   
