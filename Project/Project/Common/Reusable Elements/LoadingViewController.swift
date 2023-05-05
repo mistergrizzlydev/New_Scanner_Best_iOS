@@ -25,12 +25,12 @@ final class LoadingViewController: UIViewController {
     // Configure the activity indicator view
     activityIndicatorView.center = view.center
     activityIndicatorView.hidesWhenStopped = true
-    activityIndicatorView.tintColor = .labelColor
+    activityIndicatorView.tintColor = .labelTextColor
     activityIndicatorView.hidesWhenStopped = true
-    activityIndicatorView.color = .labelColor
+    activityIndicatorView.color = .labelTextColor
     
     // Configure the label
-    label.textColor = .labelColor
+    label.textColor = .labelTextColor
     label.textAlignment = .center
     label.font = UIFont.systemFont(ofSize: 16)
     label.numberOfLines = 0

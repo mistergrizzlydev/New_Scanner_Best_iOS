@@ -18,13 +18,38 @@ extension UIViewController {
       loadingViewController.modalPresentationStyle = .overCurrentContext
       self.loadingViewController = loadingViewController
     }
+ 
     loadingViewController?.show()
-    present(loadingViewController!, animated: false)
+    if let tabBarController = tabBarController {
+      if let base = (tabBarController.children
+        .first(where: { ($0 as? BaseNavigationController)?
+          .topViewController === self }) as? BaseNavigationController)?
+        .topViewController as? BaseFloatingTableViewController {
+        base.showHideFloatingStackView(isHidden: true)
+      }
+      
+      tabBarController.present(loadingViewController!, animated: false)
+    } else {
+      present(loadingViewController!, animated: false)
+    }
   }
   
   func dismissLoadingView(after delay: TimeInterval = 0.0, completion: (() -> Void)? = nil) {
-    loadingViewController?.hideLoading(after: delay, completion: completion)
-    loadingViewController = nil
+    loadingViewController?.hideLoading(after: delay, completion: { [weak self] in
+      if let tabBarController = self?.tabBarController {
+        if let base = (tabBarController.children
+          .first(where: { ($0 as? BaseNavigationController)?
+            .topViewController === self }) as? BaseNavigationController)?
+          .topViewController as? BaseFloatingTableViewController {
+          base.showHideFloatingStackView(isHidden: false)
+          self?.loadingViewController = nil
+          completion?()
+        }
+      } else {
+        self?.loadingViewController = nil
+        completion?()
+      }
+    })
   }
 }
 

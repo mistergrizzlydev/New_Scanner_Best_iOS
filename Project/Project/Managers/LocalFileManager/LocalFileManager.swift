@@ -85,9 +85,9 @@ final class LocalFileManagerDefault: LocalFileManager {
     guard url.isDirectory else { return nil }
     
     let fileManager = FileManager.default
-    let contents = try! fileManager.contentsOfDirectory(at: url,
-                                                        includingPropertiesForKeys: [.isDirectoryKey],
-                                                        options: [.skipsHiddenFiles])
+    guard let contents = try? fileManager.contentsOfDirectory(at: url,
+                                                              includingPropertiesForKeys: [.isDirectoryKey],
+                                                              options: [.skipsHiddenFiles]) else { return nil }
     var documents = [Document]()
     for url in contents {
       if !url.isCachePencilKitFile, url.isDirectory {

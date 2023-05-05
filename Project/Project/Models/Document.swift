@@ -111,10 +111,6 @@ extension Document {
     }
   }
   
-  func starUnstarFile() {
-    
-  }
-  
   var count: Int? {
     switch type {
     case .file:

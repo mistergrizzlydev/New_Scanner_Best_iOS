@@ -83,13 +83,13 @@ final class DocumentsViewController: BaseFloatingTableViewController, DocumentsV
       self.presenter.createNewFolder()
     }
     
-    let galleryAction = UIAction(title: "Photo Library", image: UIImage(systemName: "photo.on.rectangle")) { _ in
-      
+//    let galleryAction = UIAction(title: "Photo Library", image: UIImage(systemName: "photo.on.rectangle")) { [weak self] _ in
+//      self?.presenter.presentCamera(animated: true)
+//    }
+    let documentsAction = UIAction(title: "Choose Files", image: UIImage(systemName: "folder")) { [weak self] _ in
+      self?.presenter.onImportFileFromDocuments()
     }
-    let documentsAction = UIAction(title: "Choose Files", image: UIImage(systemName: "folder")) { _ in
-      
-    }
-    let importMenu = UIMenu(title: "Import Documents from:", options: .displayInline, children: [documentsAction, galleryAction])
+    let importMenu = UIMenu(title: "Import Documents from:", options: .displayInline, children: [documentsAction])//, galleryAction])
     
     let section2Actions = SortType.allCases.compactMap { UIAction(title: $0.rawValue, image: $0.image) { [weak self] action in
       let sortFileType = SortType(rawValue: action.title) ?? .date

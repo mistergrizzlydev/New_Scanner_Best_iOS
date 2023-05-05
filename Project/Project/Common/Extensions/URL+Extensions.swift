@@ -124,3 +124,68 @@ extension URL {
     return URL(fileURLWithPath: filePath)
   }
 }
+
+extension URL {
+  var toImage: UIImage? {
+    if pathExtension == "jpg", let data = try? Data(contentsOf: self) {
+      return UIImage(data: data)
+    }
+    
+    return nil
+  }
+}
+
+extension URL {
+  var generateFileName: String {
+    return Locale.current.fileNameFromSelectedTags(self)
+  }
+}
+
+extension Array where Element == URL {
+  func save(to folderURL: URL) throws {
+    for url in self {
+      if let validatedName = FileManager.default.validatedName(at: folderURL.appendingPathComponent(url.lastPathComponent)) {
+        let fileURL = folderURL.appendingPathComponent(validatedName)
+        let data = try Data(contentsOf: url)
+        try data.write(to: fileURL, options: .atomic)
+      }
+    }
+  }
+}
+
+extension URL {
+  private struct DocumentConstants {
+    static let kStarredAttribute = "★"
+  }
+  
+  func isFileStarred() -> Bool {
+    let name = lastPathComponent
+    return name.contains(DocumentConstants.kStarredAttribute)
+  }
+  
+  func starFile() {
+    guard !isFileStarred() else { return }
+    let starredName = DocumentConstants.kStarredAttribute + lastPathComponent
+    let starredURL = deletingLastPathComponent().appendingPathComponent(starredName)
+    do {
+      try FileManager.default.moveItem(at: self, to: starredURL)
+      debugPrint("Starred file ", path)
+    } catch {
+      // Error handling code
+      debugPrint(error.localizedDescription, "starFile")
+    }
+  }
+  
+  func unstarFile() {
+    guard isFileStarred() else { return }
+    let unstarredName = lastPathComponent.replacingOccurrences(of: DocumentConstants.kStarredAttribute, with: "")
+    let unstarredURL = deletingLastPathComponent().appendingPathComponent(unstarredName)
+    do {
+      try FileManager.default.moveItem(at: self, to: unstarredURL)
+//      debugPrint("unstarFile ", path, fileAttributes)
+    } catch {
+      // Error handling code
+      debugPrint(error.localizedDescription, "unstarFile")
+    }
+  }
+}

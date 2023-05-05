@@ -22,6 +22,7 @@ final class SplashPresenter: SplashPresenterProtocol {
       UserDefaults.isDistorsionEnabled = true
       UserDefaults.isCameraStabilizationEnabled = true
       UserDefaults.isOCREnabled = true
+      UserDefaults.standard.selectedTags = [.invoice, .date]
     }
     
     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in

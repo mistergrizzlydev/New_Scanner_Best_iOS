@@ -75,11 +75,7 @@ final class DocNameViewController: UIViewController, DocNameViewControllerProtoc
     
     tagsField.textField.inputAccessoryView = toolbar
     palceHolderLabel.text = ""
-    
-    if UserDefaults.standard.selectedTags.isEmpty {
-      UserDefaults.standard.selectedTags = [.invoice, .date]
-    }
-    
+
     tagsField.addTags(UserDefaults.standard.selectedTags.compactMap { $0.name })
     palceHolderLabel.text = Tag.convertToDate(from: UserDefaults.standard.selectedTags)
     

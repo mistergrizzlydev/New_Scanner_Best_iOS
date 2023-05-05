@@ -1,8 +1,8 @@
 import Foundation
 
 extension Notification.Name {
-    static let newFileURL = Notification.Name(rawValue: "com.example.app.newFileURL")
-    static let moveFolderOrFile = Notification.Name(rawValue: "com.example.app.moveFolderOrFile")
+  static let newFileURL = Notification.Name(rawValue: "com.example.app.newFileURL")
+  static let moveFolderOrFile = Notification.Name(rawValue: "com.example.app.moveFolderOrFile")
 }
 
 extension Notification.Name {

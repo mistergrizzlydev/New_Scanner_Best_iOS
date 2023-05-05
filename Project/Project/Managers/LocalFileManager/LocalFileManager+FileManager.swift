@@ -42,7 +42,7 @@ extension FileManager {
   
   func duplicateFile(at url: URL) throws {
     if url.isDirectory {
-      let validatedFileName = validateFolderName(at: url) ?? ""
+      let validatedFileName = validatedName(at: url) ?? ""
       let newFileURL = url.appendingPathComponent(validatedFileName)
       
       try FileManager.default.copyItem(at: url, to: newFileURL)
@@ -56,7 +56,7 @@ extension FileManager {
       let fileName = url.deletingPathExtension().lastPathComponent
       let duplicatedFileName = fileName + " Duplicated." + fileExtension
       let directoryURL = url.deletingLastPathComponent()
-      let validatedFileName = validateFolderName(at: directoryURL) ?? "" //validateDocumentTitle(title: duplicatedFileName, at: directoryURL)
+      let validatedFileName = validatedName(at: directoryURL) ?? "" //validateDocumentTitle(title: duplicatedFileName, at: directoryURL)
       let newFileURL = directoryURL.appendingPathComponent(validatedFileName)
       
       try FileManager.default.copyItem(at: url, to: newFileURL)
@@ -112,7 +112,7 @@ extension LocalFileManager {
 extension FileManager {
   func duplicateFiles(_ urls: [URL]) throws {
     for url in urls {
-      if let validatedName = validateFolderName(at: url) {
+      if let validatedName = validatedName(at: url) {
         let newFileURL = url.deletingLastPathComponent().appendingPathComponent(validatedName)
         try copyItem(at: url, to: newFileURL)
       }
@@ -156,7 +156,7 @@ extension FileManager {
 }
 
 extension FileManager {
-  func validateFolderName(at url: URL) -> String? {
+  func validatedName(at url: URL) -> String? {
     let fileName = url.deletingPathExtension().lastPathComponent
     let pathExtension = url.pathExtension
     
@@ -195,9 +195,13 @@ extension FileManager {
       suffixNumber += 1
       
       if name.last == " " {
-        validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.isDirectory)
+        validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber,
+                                               pathExtension: pathExtension, isDirectory: url.isDirectory,
+                                               excludeSuffix: !fileExists(atPath: url.path))
       } else {
-        validatedName = constructValidatedName(name: "\(name) ", suffixNumber: suffixNumber, pathExtension: pathExtension, isDirectory: url.isDirectory)
+        validatedName = constructValidatedName(name: "\(name) ", suffixNumber: suffixNumber,
+                                               pathExtension: pathExtension, isDirectory: url.isDirectory,
+                                               excludeSuffix: !fileExists(atPath: url.path))
       }
       
       var newURL = url
@@ -206,7 +210,8 @@ extension FileManager {
       repeat {
         validatedName = constructValidatedName(name: name, suffixNumber: suffixNumber,
                                                pathExtension: pathExtension,
-                                               isDirectory: url.isDirectory)
+                                               isDirectory: url.isDirectory,
+                                               excludeSuffix: !fileExists(atPath: url.path))
         newURL = url.deletingLastPathComponent().appendingPathComponent(validatedName)
         
         suffixNumber += 1
@@ -217,14 +222,44 @@ extension FileManager {
     }
   }
   
-  private func constructValidatedName(name: String, suffixNumber: Int, pathExtension: String, isDirectory: Bool) -> String {
+  private func constructValidatedName(name: String, suffixNumber: Int, pathExtension: String, isDirectory: Bool, excludeSuffix: Bool = false) -> String {
     if isDirectory {
-      return "\(name) \(suffixNumber)"
+      if excludeSuffix {
+        return "\(name)"
+      } else {
+        return "\(name) \(suffixNumber)"
+      }
     } else {
-      return "\(name) \(suffixNumber).\(pathExtension)"
+      if excludeSuffix {
+        return "\(name).\(pathExtension)"
+      } else {
+        return "\(name) \(suffixNumber).\(pathExtension)"
+      }
     }
   }
 }
+
+extension URL {
+  var hasStar: Bool {
+    if let path = self.path.removingPercentEncoding {
+      return path.contains("★ ")
+    }
+    return false
+  }
+  
+  func removingStar() -> URL? {
+    guard var components = URLComponents(url: self, resolvingAgainstBaseURL: false),
+          let path = components.percentEncodedPath.removingPercentEncoding,
+          let index = path.firstIndex(of: "★") else {
+      return nil
+    }
+    
+    components.percentEncodedPath = path.replacingCharacters(in: index..<path.index(index, offsetBy: 1), with: "")
+    
+    return components.url
+  }
+}
+
 
 extension FileManager {
   func mergeFolders(urls: [URL], to destinationFolderUrl: URL) throws -> URL? {
@@ -271,7 +306,7 @@ extension LocalFileManager {
   func mergeFolders(urls: [URL], with folderName: String, toRootURL url: URL) {
     let fileManager = FileManager.default
     let folderURL = url.appendingPathComponent(folderName)
-    let validatedName = fileManager.validateFolderName(at: folderURL)
+    let validatedName = fileManager.validatedName(at: folderURL)
     
     if let validatedName = validatedName {
       do {

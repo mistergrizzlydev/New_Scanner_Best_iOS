@@ -14,6 +14,7 @@ protocol DocumentsPresenterProtocol {
   
   func presentCamera(animated: Bool)
   func presentPhotoLibrary()
+  func onImportFileFromDocuments()
   
   func onDetailsTapped(_ viewModel: DocumentsViewModel)
   func onShareTapped(_ viewModels: [DocumentsViewModel], item: UIBarButtonItem?, sourceView: UIView?)
@@ -242,8 +243,14 @@ extension DocumentsPresenter {
                                    placeholder: "Folder Name") { [weak self] folderName in
       guard let self = self else { return }
       // Handle the folder name entered by the user
-      let name = folderName.isEmpty ? "New Folder" : folderName
-      
+      // "★"
+      var name: String
+      switch self.type {
+      case .starred:
+        name = folderName.isEmpty ? "★ New Folder" : "★ \(folderName)"
+      case .myScans:
+        name = folderName.isEmpty ? "New Folder" : folderName
+      }
       do {
         let newFolderURL = try self.localFileManager.createFolder(with: name, at: self.folder.url)
         debugPrint(newFolderURL)
@@ -389,11 +396,19 @@ extension DocumentsPresenter {
           }
         })
         
-        self.view.presentAlert(withTitle: "Photo Library Access Denied", message: "Please allow access to your photo library in Settings to import photos.", alerts: [cancel, settings])
+        self.view.presentAlert(withTitle: "Photo Library Access Denied",
+                               message: "Please allow access to your photo library in Settings to import photos.",
+                               alerts: [cancel, settings])
       }
     }
   }
+  
+  func onImportFileFromDocuments() {
+    coordinator.presentDocumentPickerViewController(controller: view, delegate: self, allowsMultipleSelection: true)
+  }
 }
+
+// MARK: - VNDocumentCameraViewControllerDelegate
 
 extension DocumentsPresenter: VNDocumentCameraViewControllerDelegate {
   func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
@@ -404,18 +419,21 @@ extension DocumentsPresenter: VNDocumentCameraViewControllerDelegate {
       let image = scan.imageOfPage(at: pageIndex)
       images.append(image)
     }
-    controller.dismiss(animated: true, completion: nil)
     
-    view.showLoadingView(title: "Creating new document from images")
-    let url = folder.url.appendingPathComponent(folder.url.generateFileName)
-    
-    // add here doc clasifier for naming...
-    SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
-                          toSandwichPDFatURL: url, isTextRecognition: UserDefaults.isOCREnabled,
-                          quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
-      self?.present()
-      self?.view.dismissLoadingView()
-//      controller.dismiss(animated: true, completion: nil) // trying
+    controller.dismiss(animated: true) { [weak self] in
+      guard let self = self else { return }
+      self.view.showLoadingView(title: "Creating new document from images")
+      
+      let generateFileName = Locale.current.fileNameFromSelectedTags(self.folder.url)
+      let url = self.folder.url.appendingPathComponent(self.type == .starred ? "★ \(generateFileName)" : generateFileName)
+      
+      // add here doc clasifier for naming...
+      SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
+                            toSandwichPDFatURL: url, isTextRecognition: UserDefaults.isOCREnabled,
+                            quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
+        self?.present()
+        self?.view.dismissLoadingView()
+      }
     }
   }
   
@@ -428,62 +446,68 @@ extension DocumentsPresenter: VNDocumentCameraViewControllerDelegate {
   }
 }
 
+// MARK: - PHPickerViewControllerDelegate
+
 extension DocumentsPresenter: PHPickerViewControllerDelegate {
   func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
     debugPrint(results.count, results)
-    picker.dismiss(animated: true)
-    
-    view.showLoadingView(title: "Creating new document from images")
-    
-    results.loadImages { [weak self] (images, error) in
+    picker.dismiss(animated: true) { [weak self] in
       guard let self = self else { return }
-      if let error = error {
-        self.view.showDrop(message: "Error loading images: \(error.localizedDescription)", icon: .systemAlert())
-      } else if let images = images {
-        debugPrint(images.count, results.count)
-        let url = self.folder.url.appendingPathComponent(self.folder.url.generateFileName)
-        SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
-                              toSandwichPDFatURL: url, isTextRecognition: UserDefaults.isOCREnabled,
-                              quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
-          self?.present()
-          self?.view.dismissLoadingView()
+      self.view.showLoadingView(title: "Creating new document from images")
+      
+      results.loadImages { [weak self] (images, error) in
+        guard let self = self else { return }
+        if let error = error {
+          self.view.showDrop(message: "Error loading images: \(error.localizedDescription)", icon: .systemAlert())
+        } else if let images = images {
+          debugPrint(images.count, results.count)
+          let generateFileName = Locale.current.fileNameFromSelectedTags(self.folder.url)
+          
+          let name = self.type == .starred ? "★ \(generateFileName)" : generateFileName
+          let url = self.folder.url.appendingPathComponent(name) //(self.type == .starred ? "★ \(generateFileName)" : generateFileName)
+          SandwichPDF.transform(key: AppConfiguration.OCR.personalKey, images: images,
+                                toSandwichPDFatURL: url, isTextRecognition: UserDefaults.isOCREnabled,
+                                quality: UserDefaults.imageCompressionLevel.compressionLevel()) { [weak self] error in
+            self?.present()
+            self?.view.dismissLoadingView()
+          }
         }
       }
     }
   }
 }
 
-extension ImageSize {
-  func compressionLevel() -> CompressionLevel {
-    switch self {
-    case .low, .small:
-      return .low
-    case .medium:
-      return .medium
-    case .original:
-      return .original
-    }
-  }
-}
+/*
+ // "★"
+ var name: String
+ switch self.type {
+ case .starred:
+   name = folderName.isEmpty ? "★ New Folder" : "★ \(folderName)"
+ case .myScans:
+   name = folderName.isEmpty ? "New Folder" : folderName
+ }
+ */
 
-extension URL {
-  var generateFileName: String {
-//    let formatter = DateFormatter()
-//    formatter.dateFormat = "MMM dd yyyy, hh:mm:s a"
-//    let dateString = formatter.string(from: Date())
-////
-//    let name = Locale.current.name(self)
-//    let fileName = "\(name).pdf"
-    return Locale.current.name(self)
-  }
-}
+// MARK: - UIDocumentPickerDelegate
 
-extension Locale {
-  func name(_ rootURL: URL) -> String {
-    let name = Tag.convertToDate(from: UserDefaults.standard.selectedTags)
-    let fileName = "\(name).pdf"
-    let fileURL = rootURL.appendingPathComponent(fileName)
+extension DocumentsPresenter: UIDocumentPickerDelegate {
+  func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+    present()
+  }
+  
+  func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+    debugPrint("didPickDocumentsAt", urls)
+    guard !urls.isEmpty else { return }
     
-    return FileManager.default.validateFolderName(at: fileURL) ?? fileName
+    controller.dismiss(animated: true) { [weak self] in
+      guard let self = self else { return }
+      do {
+        try urls.save(to: self.folder.url)
+      } catch {
+        debugPrint(error.localizedDescription)
+      }
+      
+      self.present()
+    }
   }
 }

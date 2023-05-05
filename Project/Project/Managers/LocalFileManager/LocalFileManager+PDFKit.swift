@@ -30,7 +30,7 @@ extension LocalFileManager {
     let fileURL = url.appendingPathComponent("\(name).pdf")
     
     // Create a new PDFDocument to hold the merged pages
-    let validatedName = fileManager.validateFolderName(at: fileURL)
+    let validatedName = fileManager.validatedName(at: fileURL)
     let mergedDocument = PDFDocument()
     
     // Loop through each URL and add each page to the merged document
