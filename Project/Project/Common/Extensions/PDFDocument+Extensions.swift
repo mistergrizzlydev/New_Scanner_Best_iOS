@@ -1,13 +1,14 @@
 import PDFKit
 
 extension PDFDocument {
-  func reSave() {
+  func reSave(_ completion: (() -> Void)? = nil) {
     // Save the rearranged PDF document
     guard let documentURL = documentURL else { return }
     try? FileManager.default.removeItem(atPath: documentURL.pathExtension)
     
     do {
       try dataRepresentation()?.write(to: documentURL, options: .atomic)
+      completion?()
     } catch {
       debugPrint("cannot save ", error.localizedDescription)
     }

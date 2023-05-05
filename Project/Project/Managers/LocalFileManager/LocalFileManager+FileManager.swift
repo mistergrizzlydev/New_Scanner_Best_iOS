@@ -49,8 +49,8 @@ extension FileManager {
       
     } else {
       guard let fileExtension = url.pathExtension.isEmpty ? nil : url.pathExtension else {
-          throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError,
-                        userInfo: [NSLocalizedDescriptionKey: "File extension not found for \(url.lastPathComponent)"])
+        throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError,
+                      userInfo: [NSLocalizedDescriptionKey: "File extension not found for \(url.lastPathComponent)"])
       }
       
       let fileName = url.deletingPathExtension().lastPathComponent
@@ -63,42 +63,58 @@ extension FileManager {
     }
   }
   
-//  func duplicateFiles(at urls: [URL], withNewName newName: String) throws -> [URL] {
-//    var newURLs = [URL]()
-//
-//    for url in urls {
-//      guard let fileExtension = url.pathExtension.isEmpty ? nil : url.pathExtension else {
-//        throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError,
-//                      userInfo: [NSLocalizedDescriptionKey: "File extension not found for \(url.lastPathComponent)"])
-//      }
-//
-//      let fileName = url.deletingPathExtension().lastPathComponent
-//      let newFileName = newName + "." + fileExtension
-//
-//      let directoryURL = url.deletingLastPathComponent()
-//
-//      let validatedFileName = validateDocumentTitle(title: newFileName, at: directoryURL)
-//
-//      let newFileURL = directoryURL.appendingPathComponent(validatedFileName).appendingPathExtension(fileExtension)
-//
-//      try copyItem(at: url, to: newFileURL)
-//      newURLs.append(newFileURL)
-//    }
-//
-//    return newURLs
-//  }
+  //  func duplicateFiles(at urls: [URL], withNewName newName: String) throws -> [URL] {
+  //    var newURLs = [URL]()
+  //
+  //    for url in urls {
+  //      guard let fileExtension = url.pathExtension.isEmpty ? nil : url.pathExtension else {
+  //        throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError,
+  //                      userInfo: [NSLocalizedDescriptionKey: "File extension not found for \(url.lastPathComponent)"])
+  //      }
+  //
+  //      let fileName = url.deletingPathExtension().lastPathComponent
+  //      let newFileName = newName + "." + fileExtension
+  //
+  //      let directoryURL = url.deletingLastPathComponent()
+  //
+  //      let validatedFileName = validateDocumentTitle(title: newFileName, at: directoryURL)
+  //
+  //      let newFileURL = directoryURL.appendingPathComponent(validatedFileName).appendingPathExtension(fileExtension)
+  //
+  //      try copyItem(at: url, to: newFileURL)
+  //      newURLs.append(newFileURL)
+  //    }
+  //
+  //    return newURLs
+  //  }
   
   private func validateDocumentTitle(title: String, at folderURL: URL) -> String {
     var validatedTitle = title
     var suffixNumber = 1
-
+    
     // Check if file/folder name already exists
     while fileExists(atPath: folderURL.appendingPathComponent(validatedTitle).path) {
       // If file/folder already exists, add numerical suffix until unique name is found
       validatedTitle = "\(title) \(suffixNumber)"
       suffixNumber += 1
     }
-
+    
+    return validatedTitle
+  }
+  
+  func validateFolderTitle(title: String, at folderURL: URL) -> String {
+    let newTitle = URL(fileURLWithPath: title).deletingPathExtension().lastPathComponent
+    
+    var validatedTitle = newTitle
+    var suffixNumber = 1
+    
+    // Check if file/folder name already exists
+    while fileExists(atPath: folderURL.appendingPathComponent(validatedTitle).path) {
+      // If file/folder already exists, add numerical suffix until unique name is found
+      validatedTitle = "\(newTitle) \(suffixNumber)"
+      suffixNumber += 1
+    }
+    
     return validatedTitle
   }
 }
@@ -106,6 +122,40 @@ extension FileManager {
 extension LocalFileManager {
   func duplicateFiles(_ urls: [URL]) throws {
     try FileManager.default.duplicateFiles(urls)
+  }
+}
+
+extension LocalFileManager {
+  func rename(oldURL: URL, fileName: String, type: DocumentsType,  completion: () -> Void) {
+    let newName = URL(fileURLWithPath: fileName).deletingPathExtension().lastPathComponent
+    
+    if oldURL.isDirectory {
+      var name: String
+      switch type {
+      case .starred:
+        name = newName.isEmpty ? "★ New Folder" : "★ \(newName)"
+      case .myScans:
+        name = newName.isEmpty ? "New Folder" : newName
+      }
+      
+      let validatedName = FileManager.default.validateFolderTitle(title: name, at: oldURL.deletingLastPathComponent())
+      let newURL = oldURL.deletingLastPathComponent().appendingPathComponent(validatedName)
+      FileManager.default.renameFile(atURL: oldURL, toURL: newURL)
+      completion()
+    } else {
+      var name: String
+      switch type {
+      case .starred:
+        name = newName.isEmpty ? "★ \(Locale.current.fileNameFromSelectedTags(oldURL))" : "★ \(newName).pdf"
+      case .myScans:
+        name = newName.isEmpty ? Locale.current.fileNameFromSelectedTags(oldURL) : "\(newName).pdf"
+      }
+      
+      let newURL = oldURL.deletingLastPathComponent().appendingPathComponent(name)
+      FileManager.default.renameFile(atURL: oldURL, toURL: newURL)
+      removeThumbnail(for: oldURL)
+      completion()
+    }
   }
 }
 
@@ -117,32 +167,32 @@ extension FileManager {
         try copyItem(at: url, to: newFileURL)
       }
       
-//      let newDirectoryURL = url.deletingLastPathComponent().appendingPathComponent("\(name) - Duplicated")
-//
-//      var isDirectory: ObjCBool = false
-//      let fileExists = self.fileExists(atPath: url.path, isDirectory: &isDirectory)
-//
-//      guard fileExists && isDirectory.boolValue else {
-//        throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError, userInfo: nil)
-//      }
-//
-//      guard let enumerator = self.enumerator(at: url, includingPropertiesForKeys: [.isRegularFileKey],
-//                                             options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants]) else {
-//        throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError, userInfo: nil)
-//      }
-//
-//      do {
-//        try self.createDirectory(at: newDirectoryURL, withIntermediateDirectories: true, attributes: nil)
-//
-//        while let file = enumerator.nextObject() as? String {
-//          let fileURL = URL(fileURLWithPath: file, relativeTo: url)
-//          let newFileURL = newDirectoryURL.appendingPathComponent(fileURL.lastPathComponent)
-//          try self.copyItem(at: fileURL, to: newFileURL)
-//        }
-//
-//      } catch {
-//        print(error.localizedDescription)
-//      }
+      //      let newDirectoryURL = url.deletingLastPathComponent().appendingPathComponent("\(name) - Duplicated")
+      //
+      //      var isDirectory: ObjCBool = false
+      //      let fileExists = self.fileExists(atPath: url.path, isDirectory: &isDirectory)
+      //
+      //      guard fileExists && isDirectory.boolValue else {
+      //        throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError, userInfo: nil)
+      //      }
+      //
+      //      guard let enumerator = self.enumerator(at: url, includingPropertiesForKeys: [.isRegularFileKey],
+      //                                             options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants]) else {
+      //        throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError, userInfo: nil)
+      //      }
+      //
+      //      do {
+      //        try self.createDirectory(at: newDirectoryURL, withIntermediateDirectories: true, attributes: nil)
+      //
+      //        while let file = enumerator.nextObject() as? String {
+      //          let fileURL = URL(fileURLWithPath: file, relativeTo: url)
+      //          let newFileURL = newDirectoryURL.appendingPathComponent(fileURL.lastPathComponent)
+      //          try self.copyItem(at: fileURL, to: newFileURL)
+      //        }
+      //
+      //      } catch {
+      //        print(error.localizedDescription)
+      //      }
     }
   }
 }
@@ -164,7 +214,7 @@ extension FileManager {
     var suffixNumber = 0
     
     if let lastCharacter = fileName.last,
-          let name = fileName.components(separatedBy: String(lastCharacter)).first,
+       let name = fileName.components(separatedBy: String(lastCharacter)).first,
        let lastCharacterInt = Int(String(lastCharacter)) {
       
       
@@ -362,7 +412,7 @@ extension FileManager {
       if let lastCharacter = fileName.last,
          let name = fileName.components(separatedBy: String(lastCharacter)).first,
          let lastCharacterInt = Int(String(lastCharacter)) {
-
+        
         suffixNumber = lastCharacterInt + 1
         
         if name.last == " " {
@@ -500,5 +550,16 @@ extension FileManager {
     }
     
     return results
+  }
+}
+
+extension FileManager {
+  func renameFile(atURL oldURL: URL, toURL newURL: URL) {
+    do {
+        try moveItem(atPath: oldURL.path, toPath: newURL.path)
+        debugPrint("File renamed successfully")
+    } catch {
+      debugPrint("Error renaming file: \(error)")
+    }
   }
 }

@@ -137,6 +137,7 @@ extension DocumentPreviewPresenter {
       if let userInfo = notification.userInfo, let url = userInfo["new_file_url"] as? URL {
         //        let newFile = File(url: url)
         //        self?.view.prepare(with: .init(title: newFile.name, file: newFile))
+        self?.localFileManager.removeThumbnail(for: url)
         self?.view.navigationController?.popToRootViewController(animated: true)
       }
     }
@@ -148,6 +149,7 @@ extension DocumentPreviewPresenter {
       if let userInfo = notification.userInfo, let previewItemURL = userInfo["file_url"] as? URL {
         let newFile = File(url: previewItemURL)
         self?.view.prepare(with: .init(title: newFile.name, file: newFile))
+        self?.localFileManager.removeThumbnail(for: previewItemURL)
         self?.view.refreshPDFView()
         self?.deletePencilKitFiles()
       }
@@ -161,6 +163,8 @@ extension DocumentPreviewPresenter {
         //        let newFile = File(url: url)
         debugPrint("previewItemURL ", previewItemURL)
         debugPrint("modifiedContentsURL ", modifiedContentsURL)
+        self?.localFileManager.removeThumbnail(for: previewItemURL)
+        self?.localFileManager.removeThumbnail(for: modifiedContentsURL)
 //        self?.deletePencilKitFiles()
       }
     }
@@ -170,6 +174,7 @@ extension DocumentPreviewPresenter {
       
       if let userInfo = notification.userInfo, let url = userInfo["file_url"] as? URL {
         //        let newFile = File(url: url)
+        self?.localFileManager.removeThumbnail(for: url)
       }
     }
     
@@ -178,16 +183,21 @@ extension DocumentPreviewPresenter {
       
       if let userInfo = notification.userInfo, let url = userInfo["file_url"] as? URL {
         //        let newFile = File(url: url)
+        self?.localFileManager.removeThumbnail(for: url)
       }
     }
     
     notificationCenter.addObserver(forName: .rearrangeScreenDeletePage, object: nil, queue: queue) { [weak self] notification in
-      self?.present()
-      self?.view.refreshPDFView()
+      guard let self = self else { return }
+      self.localFileManager.removeThumbnail(for: self.file.url)
+      self.present()
+      self.view.refreshPDFView()
     }
     
     notificationCenter.addObserver(forName: .rearrangeScreenDeleteLastPage, object: nil, queue: queue) { [weak self] notification in
-      self?.view.navigationController?.popToRootViewController(animated: true)
+      guard let self = self else { return }
+      self.localFileManager.removeThumbnail(for: self.file.url)
+      self.view.navigationController?.popToRootViewController(animated: true)
     }
   }
 }

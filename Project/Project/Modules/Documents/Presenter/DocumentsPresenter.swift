@@ -149,6 +149,8 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
   }
   
   func onStarredTapped(_ viewModel: DocumentsViewModel) {
+    localFileManager.removeThumbnail(for: viewModel.file.url)
+    
     if viewModel.file.isFileStarred() {
       viewModel.file.unstarFile()
     } else {
@@ -184,11 +186,42 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
   func onRenameTapped(_ viewModel: DocumentsViewModel) {
     // Handle rename action
     debugPrint("Rename action tapped")
-    present()
     view.presentAlertWithTextField(title: "Rename File",
                                    message: "Enter a new name for the file:",
-                                   placeholder: viewModel.file.name) { text in
-      // TODO: - finish it
+                                   placeholder: viewModel.file.name) { [weak self] fileName in
+      guard let self = self else { return }
+      let oldURL = viewModel.file.url
+
+//      if oldURL.isDirectory {
+//          var name: String
+//          switch self.type {
+//          case .starred:
+//            name = fileName.isEmpty ? "★ New Folder" : "★ \(fileName)"
+//          case .myScans:
+//            name = fileName.isEmpty ? "New Folder" : fileName
+//          }
+//
+//          let validatedName = FileManager.default.validateFolderTitle(title: name, at: oldURL.deletingLastPathComponent())
+//          let newURL = oldURL.deletingLastPathComponent().appendingPathComponent(validatedName)
+//          FileManager.default.renameFile(atURL: oldURL, toURL: newURL)
+//          self.present()
+//      } else {
+//        var name: String
+//        switch self.type {
+//        case .starred:
+//          name = fileName.isEmpty ? "★ \(Locale.current.fileNameFromSelectedTags(oldURL))" : "★ \(fileName).pdf"
+//        case .myScans:
+//          name = fileName.isEmpty ? Locale.current.fileNameFromSelectedTags(oldURL) : "\(fileName).pdf"
+//        }
+//
+//        let newURL = oldURL.deletingLastPathComponent().appendingPathComponent(name)
+//        FileManager.default.renameFile(atURL: oldURL, toURL: newURL)
+//        self.localFileManager.removeThumbnail(for: oldURL)
+//        self.present()
+//      }
+      self.localFileManager.rename(oldURL: oldURL, fileName: fileName, type: self.type) { [weak self] in
+        self?.present()
+      }
     }
   }
   

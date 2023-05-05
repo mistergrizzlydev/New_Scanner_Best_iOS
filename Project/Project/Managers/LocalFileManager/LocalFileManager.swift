@@ -15,6 +15,8 @@ protocol LocalFileManager: AnyObject {
   
   func createFolder(with name: String, at url: URL) throws -> URL
   
+  func removeThumbnail(for url: URL)
+  
   func moveFile(from sourceURL: URL, to destinationURL: URL) throws
   func mergePDF(urls: [URL], with name: String, toRootURL url: URL)
   func mergeFolders(urls: [URL], with folderName: String, toRootURL url: URL)
@@ -22,6 +24,8 @@ protocol LocalFileManager: AnyObject {
   
   func deletePencilKitFiles(at url: URL) throws
   func searchInDirectory(url: URL, searchFor name: String) -> [Document]
+  
+  func rename(oldURL: URL, fileName: String, type: DocumentsType,  completion: () -> Void)
 }
 
 final class LocalFileManagerDefault: LocalFileManager {
@@ -156,6 +160,7 @@ final class LocalFileManagerDefault: LocalFileManager {
   func delete(_ document: Document) -> Bool {
     do {
       try FileManager.default.removeItem(at: document.url)
+      removeThumbnail(for: document.url)
       return true
     } catch {
       debugPrint("Failed to delete document: \(error)")
@@ -166,6 +171,16 @@ final class LocalFileManagerDefault: LocalFileManager {
   func moveFile(from sourceURL: URL, to destinationURL: URL) throws {
     let fileManager = FileManager.default
     try fileManager.moveItem(at: sourceURL, to: destinationURL)
+  }
+  
+  func removeThumbnail(for url: URL) {
+    let name = url.deletingPathExtension().appendingPathExtension("jpg").lastPathComponent
+    let thumbnailURL = thumbnailsFolderURL.appendingPathComponent(name)
+    do {
+      try FileManager.default.removeItem(at: thumbnailURL)
+    } catch {
+      debugPrint("Failed to remove thumbnail: \(error)")
+    }
   }
 }
 
@@ -243,6 +258,10 @@ extension LocalFileManager {
   
   func delete(_ urls: [URL]) throws {
     try FileManager.default.delete(urls)
+    
+    urls.forEach { [weak self] url in
+      self?.removeThumbnail(for: url)
+    }
   }
 }
 

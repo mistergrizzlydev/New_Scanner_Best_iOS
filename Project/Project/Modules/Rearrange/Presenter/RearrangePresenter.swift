@@ -44,9 +44,10 @@ final class RearrangePresenter: RearrangePresenterProtocol {
           NotificationCenter.default.post(name: .rearrangeScreenDeleteLastPage, object: nil)
         }
       } else {
-        NotificationCenter.default.post(name: .rearrangeScreenDeletePage, object: nil)
-        pdfDocument.reSave()
-        present()
+        pdfDocument.reSave { [weak self] in
+          NotificationCenter.default.post(name: .rearrangeScreenDeletePage, object: nil)
+          self?.present()
+        }
       }
     }
   }
