@@ -5,65 +5,125 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            uuid = "57817B34-F843-48B8-B2DC-3B5358D88E4C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            breakpointStackSelectionBehavior = "1"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D6919ABA-5D0C-4DC9-876A-D6A9E04224B7"
+            uuid = "C8DF61A8-C16D-4E63-A85A-F3CA351420D6"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Project/Common/Reusable Elements/BaseFloatingTableViewController.swift"
+            filePath = "Project/Managers/KeychainManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "addFloatingView()"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "isAppLocked"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7B7A894C-CD05-4583-8D4F-14023986C07E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Managers/KeychainManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "isAppLocked"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "10570694-B472-472A-8419-46CD670C07C2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Managers/BiometricAuthenticator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "authenticateUser(type:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5C8C279D-661E-4CD8-BABE-3CE1B0F21D25"
-            shouldBeEnabled = "No"
+            uuid = "FDDE1569-D5CF-419A-937E-FB7B33B3DEF5"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Project/Common/Reusable Elements/BaseFloatingTableViewController.swift"
+            filePath = "Project/Managers/BiometricAuthenticator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "showHideFloatingStackView(isHidden:)"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "authenticateUser(type:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "84794D99-029E-4F72-87B2-D0114296D550"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Managers/BiometricAuthenticator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "authenticateUser(type:completion:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "5C8C279D-661E-4CD8-BABE-3CE1B0F21D25 - 465fb4e63896b975"
+                  uuid = "84794D99-029E-4F72-87B2-D0114296D550 - 1b481b84ba7cd5ed"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Project.BaseFloatingTableViewController.showHideFloatingStackView(isHidden: Swift.Bool) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in static Project.BiometricAuthenticator.authenticateUser(type: Project.BiometricAuthenticator.AuthenticationType, completion: (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "Project"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mistergrizzly/Desktop/Scanner_App/New_Scanner_Best_iOS/Project/Project/Common/Reusable%20Elements/BaseFloatingTableViewController.swift"
+                  urlString = "file:///Users/mistergrizzly/Desktop/Scanner_App/New_Scanner_Best_iOS/Project/Project/Managers/BiometricAuthenticator.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "70"
-                  endingLineNumber = "70"
-                  offsetFromSymbolStart = "42">
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "193">
                </Location>
                <Location
-                  uuid = "5C8C279D-661E-4CD8-BABE-3CE1B0F21D25 - f496a26bd886b170"
+                  uuid = "84794D99-029E-4F72-87B2-D0114296D550 - 1b481b84ba7cd5ed"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in Project.BaseFloatingTableViewController.showHideFloatingStackView(isHidden: Swift.Bool) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in static Project.BiometricAuthenticator.authenticateUser(type: Project.BiometricAuthenticator.AuthenticationType, completion: (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "Project"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mistergrizzly/Desktop/Scanner_App/New_Scanner_Best_iOS/Project/Project/Common/Reusable%20Elements/BaseFloatingTableViewController.swift"
+                  urlString = "file:///Users/mistergrizzly/Desktop/Scanner_App/New_Scanner_Best_iOS/Project/Project/Managers/BiometricAuthenticator.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "70"
-                  endingLineNumber = "70"
-                  offsetFromSymbolStart = "106">
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "415">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -71,128 +131,112 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "67F795BD-9305-4A2B-95B6-E088462C390D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Project/Common/Extensions/PDFDocument+Extensions.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7"
-            endingLineNumber = "7"
-            landmarkName = "reSave(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B841667D-921C-47B9-8784-BFF0646AE57E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Project/Common/Extensions/PDFDocument+Extensions.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "10"
-            endingLineNumber = "10"
-            landmarkName = "reSave(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "3586EEB8-6937-48F8-A05E-AA70207CAF3F"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Project/Common/Extensions/PDFDocument+Extensions.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "13"
-            endingLineNumber = "13"
-            landmarkName = "reSave(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DD24F74D-4E20-4D8C-8119-8AF37BC27946"
+            uuid = "BC7C366C-1D16-4233-AC44-8243E1E8C66F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Project/Modules/Rearrange/Presenter/RearrangePresenter.swift"
+            filePath = "Project/Managers/BiometricAuthenticator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "updatePage(sourceIndex:destinationIndex:)"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "authenticateUser(type:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "61118123-7678-494A-AB1A-8AE975AD77EE"
+            uuid = "2411AE2A-DC90-4E96-BA05-9CA07EB1CF5A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Project/Modules/DocumentPreview/Presenter/DocumentPreviewPresenter.swift"
+            filePath = "Project/Managers/BiometricAuthenticator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
-            landmarkName = "registerUpdatePDFNotifications()"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "authenticateUser(type:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3A82E375-195A-458F-A621-E96E0EAA0C42"
+            uuid = "0FBC4011-6B34-4452-A4E0-31DE44CAEEE7"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Project/Managers/LocalFileManager/LocalFileManager.swift"
+            filePath = "Project/Managers/BiometricAuthenticator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
-            landmarkName = "removeThumbnail(for:)"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "showSystemPasscodeScreen(reason:fallbackTitle:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "08FC016E-1DC5-47B9-A0DC-BFC6665693D1"
+            uuid = "A9817EB0-B5F0-4925-8C70-5D5660DA3A5C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Project/Managers/LocalFileManager/LocalFileManager.swift"
+            filePath = "Project/Managers/BiometricAuthenticator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
-            landmarkName = "removeThumbnail(for:)"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "showSystemPasscodeScreen(reason:fallbackTitle:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5E85BF82-8E14-471A-BEC3-624DE6FD5DC9"
-            shouldBeEnabled = "No"
+            uuid = "BF9A6B18-8364-499F-B097-5F772DC0039B"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Project/Modules/Documents/Presenter/DocumentsPresenter.swift"
+            filePath = "Project/Managers/BiometricAuthenticator.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
-            landmarkName = "onRenameTapped(_:)"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "showSystemPasscodeScreen(reason:fallbackTitle:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "939187A9-1E85-4107-8A7C-19B38864F5C3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Managers/BiometricAuthenticator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "authenticateUser(type:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DC9E7BF5-0D54-4642-9E67-240B12AE5F50"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Modules/Annotate/View/AnnotateViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "test()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -166,6 +166,7 @@
 		ECD1B66A29DF6A43005B9EDF /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD1B66929DF6A43005B9EDF /* UIViewController+Extensions.swift */; };
 		ECD1B66C29DF926E005B9EDF /* CustomBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD1B66B29DF926E005B9EDF /* CustomBarButtonItem.swift */; };
 		ECD1B66E29DF9282005B9EDF /* CenteredButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD1B66D29DF9282005B9EDF /* CenteredButton.swift */; };
+		ECD7DAA92A05CB6C00A60D0B /* BiometricAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD7DAA82A05CB6C00A60D0B /* BiometricAuthenticator.swift */; };
 		ECD8738F29E9B86900024821 /* UIViewController+Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8738E29E9B86900024821 /* UIViewController+Alerts.swift */; };
 		ECD8739129E9BDD000024821 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8739029E9BDD000024821 /* Bundle+Extensions.swift */; };
 		ECD8739929E9CE2900024821 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD8739829E9CE2900024821 /* Logger.swift */; };
@@ -365,6 +366,7 @@
 		ECD1B66929DF6A43005B9EDF /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		ECD1B66B29DF926E005B9EDF /* CustomBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBarButtonItem.swift; sourceTree = "<group>"; };
 		ECD1B66D29DF9282005B9EDF /* CenteredButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenteredButton.swift; sourceTree = "<group>"; };
+		ECD7DAA82A05CB6C00A60D0B /* BiometricAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthenticator.swift; sourceTree = "<group>"; };
 		ECD8738E29E9B86900024821 /* UIViewController+Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alerts.swift"; sourceTree = "<group>"; };
 		ECD8739029E9BDD000024821 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 		ECD8739829E9CE2900024821 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -1199,6 +1201,7 @@
 				EC629DF029FBF8EA00CFC70E /* KeychainManager.swift */,
 				EC629DF429FC242200CFC70E /* CryptoManager.swift */,
 				EC629DEC29FBF41000CFC70E /* SecurityManager.swift */,
+				ECD7DAA82A05CB6C00A60D0B /* BiometricAuthenticator.swift */,
 				EC629DE529FBDB5500CFC70E /* LocalFileManager */,
 				ECD8739829E9CE2900024821 /* Logger.swift */,
 			);
@@ -1568,6 +1571,7 @@
 				28F92CF936FED313BEEB17ED /* SelectableViewModel.swift in Sources */,
 				8D625C1CBF5D78686BAD579E /* SelectableViewController.swift in Sources */,
 				08EEC4D69DB1172EDC804016 /* SelectablePresenter.swift in Sources */,
+				ECD7DAA92A05CB6C00A60D0B /* BiometricAuthenticator.swift in Sources */,
 				CC8E8E020E8ABFCC92A97E92 /* OCRLanguagesBuilder.swift in Sources */,
 				1E1ABFB48BBEDDAC2690E857 /* OCRLanguagesViewModel.swift in Sources */,
 				C4CCAC36F38FC24A0FA45B10 /* OCRLanguagesViewController.swift in Sources */,
@@ -1728,6 +1732,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "TurboScan™";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) asks Camera permissions in order to scan documents.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "$(PRODUCT_NAME) requires Face ID permission to authenticate using Face recognition.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "$(PRODUCT_NAME) needs permission to save photos to your photo library, so you can access them later.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "$(PRODUCT_NAME) asks Photo Library permissions in order to import pictures and transform into searchable documents.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1762,6 +1767,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "TurboScan™";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_NSCameraUsageDescription = "$(PRODUCT_NAME) asks Camera permissions in order to scan documents.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "$(PRODUCT_NAME) requires Face ID permission to authenticate using Face recognition.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "$(PRODUCT_NAME) needs permission to save photos to your photo library, so you can access them later.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "$(PRODUCT_NAME) asks Photo Library permissions in order to import pictures and transform into searchable documents.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

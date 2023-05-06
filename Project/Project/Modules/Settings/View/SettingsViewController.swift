@@ -39,7 +39,7 @@ final class SettingsViewController: QuickTableViewController, SettingsViewContro
     
     let isPro = true
     let email = UserDefaults.emailFromAccount.isEmpty ? "Not set yet" : "(\(UserDefaults.emailFromAccount))"
-    let securityIcon = UIDevice.current.biometricType == .faceID ? "faceid" : "touchid"
+//    let securityIcon = UIDevice.current.biometricType == .faceID ? "faceid" : "touchid"
     tableContents = [
 //      SettingsSection(title: "", rows: [
 //        SettingsNavigationRow(text: "TurboScan™ Ultra", detailText: .none, icon: .image(UIImage(systemName: "star.square.fill", withConfiguration: imageConfig)!),
@@ -78,12 +78,12 @@ final class SettingsViewController: QuickTableViewController, SettingsViewContro
       ].filter { $0.isPro }, footer: nil, // "Switch between light, dark, or system appearance modes. Change the appearance of the app to match your style preferences!"
                       isPro: isPro),
       
-      SettingsSection(title: "Security", rows: [
-        SwitchRow(text: UIDevice.current.biometricType.name, detailText: DetailText.none,
-                  switchValue: KeychainManager.default.isAppLocked, icon: .image(UIImage(systemName: "\(securityIcon)", withConfiguration: imageConfig)!),
-                  action: didToggleBiometricAuthSwitch())
-      ], footer: "Unlock app name with \(UIDevice.current.biometricType.name) recognition. You have to set a passcode as a fallback.",
-                      isPro: UIDevice.current.biometricType != .none ),
+//      SettingsSection(title: "Security", rows: [
+//        SwitchRow(text: UIDevice.current.biometricType.name, detailText: DetailText.none,
+//                  switchValue: KeychainManager.default.isAppLocked, icon: .image(UIImage(systemName: "\(securityIcon)", withConfiguration: imageConfig)!),
+//                  action: didToggleBiometricAuthSwitch())
+//      ], footer: "Unlock app name with \(UIDevice.current.biometricType.name) recognition. You have to set a passcode as a fallback.",
+//                      isPro: UIDevice.current.biometricType != .none ),
       
       SettingsSection(title: "Help", rows: [
         SettingsNavigationRow(text: "Get Support", detailText: .subtitle(AppConfiguration.Help.support.rawValue),
@@ -188,16 +188,25 @@ extension SettingsViewController {
     }
   }
   
-  private func didToggleBiometricAuthSwitch() -> (Row) -> Void {
-    return { [weak self] in
-      if let row = $0 as? SwitchRowCompatible {
-        let state = "\(row.text) = \(row.switchValue)"
-        self?.showDebuggingText(state)
-        // todo
-        KeychainManager.default.isAppLocked.toggle()
-      }
-    }
-  }
+//  private func didToggleBiometricAuthSwitch() -> (Row) -> Void {
+//    return { [weak self] in
+//      if let row = $0 as? SwitchRowCompatible {
+//        let state = "\(row.text) = \(row.switchValue)"
+//        self?.showDebuggingText(state)
+//        // todo
+////        KeychainManager.default.isAppLocked.toggle()
+//
+////        BiometricAuthenticator().authenticate(type: .touchID) { success, error in
+////          print(success, error?.localizedDescription)
+////          KeychainManager.default.isAppLocked = success
+////        }
+//
+//        SecurityManager().authenticateUser { success in
+//          print(success)
+//        }
+//      }
+//    }
+//  }
   
   private func didToggleSwitch() -> (Row) -> Void {
     return { [weak self] in

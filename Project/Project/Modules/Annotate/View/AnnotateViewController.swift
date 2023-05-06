@@ -28,7 +28,71 @@ final class AnnotateViewController: QLPreviewController, AnnotateViewControllerP
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     pressMmarkupNavButton()
+//    test()
   }
+  
+  private func test() {
+    /*
+     navigation.view.allSubviews()[35].allSubviews().first?.allSubviews()
+     ▿ Optional<Array<UIView>>
+       ▿ some : 1 element
+         - 0 : <UILabel: 0x7f8aa5884f90; frame = (0 0; 37.6667 20.3333); text = 'TurboScan™ Tutorial.pdf'; userInteractionEnabled = NO; backgroundColor = UIExtendedGrayColorSpace 0 0; layer = <_UILabelLayer: 0x600000c7fca0>>
+     
+      // QLOverlayDefaultActionButtonAccessibilityIdentifier
+      // (navigation.view.allSubviews().filter { $0 is UIToolbar } as? [UIToolbar])?.last?.items?.first?.accessibilityIdentifier
+      // QLPDFItemViewControllerBarSearchRightButtonAccessibilityIdentifier
+      // (navigation.view.allSubviews().filter { $0 is UIToolbar } as? [UIToolbar])?.last?.items?[2].accessibilityIdentifier
+      
+
+    if let navigation = self.children.first as? UINavigationController {
+      let markupImage = UIImage(systemName: "pencil.tip.crop.circle.on")
+      if let markupButton = ((navigation as? UINavigationController)?.view.allSubviews().filter { $0 is UIButton } as? [UIButton])?.first(where: { $0.imageView?.image == markupImage}) as? UIButton {
+        markupButton.sendActions(for: .touchUpInside)
+      }
+      
+      return
+      
+      
+      delay(1) {// [weak self] in
+        // ((navigation as? UINavigationController)?.view.allSubviews().filter { $0 is UIToolbar }.first as? UIToolbar)?.accessibilityIdentifier
+//          Optional<String>
+//           - some : "QLCustomToolBarAccessibilityIdentifier"
+        
+        // po ((navigation as? UINavigationController)?.view.allSubviews().filter { $0 is UIButton } as? [UIButton])?.first(where: { $0.imageView?.image == UIImage(systemName: "rectangle.and.pencil.and.ellipsis")}) as? UIButton
+        // rectangle.and.pencil.and.ellipsis
+        // pencil.tip.crop.circle.on
+        // arrow.uturn.forward.circle
+        // arrow.uturn.backward.circle
+        if let navigation = self.children.first { //.first as? UINavigationController {
+          
+        }
+      }
+      */
+    delay(2) { [weak self] in
+      guard let self = self else { return }
+      if let navigation = self.children.first as? UINavigationController {
+        let markupImage = UIImage(systemName: "pencil.tip.crop.circle.on")
+        if let markupButton = (navigation.view.allSubviews().filter { $0 is UIButton } as? [UIButton])?.first(where: { $0.imageView?.image == markupImage}) as? UIButton {
+          markupButton.sendActions(for: .touchUpInside)
+        }
+        
+      }
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   private func pressMmarkupNavButton() {
     delay(0.33) { [weak self] in
