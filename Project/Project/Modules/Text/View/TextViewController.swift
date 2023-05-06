@@ -53,14 +53,28 @@ final class TextViewController: UIViewController, TextViewControllerProtocol {
     pdfView.document = PDFDocument(url: viewModel.file.url)
     navigationItem.title = viewModel.file.name
     title = viewModel.file.name
+
     
-    SandwichPDF.extractImagesFromPDFView(key: AppConfiguration.OCR.personalKey, pdfView: pdfView) { [weak self] success in
-      if success {
-        self?.pdfView.document = PDFDocument(url: viewModel.file.url)
-        self?.showSuccess()
-        self?.textView.text = self?.pdfView.getText()
+    let yesAction = UIAlertAction(title: "Yes", style: .default) { [weak self] (_) in
+      guard let self = self else { return }
+      self.showLoadingView(title: "Extracting Text from PDF")
+      SandwichPDF.extractImagesFromPDFView(key: AppConfiguration.OCR.personalKey, pdfView: self.pdfView) { [weak self] success in
+        guard let self = self else { return }
+        if success {
+          self.pdfView.document = PDFDocument(url: viewModel.file.url)
+          self.showSuccess()
+          self.textView.text = self.pdfView.getText()
+          self.dismissLoadingView()
+        }
       }
     }
+
+    let noAction = UIAlertAction(title: "No", style: .cancel) { [weak self] (_) in
+      guard let self = self else { return }
+      self.textView.text = self.pdfView.getText()
+    }
+
+    presentAlert(message: "Extract Text from PDF?", alerts: [noAction, yesAction])
   }
   
   private func showSuccess() {
@@ -68,6 +82,8 @@ final class TextViewController: UIViewController, TextViewControllerProtocol {
     let message = "PDF converted successfully"
     showDrop(message: message, icon: .systemTextSearch())
   }
+  
+  
   
   @objc private func segmentChanged(_ sender: UISegmentedControl) {
     guard let segmentType = SegmentType(rawValue: sender.selectedSegmentIndex) else { return }

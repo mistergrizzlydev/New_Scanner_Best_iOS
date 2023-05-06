@@ -91,7 +91,7 @@ extension OnboardingViewController: UIPickerViewDelegate {
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
     guard let category = viewModel?.categories[row] else { return }
     if category != .skip, doneButton.alpha == 0 {
-      doneButton.showAndChangeTransformBack(delay: 0.2)
+      doneButton.showAndChangeTransformBack(delay: 0.1)
     }
     self.category = category
   }

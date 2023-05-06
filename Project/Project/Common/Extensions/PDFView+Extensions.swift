@@ -70,7 +70,13 @@ extension PDFView {
         continue
       }
       
-      text += pageContent
+      debugPrint("aaaaa", pageIndex)
+      
+      if pageIndex == 0 {
+        text += pageContent
+      } else {
+        text += "\n\n\(pageContent)"
+      }
     }
     
     return text
