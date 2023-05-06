@@ -120,7 +120,7 @@ final class DocNameViewController: UIViewController, DocNameViewControllerProtoc
 extension UserDefaults {
   var selectedTags: [Tag] {
     get {
-      if let data = data(forKey: "selectedTags") {
+      if let data = data(forKey: "557b4d7f-1025-4eb2-894b-9029648406c1") {
         do {
           let decoder = JSONDecoder()
           return try decoder.decode([Tag].self, from: data)
@@ -134,7 +134,7 @@ extension UserDefaults {
       do {
         let encoder = JSONEncoder()
         let data = try encoder.encode(newValue)
-        set(data, forKey: "selectedTags")
+        set(data, forKey: "557b4d7f-1025-4eb2-894b-9029648406c1")
       } catch {
         debugPrint("Error encoding tags:", error)
       }

@@ -30,11 +30,11 @@ enum DocumentDetectionType: Int {
 extension UserDefaults {
   static var documentDetectionType: DocumentDetectionType {
     get {
-      let result = standard.integer(forKey: "documentDetectionType")
+      let result = standard.integer(forKey: "c676b8e3-7eba-4323-96aa-598752132233")
       return DocumentDetectionType(rawValue: result) ?? .auto
     }
     set {
-      standard.set(newValue.rawValue, forKey: "documentDetectionType")
+      standard.set(newValue.rawValue, forKey: "c676b8e3-7eba-4323-96aa-598752132233")
       standard.synchronize()
     }
   }

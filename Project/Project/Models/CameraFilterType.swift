@@ -27,11 +27,11 @@ enum CameraFilterType: Int {
 extension UserDefaults {
   static var cameraFilterType: CameraFilterType {
     get {
-      let result = standard.integer(forKey: "cameraFilterType")
+      let result = standard.integer(forKey: "138526ea-12fc-494a-85cf-3886b3ca1fbb")
       return CameraFilterType(rawValue: result) ?? .color
     }
     set {
-      standard.set(newValue.rawValue, forKey: "cameraFilterType")
+      standard.set(newValue.rawValue, forKey: "138526ea-12fc-494a-85cf-3886b3ca1fbb")
       standard.synchronize()
     }
   }

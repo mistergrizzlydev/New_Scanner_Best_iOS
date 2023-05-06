@@ -156,6 +156,16 @@ extension UserDefaults {
     }
   }
   
+  static var wasRecipeUploaded: Bool {
+    get {
+      return standard.bool(forKey: "b4a60b5a-d690-43d9-a95e-35df90a56b671")
+    }
+    set {
+      standard.set(newValue, forKey: "b4a60b5a-d690-43d9-a95e-35df90a56b671")
+      standard.synchronize()
+    }
+  }
+  
   static var emailFromAccount: String {
     get {      
       standard.string(forKey: "71290833-5d75-424e-a399-49f5441ef25b")?.decrypted ?? ""

@@ -72,6 +72,13 @@ final class MainCoordinator: NSObject, Coordinator {
       self?.window?.rootViewController = controller
       self?.window?.makeKeyAndVisible()
     })//?.present(controller, animated: true)
+    
+//    let controller = WalkTroughViewController()
+//    controller.modalPresentationStyle = .fullScreen
+//    window?.rootViewController?.dismiss(animated: true, completion: { [weak self] in
+//      self?.window?.rootViewController = controller
+//      self?.window?.makeKeyAndVisible()
+//    })//?.present(controller, animated: true)
   }
   
   func navigateToDocuments(from controller: UIViewController? = nil, type: DocumentsType = .myScans, folder: Folder) {

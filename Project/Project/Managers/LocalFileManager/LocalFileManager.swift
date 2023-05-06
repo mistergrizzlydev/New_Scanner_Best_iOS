@@ -194,11 +194,17 @@ extension LocalFileManagerDefault {
   func createFolders(for category: OnboardingCategory) throws {
     let fileManager = FileManager.default
     let url = getDocumentsURL()
-    
-    let pdfFile = Bundle.main.bundleURL.appendingPathComponent("TurboScan™ Tutorial.pdf")
-    let newPDFURL = url.appendingPathComponent(pdfFile.lastPathComponent)
-    if !fileManager.fileExists(atPath: newPDFURL.path) {
-      try? fileManager.copyItem(at: pdfFile, to: newPDFURL)
+  
+    let recipesArray = ["Fresh Salad.pdf", "Healthy Avocado Toast.pdf", "Mini Apple Pie.pdf", "Savory Potato Kugel.pdf", "Summer Salad.pdf"]
+    if !UserDefaults.wasRecipeUploaded, let randomRecipe = recipesArray.randomElement() {
+      UserDefaults.wasRecipeUploaded = true
+      
+      let pdfFile = Bundle.main.bundleURL.appendingPathComponent(randomRecipe)
+      let newPDFURL = url.appendingPathComponent("★ \(pdfFile.lastPathComponent)")
+      
+      if !fileManager.fileExists(atPath: newPDFURL.path) {
+        try? fileManager.copyItem(at: pdfFile, to: newPDFURL)
+      }
     }
     
     // Create directory if it doesn't exist

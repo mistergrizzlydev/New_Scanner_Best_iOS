@@ -110,7 +110,14 @@ final class SettingsViewController: QuickTableViewController, SettingsViewContro
                               isPro: isPro, action: onWhatsNewTapped()),
         SettingsNavigationRow(text: "More Apps", detailText: .none, icon: .image(UIImage(systemName: "square.stack.3d.up.fill", withConfiguration: imageConfig)!),
                               isPro: isPro, action: onMoreAppsTapped()),
-      ], footer: "Get more out of your scanner app with our Plus version! Upgrade now to enjoy advanced features and more options.",
+      ], footer: "",
+                      // Get more out of your scanner app with our Plus version! Upgrade now to enjoy advanced features and more options.
+                      isPro: isPro),
+      
+      SettingsSection(title: "", rows: [
+        SettingsNavigationRow(text: "TurboScan™ version", detailText: .subtitle(Bundle.appVersion), icon: .image(UIImage(systemName: "crown.fill", withConfiguration: imageConfig)!),
+                              isPro: isPro)
+      ], footer: "",
                       isPro: isPro)
     ].filter { $0.isPro }
   }

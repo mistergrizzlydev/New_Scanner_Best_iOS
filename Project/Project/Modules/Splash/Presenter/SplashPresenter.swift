@@ -23,6 +23,14 @@ final class SplashPresenter: SplashPresenterProtocol {
       UserDefaults.isCameraStabilizationEnabled = true
       UserDefaults.isOCREnabled = true
       UserDefaults.standard.selectedTags = [.invoice, .date]
+      UserDefaults.sortedFilesType = .date
+      UserDefaults.appearance = .system
+      UserDefaults.imageCompressionLevel = .medium
+      UserDefaults.pageSize = .auto
+      UserDefaults.startType = .myFiles
+      UserDefaults.documentDetectionType = .auto
+      UserDefaults.cameraFilterType = .color
+      UserDefaults.cameraFlashType = .auto
     }
     
     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in

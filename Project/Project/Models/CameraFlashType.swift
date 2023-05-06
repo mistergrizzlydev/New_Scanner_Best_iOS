@@ -35,11 +35,11 @@ enum CameraFlashType: Int {
 extension UserDefaults {
   static var cameraFlashType: CameraFlashType {
     get {
-      let result = standard.integer(forKey: "cameraFlashType")
+      let result = standard.integer(forKey: "2b8d85fd-6c44-46c6-9dc5-a972d77d9aff")
       return CameraFlashType(rawValue: result) ?? .auto
     }
     set {
-      standard.set(newValue.rawValue, forKey: "cameraFlashType")
+      standard.set(newValue.rawValue, forKey: "2b8d85fd-6c44-46c6-9dc5-a972d77d9aff")
       standard.synchronize()
     }
   }
