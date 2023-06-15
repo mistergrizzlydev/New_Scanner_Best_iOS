@@ -96,14 +96,14 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "84794D99-029E-4F72-87B2-D0114296D550 - 1b481b84ba7cd5ed"
+                  uuid = "84794D99-029E-4F72-87B2-D0114296D550 - b0b291ec634c6ff3"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in static Project.BiometricAuthenticator.authenticateUser(type: Project.BiometricAuthenticator.AuthenticationType, completion: (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "Project"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mistergrizzly/Desktop/Scanner_App/New_Scanner_Best_iOS/Project/Project/Managers/BiometricAuthenticator.swift"
+                  urlString = "file:///Users/mistergrizzly/Developer/AppStore/TurboScan%20App/TurboScan/Project/Project/Managers/BiometricAuthenticator.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "62"
@@ -111,14 +111,14 @@
                   offsetFromSymbolStart = "193">
                </Location>
                <Location
-                  uuid = "84794D99-029E-4F72-87B2-D0114296D550 - 1b481b84ba7cd5ed"
+                  uuid = "84794D99-029E-4F72-87B2-D0114296D550 - b0b291ec634c6ff3"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in static Project.BiometricAuthenticator.authenticateUser(type: Project.BiometricAuthenticator.AuthenticationType, completion: (Swift.Bool, Swift.Optional&lt;Swift.Error&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "Project"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mistergrizzly/Desktop/Scanner_App/New_Scanner_Best_iOS/Project/Project/Managers/BiometricAuthenticator.swift"
+                  urlString = "file:///Users/mistergrizzly/Developer/AppStore/TurboScan%20App/TurboScan/Project/Project/Managers/BiometricAuthenticator.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "62"
@@ -237,6 +237,149 @@
             startingLineNumber = "76"
             endingLineNumber = "76"
             landmarkName = "test()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "529FB631-FCC7-47B7-BA17-F6EA9D6AB72E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Modules/Documents/Presenter/DocumentsPresenter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "present()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "529FB631-FCC7-47B7-BA17-F6EA9D6AB72E - 3e8836004c668eaf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Project.DocumentsPresenter.present() -&gt; ()"
+                  moduleName = "Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mistergrizzly/Developer/AppStore/TurboScan%20App/TurboScan/Project/Project/Modules/Documents/Presenter/DocumentsPresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "2575">
+               </Location>
+               <Location
+                  uuid = "529FB631-FCC7-47B7-BA17-F6EA9D6AB72E - 3e8836004c668eaf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Project.DocumentsPresenter.present() -&gt; ()"
+                  moduleName = "Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mistergrizzly/Developer/AppStore/TurboScan%20App/TurboScan/Project/Project/Modules/Documents/Presenter/DocumentsPresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "2815">
+               </Location>
+               <Location
+                  uuid = "529FB631-FCC7-47B7-BA17-F6EA9D6AB72E - 6f1f747884b1b5cd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #3 (Project.Document) -&gt; Swift.Optional&lt;Project.DocumentsViewModel&gt; in Project.DocumentsPresenter.present() -&gt; ()"
+                  moduleName = "Project"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mistergrizzly/Developer/AppStore/TurboScan%20App/TurboScan/Project/Project/Modules/Documents/Presenter/DocumentsPresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "36">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FF4881C8-C5FE-4640-8656-8E8E8642F694"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Managers/LocalFileManager/LocalFileManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "contentsOfDirectoryStarred(url:sortBy:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "58F78779-E914-4BA8-BDAF-5FB8C6F76B3E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Managers/LocalFileManager/LocalFileManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "contentsOfDirectoryStarred(url:sortBy:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "52D4261B-9435-43CC-AC8A-168CEAF92EB9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Managers/LocalFileManager/LocalFileManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "contentsOfDirectoryStarred(url:sortBy:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BB870A24-95A6-401D-8329-52BF06369424"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Managers/LocalFileManager/LocalFileManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "contentsOfDirectoryStarred(url:sortBy:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "31D84106-570B-4337-B043-7DFE2478AC17"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Project/Managers/LocalFileManager/LocalFileManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
+            landmarkName = "contentsOfDirectoryStarred(url:sortBy:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

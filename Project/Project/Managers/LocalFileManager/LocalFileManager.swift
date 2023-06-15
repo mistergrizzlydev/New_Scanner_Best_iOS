@@ -5,6 +5,7 @@ protocol LocalFileManager: AnyObject {
   func isRootDirectory(url: URL) -> Bool
   
   func contentsOfDirectory(url: URL, sortBy sortType: SortType) -> [Document]?
+  func contentsOfDirectoryStarred(url: URL, sortBy sortType: SortType) -> [Document]?
   
   func createFile(withName name: String, contents: Data) -> Bool
   
@@ -87,7 +88,7 @@ final class LocalFileManagerDefault: LocalFileManager {
   
   func contentsOfDirectory(url: URL, sortBy sortType: SortType) -> [Document]? {
     guard url.isDirectory else { return nil }
-    
+
     let fileManager = FileManager.default
     guard let contents = try? fileManager.contentsOfDirectory(at: url,
                                                               includingPropertiesForKeys: [.isDirectoryKey],
@@ -106,6 +107,48 @@ final class LocalFileManagerDefault: LocalFileManager {
         } else {
           let thumbnail = getCreateAndGetThumbnail(for: url, thumbnailsFolderName: Constants.thumbnailsFolder)
           let file = File(url: url, image: thumbnail.image, thumbnailURL: thumbnail.url)
+          documents.append(file)
+        }
+      }
+    }
+
+    switch sortType {
+    case .date: return documents.sortByDate()
+    case .name: return documents.sortByName()
+    case .size: return documents.sortBySize()
+    case .foldersOnTop: return documents.sortedFoldersOnTop()
+    }
+  }
+  
+  func contentsOfDirectoryStarred(url: URL, sortBy sortType: SortType) -> [Document]? {
+    guard url.isDirectory else { return nil }
+    
+    let fileManager = FileManager.default
+    
+    guard let enumerator = fileManager.enumerator(at: url, includingPropertiesForKeys: [], options: [.skipsHiddenFiles]),
+          let urls = (enumerator.allObjects as? [URL])
+    else {
+      return nil
+    }
+    var documents = [Document]()
+    
+    let starred = urls.filter { $0.isFileStarred() }
+    for fileURL in starred {
+      let isDirectory = fileURL.isDirectory
+
+      if isDirectory {
+        let folder = Folder(url: fileURL)
+        documents.append(folder)
+      } else if fileURL.pathExtension == "pdf" {
+        let thumbnailName = fileURL.deletingPathExtension().appendingPathExtension("jpg").lastPathComponent
+        let thumbnailURL = thumbnailsFolderURL.appendingPathComponent(thumbnailName)
+
+        if fileManager.fileExists(atPath: thumbnailURL.path) {
+          let file = File(url: fileURL, image: thumbnailURL.toImage, thumbnailURL: thumbnailURL)
+          documents.append(file)
+        } else {
+          let thumbnail = getCreateAndGetThumbnail(for: fileURL, thumbnailsFolderName: Constants.thumbnailsFolder)
+          let file = File(url: fileURL, image: thumbnail.image, thumbnailURL: thumbnail.url)
           documents.append(file)
         }
       }

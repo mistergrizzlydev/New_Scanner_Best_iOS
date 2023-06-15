@@ -89,6 +89,9 @@ final class SettingsViewController: QuickTableViewController, SettingsViewContro
         SettingsNavigationRow(text: "Get Support", detailText: .subtitle(AppConfiguration.Help.support.rawValue),
                               icon: .image(UIImage(systemName: "square.and.pencil", withConfiguration: imageConfig)!),
                               isPro: isPro, action: onSupportTapped()),
+        SettingsNavigationRow(text: "Pass onboarding", detailText: .value1("📲"),
+                              icon: .image(UIImage(systemName: "figure.walk.motion", withConfiguration: imageConfig)!),
+                              isPro: isPro, action: onOnboardingTapped()),
         SettingsNavigationRow(text: "Feature Requests", detailText: .value1("🤟"),
                               icon: .image(UIImage(systemName: "lightbulb.circle.fill", withConfiguration: imageConfig)!),
                               isPro: isPro, action: onFeatureRequestTapped()),
@@ -279,6 +282,20 @@ extension SettingsViewController {
       self?.presenter.showEmail(with: .support, from: row as? UITableViewCell)
     }
   }
+  
+  private func onOnboardingTapped() -> (Row) -> Void {
+    return { [weak self] row in
+      let controller = StoryCollectionViewController(isFirstLaunch: false, fromSettings: true)
+      controller.modalPresentationStyle = .fullScreen
+      self?.present(controller, animated: true)
+    }
+  }
+  //
+  /*
+   
+   let controller = StoryCollectionViewController()
+   controller.modalPresentationStyle = .fullScreen
+   */
   
   private func onFeatureRequestTapped() -> (Row) -> Void {
     return { [weak self] row in

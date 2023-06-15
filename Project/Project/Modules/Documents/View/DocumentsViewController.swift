@@ -215,7 +215,8 @@ extension DocumentsViewController {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: DocumentsTableViewCell.reuseIdentifier,
                                                    for: indexPath) as? DocumentsTableViewCell else { return UITableViewCell() }
     let viewModel = isFiltering() ? filteredViewModels[indexPath.row] : viewModels[indexPath.row]
-    cell.configure(with: viewModel)
+    let searchText = searchController?.searchBar.text ?? ""
+    cell.configure(with: viewModel, searchText: searchText)
     return cell
   }
 }

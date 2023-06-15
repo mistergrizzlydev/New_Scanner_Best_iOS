@@ -19,3 +19,18 @@ extension String {
     return emailPredicate.evaluate(with: self)
   }
 }
+
+extension String {
+  /**
+   Error parsing methods
+   */
+  var toError: Error {
+    return NSError(domain: "",
+                   code: 1299,
+                   userInfo: [NSLocalizedDescriptionKey: self])
+  }
+  
+  var localized: String{
+    return NSLocalizedString(self, comment: "")
+  }
+}

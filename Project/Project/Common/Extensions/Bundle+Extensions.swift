@@ -30,3 +30,17 @@ extension Bundle {
     return UIDevice.current.systemVersion
   }
 }
+
+extension Bundle {
+  class var appName: String {
+    return main.appName ?? ""
+  }
+  
+  class var versionNumber: String? {
+    return appVersion
+  }
+  
+  class var fullVersionString: String {
+    return appVersion
+  }
+}

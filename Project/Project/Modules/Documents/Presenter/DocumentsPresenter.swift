@@ -83,7 +83,7 @@ final class DocumentsPresenter: NSObject, DocumentsPresenterProtocol {
 //        UserDefaults.wasStartTypeLaunched = true
 //      }
     case .starred:
-      let documents = localFileManager.contentsOfDirectory(url: folder.url, sortBy: UserDefaults.sortedFilesType)?.filter { $0.isFileStarred() }
+      let documents = localFileManager.contentsOfDirectoryStarred(url: folder.url, sortBy: UserDefaults.sortedFilesType)
       if let viewModels = documents?.compactMap({ DocumentsViewModel(file: $0) }) {
         if localFileManager.isRootDirectory(url: folder.url) {
           view.prepare(with: viewModels, title: type.title)

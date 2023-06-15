@@ -1,4 +1,7 @@
-import Foundation
+import UIKit
+
+let deviceType = UIDevice.current.userInterfaceIdiom
+let isiPhone = deviceType == .phone
 
 struct AppConfiguration {
     enum OCR {
